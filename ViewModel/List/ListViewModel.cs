@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using GalaSoft.MvvmLight;
 
 namespace CoffeeClientPrototype.ViewModel.List
 {
-    public class ListViewModel
+    public class ListViewModel : ViewModelBase
     {
+        public ObservableCollection<CafeListItem> NearByCafes { get; private set; }
+
+        public ObservableCollection<CafeListItem> BestCafes { get; private set; }
     }
 }
