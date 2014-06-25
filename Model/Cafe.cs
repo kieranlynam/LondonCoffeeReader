@@ -1,6 +1,6 @@
 ﻿namespace CoffeeClientPrototype.Model
 {
-    class Cafe
+    public class Cafe
     {
         public string Name { get; set; }
 
