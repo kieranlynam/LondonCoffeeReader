@@ -32,9 +32,9 @@ namespace CoffeeClientPrototype.ViewModel.List
         private void PopulateBestCafes(IEnumerable<Cafe> cafes)
         {
             var items = cafes.OrderByDescending(cafe => cafe.Rating)
-                                .ThenByDescending(cafe => cafe.NumberOfVotes)
-                                .Take(10)
-                                .Select(CafeListItem.FromModel);
+                .ThenByDescending(cafe => cafe.NumberOfVotes)
+                .Take(10)
+                .Select(CafeListItem.FromModel);
 
             foreach (var item in items)
             {
