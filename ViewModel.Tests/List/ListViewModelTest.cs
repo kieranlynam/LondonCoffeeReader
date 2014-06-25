@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.List;
@@ -13,7 +12,7 @@ namespace ViewModel.Tests.List
     public class ListViewModelTest
     {
         [TestMethod]
-        public async Task RefreshNearByCafes()
+        public async Task BestCafesPopulatedWhenNavigatedTo()
         {
             using (var context = new Context())
             {

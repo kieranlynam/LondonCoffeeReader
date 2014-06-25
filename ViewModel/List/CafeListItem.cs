@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Annotations;
 
 namespace CoffeeClientPrototype.ViewModel.List
@@ -11,6 +12,10 @@ namespace CoffeeClientPrototype.ViewModel.List
         private int numberOfVotes;
         private double latitude;
         private double longitude;
+
+        private CafeListItem()
+        {
+        }
 
         public string Name
         {
@@ -74,6 +79,16 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             PropertyChangedEventHandler handler = this.PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static CafeListItem FromModel(Cafe cafe)
+        {
+            return new CafeListItem
+                {
+                    name = cafe.Name,
+                    longitude = cafe.Longitude,
+                    latitude = cafe.Latitude
+                };
         }
     }
 }

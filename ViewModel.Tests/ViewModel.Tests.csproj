@@ -66,6 +66,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="List\CafeListItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="List\ListViewModelTest.cs" />
     <Compile Include="MockDataService.cs" />

@@ -25,7 +25,7 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             var cafes = await this.dataService.GetAllCafes();
 
-            foreach (var cafeItem in cafes.Select(cafe => new CafeListItem { Name = cafe.Name }))
+            foreach (var cafeItem in cafes.Select(CafeListItem.FromModel))
             {
                 this.BestCafes.Add(cafeItem);
             }
