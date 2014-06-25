@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
 using GalaSoft.MvvmLight;
 
@@ -24,10 +26,19 @@ namespace CoffeeClientPrototype.ViewModel.List
         public async Task OnNavigatedTo()
         {
             var cafes = await this.dataService.GetAllCafes();
+            this.PopulateBestCafes(cafes);
+        }
 
-            foreach (var cafeItem in cafes.Select(CafeListItem.FromModel))
+        private void PopulateBestCafes(IEnumerable<Cafe> cafes)
+        {
+            var items = cafes.OrderByDescending(cafe => cafe.Rating)
+                                .ThenByDescending(cafe => cafe.NumberOfVotes)
+                                .Take(10)
+                                .Select(CafeListItem.FromModel);
+
+            foreach (var item in items)
             {
-                this.BestCafes.Add(cafeItem);
+                this.BestCafes.Add(item);
             }
         }
     }

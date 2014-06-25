@@ -87,7 +87,9 @@ namespace CoffeeClientPrototype.ViewModel.List
                 {
                     name = cafe.Name,
                     longitude = cafe.Longitude,
-                    latitude = cafe.Latitude
+                    latitude = cafe.Latitude,
+                    rating = cafe.Rating,
+                    numberOfVotes = cafe.NumberOfVotes
                 };
         }
     }

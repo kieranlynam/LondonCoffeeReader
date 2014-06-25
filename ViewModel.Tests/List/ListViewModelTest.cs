@@ -33,6 +33,28 @@ namespace ViewModel.Tests.List
             }
         }
 
+        [TestMethod]
+        public async Task BestCafesOrderedByRating()
+        {
+            using (var context = new Context())
+            {
+                context.Cafes.AddRange(
+                    new[]
+                    {
+                        new Cafe { Name = "B1", Rating = 4, NumberOfVotes = 10 },
+                        new Cafe { Name = "A",  Rating = 5 },
+                        new Cafe { Name = "C",  Rating  = 1 },
+                        new Cafe { Name = "B2", Rating = 4, NumberOfVotes = 5 }
+                    });
+
+                await context.ViewModel.OnNavigatedTo();
+
+                var expected = new[] { "A", "B1", "B2", "C" };
+                var actual = context.ViewModel.BestCafes.Select(cafe => cafe.Name).ToArray();
+                CollectionAssert.AreEqual(expected, actual);
+            }
+        }
+
         private class Context : IDisposable
         {
             public ListViewModel ViewModel { get; private set; }
