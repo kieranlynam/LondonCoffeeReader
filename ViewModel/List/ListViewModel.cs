@@ -16,10 +16,10 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             this.dataService = dataService;
             this.BestCafes = new ObservableCollection<CafeListItem>();
-            this.NearByCafes = new ObservableCollection<CafeListItem>();
+            this.NearbyCafes = new ObservableCollection<CafeListItem>();
         }
 
-        public ObservableCollection<CafeListItem> NearByCafes { get; private set; }
+        public ObservableCollection<CafeListItem> NearbyCafes { get; private set; }
 
         public ObservableCollection<CafeListItem> BestCafes { get; private set; }
 
@@ -27,6 +27,7 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             var cafes = await this.dataService.GetAllCafes();
             this.PopulateBestCafes(cafes);
+            this.PopulateNearbyCafes(cafes);
         }
 
         private void PopulateBestCafes(IEnumerable<Cafe> cafes)
@@ -39,6 +40,16 @@ namespace CoffeeClientPrototype.ViewModel.List
             foreach (var item in items)
             {
                 this.BestCafes.Add(item);
+            }
+        }
+
+        private void PopulateNearbyCafes(IEnumerable<Cafe> cafes)
+        {
+            var items = cafes.Select(CafeListItem.FromModel);
+
+            foreach (var item in items)
+            {
+                this.NearbyCafes.Add(item);
             }
         }
     }
