@@ -34,7 +34,7 @@ namespace ViewModel.Tests.List
         }
 
         [TestMethod]
-        public async Task BestCafesOrderedByRating()
+        public async Task BestCafesOrderedByRatingAndThenNumberOfVotes()
         {
             using (var context = new Context())
             {
