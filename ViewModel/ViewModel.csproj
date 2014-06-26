@@ -35,10 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="List\CafeListItem.cs" />
+    <Compile Include="List\IViewModel.cs" />
     <Compile Include="List\ListViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">

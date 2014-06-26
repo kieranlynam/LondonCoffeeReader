@@ -8,7 +8,7 @@ using GalaSoft.MvvmLight;
 
 namespace CoffeeClientPrototype.ViewModel.List
 {
-    public class ListViewModel : ViewModelBase
+    public class ListViewModel : ViewModelBase, IViewModel
     {
         private readonly IDataService dataService;
 
