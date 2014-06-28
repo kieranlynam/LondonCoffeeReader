@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace CoffeeClientPrototype.ViewModel.Details
 {
-    public class UserFeedback : ViewModelBase
+    public class UserFeedbackViewModel : ViewModelBase
     {
         private readonly IDataService dataService;
 
@@ -46,7 +46,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public RelayCommand Submit { get; private set; }
 
-        public UserFeedback(IDataService dataService)
+        public UserFeedbackViewModel(IDataService dataService)
         {
             this.dataService = dataService;
             this.Submit = new RelayCommand(this.OnSubmitExecuted, this.CanExecuteSubmit);

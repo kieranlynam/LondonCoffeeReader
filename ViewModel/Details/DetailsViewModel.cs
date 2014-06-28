@@ -47,13 +47,13 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public ObservableCollection<Feedback> Comments { get; private set; }
         
-        public UserFeedback UserFeedback { get; set; }
+        public UserFeedbackViewModel UserFeedback { get; private set; }
 
         public DetailsViewModel(IDataService dataService, INavigationService navigationService)
         {
             this.dataService = dataService;
             this.Comments = new ObservableCollection<Feedback>();
-            this.UserFeedback = new UserFeedback(this.dataService);
+            this.UserFeedback = new UserFeedbackViewModel(this.dataService);
         }
 
         public Task OnNavigatedTo(IDictionary<string, object> parameters)
