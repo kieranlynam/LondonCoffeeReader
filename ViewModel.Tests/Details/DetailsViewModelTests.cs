@@ -20,7 +20,13 @@ namespace ViewModel.Tests.Details
                     new Cafe
                     {
                         Id = 1,
-                        Name = "Cafe A"
+                        Name = "Cafe A",
+                        Address = "1 Main Street",
+                        PostCode = "A1 11A",
+                        Latitude = 15,
+                        Longitude = -10,
+                        NumberOfVotes = 200,
+                        Rating = 3.5
                     });
 
                 await context.ViewModel.OnNavigatedTo(
@@ -29,7 +35,13 @@ namespace ViewModel.Tests.Details
                         { "Id", 1 }
                     });
                 
-                Assert.AreEqual("Cafe A", context.ViewModel.Name);
+                Assert.AreEqual("Cafe A", context.ViewModel.Name, "Name");
+                Assert.AreEqual("1 Main Street", context.ViewModel.Address, "Address");
+                Assert.AreEqual("A1 11A", context.ViewModel.PostCode, "PostCode");
+                Assert.AreEqual(15, context.ViewModel.Latitude, "Latitude");
+                Assert.AreEqual(-10, context.ViewModel.Longitude, "Longitude");
+                Assert.AreEqual(200, context.ViewModel.NumberOfVotes, "NumberOfVotes");
+                Assert.AreEqual(3.5, context.ViewModel.Rating, "Rating");
             }
         }
 
