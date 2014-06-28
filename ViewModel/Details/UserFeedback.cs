@@ -5,20 +5,20 @@ using GalaSoft.MvvmLight.Command;
 
 namespace CoffeeClientPrototype.ViewModel.Details
 {
-    public class NewComment : ViewModelBase
+    public class UserFeedback : ViewModelBase
     {
         private readonly IDataService dataService;
 
-        private string text;
+        private string comment;
         private Cafe associatedCafe;
 
-        public string Text
+        public string Comment
         {
-            get { return this.text; }
+            get { return this.comment; }
             set
             {
                 var before = this.CanExecuteSubmit();
-                if (this.Set(ref this.text, value))
+                if (this.Set(ref this.comment, value))
                 {
                     var after = this.CanExecuteSubmit();
                     if (before != after)
@@ -46,7 +46,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public RelayCommand Submit { get; private set; }
 
-        public NewComment(IDataService dataService)
+        public UserFeedback(IDataService dataService)
         {
             this.dataService = dataService;
             this.Submit = new RelayCommand(this.OnSubmitExecuted, this.CanExecuteSubmit);
@@ -59,7 +59,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 return false;
             }
 
-            if (string.IsNullOrEmpty(this.text))
+            if (string.IsNullOrEmpty(this.comment))
             {
                 return false;
             }
@@ -69,13 +69,13 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private void OnSubmitExecuted()
         {
-            var comment = new Comment
+            var feedback = new Feedback
                 {
-                    Text = this.text
+                    Comment = this.comment
                 };
-            this.dataService.SubmitComment(
+            this.dataService.SubmitFeedback(
                 this.AssociatedCafe.Id,
-                comment);
+                feedback);
         }
     }
 }

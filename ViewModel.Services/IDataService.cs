@@ -8,8 +8,8 @@ namespace CoffeeClientPrototype.ViewModel.Services
     {
         Task<IEnumerable<Cafe>> GetAllCafes();
 
-        Task<IEnumerable<Comment>> GetCafeComments(int cafeId);
+        Task<IEnumerable<Feedback>> GetAllCafeFeedback(int cafeId);
 
-        Task SubmitComment(int cafeId, Comment comment);
+        Task SubmitFeedback(int cafeId, Feedback feedback);
     }
 }

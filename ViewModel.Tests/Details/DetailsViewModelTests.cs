@@ -57,9 +57,9 @@ namespace ViewModel.Tests.Details
                 context.Cafes.Add(cafe);
                 context.Comments[cafe] = new[]
                     {
-                        new Comment { Text = "Good!" },
-                        new Comment { Text = "Bad!" },
-                        new Comment { Text = "Ugly!" }
+                        new Feedback { Comment = "Good!" },
+                        new Feedback { Comment = "Bad!" },
+                        new Feedback { Comment = "Ugly!" }
                     };
 
                 await context.ViewModel.OnNavigatedTo(
@@ -83,19 +83,19 @@ namespace ViewModel.Tests.Details
                 context.Cafes.Add(cafe);
                 context.Comments[cafe] = new[]
                     {
-                        new Comment
+                        new Feedback
                         {
-                            Text = "Yesterday",
+                            Comment = "Yesterday",
                             CreatedDate = DateTime.Today.AddDays(-1)
                         },
-                        new Comment
+                        new Feedback
                         {
-                            Text = "Ancient!",
+                            Comment = "Ancient!",
                             CreatedDate = DateTime.Today.AddYears(-5)
                         },
-                        new Comment
+                        new Feedback
                         {
-                            Text = "Today",
+                            Comment = "Today",
                             CreatedDate = DateTime.Today
                         }
                     };
@@ -106,14 +106,14 @@ namespace ViewModel.Tests.Details
                         { "Id", cafe.Id }
                     });
 
-                Assert.AreEqual("Today", context.ViewModel.Comments[0].Text);
-                Assert.AreEqual("Yesterday", context.ViewModel.Comments[1].Text);
-                Assert.AreEqual("Ancient!", context.ViewModel.Comments[2].Text);
+                Assert.AreEqual("Today", context.ViewModel.Comments[0].Comment);
+                Assert.AreEqual("Yesterday", context.ViewModel.Comments[1].Comment);
+                Assert.AreEqual("Ancient!", context.ViewModel.Comments[2].Comment);
             }
         }
 
         [TestMethod]
-        public async Task SubmitNewComment()
+        public async Task SubmitUserFeedback()
         {
             using (var context = new Context())
             {
@@ -126,19 +126,19 @@ namespace ViewModel.Tests.Details
                         { "Id", cafe.Id }
                     });
 
-                context.ViewModel.NewComment.Text = "New!";
-                context.ViewModel.NewComment.Submit.Execute(null);
+                context.ViewModel.UserFeedback.Comment = "New!";
+                context.ViewModel.UserFeedback.Submit.Execute(null);
 
                 Assert.IsTrue(context.Comments.ContainsKey(cafe),
                     "Expected a comment to be submitted");
                 var comments = context.Comments[cafe];
                 Assert.AreEqual(1, comments.Count);
-                Assert.AreEqual("New!", comments.Last().Text, "Comment text");
+                Assert.AreEqual("New!", comments.Last().Comment, "Feedback text");
             }
         }
 
         [TestMethod]
-        public async Task CannotSubmitCommentWithoutText()
+        public async Task CannotSubmitFeedbackWithoutText()
         {
             using (var context = new Context())
             {
@@ -151,24 +151,24 @@ namespace ViewModel.Tests.Details
                         { "Id", cafe.Id }
                     });
 
-                context.ViewModel.NewComment.Text = "";
-                Assert.IsFalse(context.ViewModel.NewComment.Submit.CanExecute(null));
+                context.ViewModel.UserFeedback.Comment = "";
+                Assert.IsFalse(context.ViewModel.UserFeedback.Submit.CanExecute(null));
 
-                context.ViewModel.NewComment.Text = "Something";
-                Assert.IsTrue(context.ViewModel.NewComment.Submit.CanExecute(null));
+                context.ViewModel.UserFeedback.Comment = "Something";
+                Assert.IsTrue(context.ViewModel.UserFeedback.Submit.CanExecute(null));
             }
         }
 
         [TestMethod]
-        public async Task CannotSubmitCommentBeforeNavigating()
+        public async Task CannotSubmitFeedbackBeforeNavigating()
         {
             using (var context = new Context())
             {
                 var cafe = new Cafe { Id = 1 };
                 context.Cafes.Add(cafe);
 
-                context.ViewModel.NewComment.Text = "Something";
-                Assert.IsFalse(context.ViewModel.NewComment.Submit.CanExecute(null));
+                context.ViewModel.UserFeedback.Comment = "Something";
+                Assert.IsFalse(context.ViewModel.UserFeedback.Submit.CanExecute(null));
 
                 await context.ViewModel.OnNavigatedTo(
                     new Dictionary<string, object>
@@ -176,7 +176,7 @@ namespace ViewModel.Tests.Details
                         { "Id", cafe.Id }
                     });
 
-                Assert.IsTrue(context.ViewModel.NewComment.Submit.CanExecute(null));
+                Assert.IsTrue(context.ViewModel.UserFeedback.Submit.CanExecute(null));
             }
         }
 
@@ -184,7 +184,7 @@ namespace ViewModel.Tests.Details
         {
             public DetailsViewModel ViewModel { get; private set; }
 
-            public Dictionary<Cafe, IList<Comment>> Comments { get { return this.DataService.Comments; } }
+            public Dictionary<Cafe, IList<Feedback>> Comments { get { return this.DataService.Comments; } }
 
             public Context()
             {
