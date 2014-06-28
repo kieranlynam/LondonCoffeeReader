@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+using CoffeeClientPrototype.View;
+using CoffeeClientPrototype.ViewModel;
 using CoffeeClientPrototype.ViewModel.List;
 
 namespace CoffeeClientPrototype
@@ -31,11 +33,7 @@ namespace CoffeeClientPrototype
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            await ((IViewModel) this.DataContext).OnNavigatedTo();
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
+            await this.NotifyNavigatedTo(e);
         }
     }
 }

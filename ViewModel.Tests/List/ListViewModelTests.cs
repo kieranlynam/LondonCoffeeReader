@@ -55,22 +55,13 @@ namespace ViewModel.Tests.List
             }
         }
 
-        private class Context : IDisposable
+        private class Context : BaseTestContext
         {
             public ListViewModel ViewModel { get; private set; }
 
-            public List<Cafe> Cafes { get; private set; }
-
             public Context()
             {
-                this.Cafes = new List<Cafe>();
-                var dataService = new MockDataService(() => this.Cafes);
-
-                this.ViewModel = new ListViewModel(dataService, new MockNavigationService());
-            }
-
-            public void Dispose()
-            {
+                this.ViewModel = new ListViewModel(this.DataService, new MockNavigationService());
             }
         }
     }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Windows.Input;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
@@ -19,12 +18,7 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         public void Execute(object parameter)
         {
-            this.navigationService.Navigate(
-                "CafeDetails",
-                new Dictionary<string, object>
-                {
-                    { "Id", this.cafe.Id }
-                });
+            this.navigationService.NavigateToCoffeeDetails(cafe);
         }
 
         public bool CanExecute(object parameter)

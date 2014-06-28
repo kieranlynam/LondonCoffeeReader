@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)View\CafeDetailsPage.xaml.cs">
       <DependentUpon>CafeDetailsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)View\PageExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)View\CafeDetailsPage.xaml">

@@ -8,7 +8,7 @@ using GalaSoft.MvvmLight;
 
 namespace CoffeeClientPrototype.ViewModel.List
 {
-    public class ListViewModel : ViewModelBase, IViewModel
+    public class ListViewModel : ViewModelBase, INavigationListener
     {
         private readonly IDataService dataService;
         private readonly INavigationService navigationService;
@@ -25,7 +25,7 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         public ObservableCollection<CafeListItem> BestCafes { get; private set; }
 
-        public async Task OnNavigatedTo()
+        public async Task OnNavigatedTo(IDictionary<string,object> parameters = null)
         {
             var cafes = await this.dataService.GetAllCafes();
             this.PopulateBestCafes(cafes);

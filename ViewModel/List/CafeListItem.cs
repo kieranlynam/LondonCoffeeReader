@@ -9,8 +9,6 @@ namespace CoffeeClientPrototype.ViewModel.List
 {
     public class CafeListItem : INotifyPropertyChanged
     {
-        private readonly INavigationService navigationService;
-
         private string name;
         private double rating;
         private int numberOfVotes;
@@ -78,7 +76,6 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         public CafeListItem(Cafe model, INavigationService navigationService)
         {
-            this.navigationService = navigationService;
             this.Navigate = new NavigateToCafeDetailsCommand(model, navigationService);
             this.Populate(model);
         }

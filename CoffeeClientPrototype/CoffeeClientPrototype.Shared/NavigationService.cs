@@ -15,7 +15,7 @@ namespace CoffeeClientPrototype
 
         public void Navigate(string destination, IDictionary<string, object> parameters = null)
         {
-            Frame.Navigate(typeof(CafeDetailsPage));
+            Frame.Navigate(typeof(CafeDetailsPage), parameters);
         }
     }
 }

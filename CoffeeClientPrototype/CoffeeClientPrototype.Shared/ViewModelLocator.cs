@@ -6,6 +6,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using CoffeeClientPrototype.ViewModel.Details;
 using CoffeeClientPrototype.ViewModel.List;
 using CoffeeClientPrototype.ViewModel.Services;
 using GalaSoft.MvvmLight;
@@ -41,6 +42,7 @@ namespace CoffeeClientPrototype
             SimpleIoc.Default.Register<INavigationService, NavigationService>();
 
             SimpleIoc.Default.Register<ListViewModel>();
+            SimpleIoc.Default.Register<DetailsViewModel>();
         }
 
         public ListViewModel List
@@ -48,6 +50,14 @@ namespace CoffeeClientPrototype
             get
             {
                 return ServiceLocator.Current.GetInstance<ListViewModel>();
+            }
+        }
+
+        public DetailsViewModel Details
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<DetailsViewModel>();
             }
         }
         
