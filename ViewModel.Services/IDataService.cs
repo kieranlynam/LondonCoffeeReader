@@ -7,5 +7,7 @@ namespace CoffeeClientPrototype.ViewModel.Services
     public interface IDataService
     {
         Task<IEnumerable<Cafe>> GetAllCafes();
+
+        Task<IEnumerable<Comment>> GetCafeComments(int cafeId);
     }
 }

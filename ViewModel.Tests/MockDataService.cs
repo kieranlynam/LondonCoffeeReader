@@ -9,16 +9,35 @@ namespace ViewModel.Tests
 {
     public class MockDataService : IDataService
     {
-        private readonly Func<IEnumerable<Cafe>> getCafes;
+        public List<Cafe> Cafes { get; private set; }
 
-        public MockDataService(Func<IEnumerable<Cafe>> getCafes = null)
+        public Dictionary<Cafe, IEnumerable<Comment>> Comments { get; private set; }
+
+        public MockDataService()
         {
-            this.getCafes = getCafes ?? (Enumerable.Empty<Cafe>);
+            this.Cafes = new List<Cafe>();
+            this.Comments = new Dictionary<Cafe, IEnumerable<Comment>>();
         }
 
         public async Task<IEnumerable<Cafe>> GetAllCafes()
         {
-            return this.getCafes();
+            return this.Cafes;
+        }
+
+        public async Task<IEnumerable<Comment>> GetCafeComments(int cafeId)
+        {
+            var cafe = this.Cafes.SingleOrDefault(c => c.Id == cafeId);
+
+            if (cafe != null)
+            {
+                IEnumerable<Comment> result;
+                if (Comments.TryGetValue(cafe, out result))
+                {
+                    return result;
+                }    
+            }
+
+            return Enumerable.Empty<Comment>();
         }
     }
 }

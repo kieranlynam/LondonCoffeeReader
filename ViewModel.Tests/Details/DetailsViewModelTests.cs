@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using AssertExLib;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Details;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -46,24 +46,74 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void ExceptionWhenBadIdPassed()
+        public async Task CommentsPopulatedWhenNavigatedTo()
         {
             using (var context = new Context())
             {
-                context.Cafes.Add(new Cafe { Id = 1 });
+                var cafe = new Cafe { Id = 1 };
+                context.Cafes.Add(cafe);
+                context.Comments[cafe] = new[]
+                    {
+                        new Comment { Text = "Good!" },
+                        new Comment { Text = "Bad!" },
+                        new Comment { Text = "Ugly!" }
+                    };
 
-                AssertEx.TaskThrows<ArgumentException>(() =>
-                    context.ViewModel.OnNavigatedTo(
-                        new Dictionary<string, object>
+                await context.ViewModel.OnNavigatedTo(
+                    new Dictionary<string, object>
+                    {
+                        { "Id", cafe.Id }
+                    });
+
+                CollectionAssert.AreEquivalent(
+                    context.Comments[cafe].ToArray(),
+                    context.ViewModel.Comments);
+            }
+        }
+
+        [TestMethod]
+        public async Task CommentsSortedNewestToOldest()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 1 };
+                context.Cafes.Add(cafe);
+                context.Comments[cafe] = new[]
+                    {
+                        new Comment
                         {
-                            { "Id", 2 }
-                        }));
+                            Text = "Yesterday",
+                            CreatedDate = DateTime.Today.AddDays(-1)
+                        },
+                        new Comment
+                        {
+                            Text = "Ancient!",
+                            CreatedDate = DateTime.Today.AddYears(-5)
+                        },
+                        new Comment
+                        {
+                            Text = "Today",
+                            CreatedDate = DateTime.Today
+                        }
+                    };
+
+                await context.ViewModel.OnNavigatedTo(
+                    new Dictionary<string, object>
+                    {
+                        { "Id", cafe.Id }
+                    });
+
+                Assert.AreEqual("Today", context.ViewModel.Comments[0].Text);
+                Assert.AreEqual("Yesterday", context.ViewModel.Comments[1].Text);
+                Assert.AreEqual("Ancient!", context.ViewModel.Comments[2].Text);
             }
         }
 
         private class Context : BaseTestContext
         {
             public DetailsViewModel ViewModel { get; private set; }
+
+            public Dictionary<Cafe, IEnumerable<Comment>> Comments { get { return this.DataService.Comments; } }
 
             public Context()
             {

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
@@ -18,6 +20,24 @@ namespace CoffeeClientPrototype
         public Task<IEnumerable<Cafe>> GetAllCafes()
         {
             return Task.FromResult(AllCafes);
+        }
+
+        public async Task<IEnumerable<Comment>> GetCafeComments(int cafeId)
+        {
+            var cafe = AllCafes.First(c => c.Id == cafeId);
+
+            return new List<Comment>
+                {
+                    new Comment
+                    {
+                        Text = cafe.Name + " is great!",
+                        CreatedDate = DateTime.Now.AddDays(-100)
+                    },
+                    new Comment
+                    {
+                        Text = "Not crazy about " + cafe.Name
+                    }
+                };
         }
     }
 }

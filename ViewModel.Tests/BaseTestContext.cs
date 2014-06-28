@@ -6,14 +6,13 @@ namespace ViewModel.Tests
 {
     public class BaseTestContext : IDisposable
     {
-        public List<Cafe> Cafes { get; private set; }
+        public List<Cafe> Cafes { get { return this.DataService.Cafes; } }
 
         protected MockDataService DataService { get; private set; }
 
         public BaseTestContext()
         {
-            this.Cafes = new List<Cafe>();
-            DataService = new MockDataService(() => this.Cafes);
+            this.DataService = new MockDataService();
         }
 
         public void Dispose()

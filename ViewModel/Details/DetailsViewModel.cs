@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
@@ -37,15 +38,21 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public string PostCode { get; private set; }
 
+        public ObservableCollection<Comment> Comments { get; private set; }
+
         public DetailsViewModel(IDataService dataService, INavigationService navigationService)
         {
             this.dataService = dataService;
+            this.Comments = new ObservableCollection<Comment>();
         }
 
-        public async Task OnNavigatedTo(IDictionary<string, object> parameters)
+        public Task OnNavigatedTo(IDictionary<string, object> parameters)
         {
-            var cafe = await GetCafe((int) parameters["Id"]);
-            this.Populate(cafe);
+            var cafeId = (int) parameters["Id"];
+
+            var detailsTask = this.GetCafe(cafeId).ContinueWith(task => Populate(task.Result));
+            var commentsTask = this.dataService.GetCafeComments(cafeId).ContinueWith(task => Populate(task.Result));
+            return Task.WhenAll(detailsTask, commentsTask);
         }
 
         private void Populate(Cafe cafe)
@@ -67,6 +74,16 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
             this.Rating = cafe.Rating;
             this.NumberOfVotes = cafe.NumberOfVotes;
+        }
+
+        private void Populate(IEnumerable<Comment> comments)
+        {
+            var sorted = comments
+                .OrderByDescending(comment => comment.CreatedDate);
+            foreach (var comment in sorted)
+            {
+                this.Comments.Add(comment);
+            }
         }
 
         private async Task<Cafe> GetCafe(int cafeId)
