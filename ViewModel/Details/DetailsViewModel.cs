@@ -11,7 +11,6 @@ namespace CoffeeClientPrototype.ViewModel.Details
     public class DetailsViewModel : ViewModelBase, INavigationListener
     {
         private readonly IDataService dataService;
-        private readonly INavigationService navigationService;
 
         private double rating;
         private int numberOfVotes;
@@ -41,7 +40,6 @@ namespace CoffeeClientPrototype.ViewModel.Details
         public DetailsViewModel(IDataService dataService, INavigationService navigationService)
         {
             this.dataService = dataService;
-            this.navigationService = navigationService;
         }
 
         public async Task OnNavigatedTo(IDictionary<string, object> parameters)
