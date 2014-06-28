@@ -1,21 +1,21 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Annotations;
+using CoffeeClientPrototype.ViewModel.Services;
 
 namespace CoffeeClientPrototype.ViewModel.List
 {
     public class CafeListItem : INotifyPropertyChanged
     {
+        private readonly INavigationService navigationService;
+
         private string name;
         private double rating;
         private int numberOfVotes;
         private double latitude;
         private double longitude;
-
-        private CafeListItem()
-        {
-        }
 
         public string Name
         {
@@ -72,7 +72,16 @@ namespace CoffeeClientPrototype.ViewModel.List
             }
         }
 
+        public ICommand Navigate { get; private set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public CafeListItem(Cafe model, INavigationService navigationService)
+        {
+            this.navigationService = navigationService;
+            this.Navigate = new NavigateToCafeDetailsCommand(model, navigationService);
+            this.Populate(model);
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -81,16 +90,13 @@ namespace CoffeeClientPrototype.ViewModel.List
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public static CafeListItem FromModel(Cafe cafe)
+        private void Populate(Cafe model)
         {
-            return new CafeListItem
-                {
-                    name = cafe.Name,
-                    longitude = cafe.Longitude,
-                    latitude = cafe.Latitude,
-                    rating = cafe.Rating,
-                    numberOfVotes = cafe.NumberOfVotes
-                };
+            this.name = model.Name;
+            this.longitude = model.Longitude;
+            this.latitude = model.Latitude;
+            this.rating = model.Rating;
+            this.numberOfVotes = model.NumberOfVotes;
         }
     }
 }

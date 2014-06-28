@@ -16,9 +16,9 @@ namespace ViewModel.Tests
             this.getCafes = getCafes ?? (Enumerable.Empty<Cafe>);
         }
 
-        public Task<IEnumerable<Cafe>> GetAllCafes()
+        public async Task<IEnumerable<Cafe>> GetAllCafes()
         {
-            return Task.FromResult(this.getCafes());
+            return this.getCafes();
         }
     }
 }

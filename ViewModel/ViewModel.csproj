@@ -37,6 +37,7 @@
     <Compile Include="List\CafeListItem.cs" />
     <Compile Include="List\IViewModel.cs" />
     <Compile Include="List\ListViewModel.cs" />
+    <Compile Include="List\NavigateToCafeDetailsCommand.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

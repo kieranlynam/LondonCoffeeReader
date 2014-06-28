@@ -38,6 +38,8 @@ namespace CoffeeClientPrototype
                 SimpleIoc.Default.Register<IDataService, DesignDataService>();
             }
 
+            SimpleIoc.Default.Register<INavigationService, NavigationService>();
+
             SimpleIoc.Default.Register<ListViewModel>();
         }
 

@@ -14,28 +14,17 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-using CoffeeClientPrototype.ViewModel.List;
 
-namespace CoffeeClientPrototype
+namespace CoffeeClientPrototype.View
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class CafeDetailsPage : Page
     {
-        public MainPage()
+        public CafeDetailsPage()
         {
             this.InitializeComponent();
-        }
-
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            await ((IViewModel) this.DataContext).OnNavigatedTo();
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
         }
     }
 }

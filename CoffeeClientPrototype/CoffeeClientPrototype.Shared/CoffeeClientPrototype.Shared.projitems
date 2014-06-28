@@ -16,6 +16,16 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)DesignDataService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NavigationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModelLocator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View\CafeDetailsPage.xaml.cs">
+      <DependentUpon>CafeDetailsPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)View\CafeDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

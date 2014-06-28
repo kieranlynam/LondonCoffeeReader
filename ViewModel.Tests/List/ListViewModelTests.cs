@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ViewModel.Tests.List
 {
     [TestClass]
-    public class ListViewModelTest
+    public class ListViewModelTests
     {
         [TestMethod]
         public async Task BestCafesPopulatedWhenNavigatedTo()
@@ -66,7 +66,7 @@ namespace ViewModel.Tests.List
                 this.Cafes = new List<Cafe>();
                 var dataService = new MockDataService(() => this.Cafes);
 
-                this.ViewModel = new ListViewModel(dataService);
+                this.ViewModel = new ListViewModel(dataService, new MockNavigationService());
             }
 
             public void Dispose()

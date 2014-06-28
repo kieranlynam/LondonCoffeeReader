@@ -11,10 +11,12 @@ namespace CoffeeClientPrototype.ViewModel.List
     public class ListViewModel : ViewModelBase, IViewModel
     {
         private readonly IDataService dataService;
+        private readonly INavigationService navigationService;
 
-        public ListViewModel(IDataService dataService)
+        public ListViewModel(IDataService dataService, INavigationService navigationService)
         {
             this.dataService = dataService;
+            this.navigationService = navigationService;
             this.BestCafes = new ObservableCollection<CafeListItem>();
             this.NearbyCafes = new ObservableCollection<CafeListItem>();
         }
@@ -35,7 +37,7 @@ namespace CoffeeClientPrototype.ViewModel.List
             var items = cafes.OrderByDescending(cafe => cafe.Rating)
                 .ThenByDescending(cafe => cafe.NumberOfVotes)
                 .Take(10)
-                .Select(CafeListItem.FromModel);
+                .Select(CreateCafeListItem);
 
             foreach (var item in items)
             {
@@ -45,12 +47,16 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         private void PopulateNearbyCafes(IEnumerable<Cafe> cafes)
         {
-            var items = cafes.Select(CafeListItem.FromModel);
+            var items = cafes.Select(CreateCafeListItem);
 
             foreach (var item in items)
             {
                 this.NearbyCafes.Add(item);
             }
+        }
+        private CafeListItem CreateCafeListItem(Cafe cafe)
+        {
+            return new CafeListItem(cafe, this.navigationService);
         }
     }
 }

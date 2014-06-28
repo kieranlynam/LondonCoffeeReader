@@ -7,33 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=List}">
-	<Page.Resources>
-		<DataTemplate x:Key="CafeListItemTemplate">
-			<Grid Height="110" Width="480" Margin="10" >
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
-				<Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
-					<Image Height="110" Width="110"/>
-				</Border>
-				<StackPanel Grid.Column="1" Margin="10,0,0,0">
-					<TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextBlockStyle}"/>
-					<TextBlock Text="Subtitle" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="NoWrap"/>
-				</StackPanel>
-			</Grid>
-		</DataTemplate>
+
+    <Page.Resources>
 		<DataTemplate x:Key="CafeItemTemplate">
 			<Grid>
-				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top"/>
+                <Button Command="{Binding Navigate}" Content="{Binding Name}" />
 			</Grid>
 		</DataTemplate>
 	</Page.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    	<GridView IsSwipeEnabled="False" SelectionMode="Single">
-    		<ListView Height="440" Width="378" ItemsSource="{Binding BestCafes}" ItemTemplate="{StaticResource CafeItemTemplate}"/>
+    	<GridView IsSwipeEnabled="False">
+    		<ListView SelectionMode="None" ItemsSource="{Binding BestCafes}" ItemTemplate="{StaticResource CafeItemTemplate}"/>
     	</GridView>
-
     </Grid>
 </Page>

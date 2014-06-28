@@ -5,10 +5,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ViewModel.Tests.List
 {
     [TestClass]
-    public class CafeListItemTest
+    public class CafeListItemTests
     {
         [TestMethod]
-        public void CreateFromModel()
+        public void CreateFromCafeModel()
         {
             var cafe = new Cafe
                 {
@@ -21,13 +21,26 @@ namespace ViewModel.Tests.List
                     NumberOfVotes = 12
                 };
 
-            var result = CafeListItem.FromModel(cafe);
+            var result = new CafeListItem(cafe, new MockNavigationService());
 
             Assert.AreEqual("Coffee Shop", result.Name, "Name");
             Assert.AreEqual(45, result.Longitude, "Longitude");
             Assert.AreEqual(-12, result.Latitude, "Latitude");
             Assert.AreEqual(3.5, result.Rating, "Rating");
             Assert.AreEqual(12, result.NumberOfVotes, "NumberOfVotes");
+        }
+
+        [TestMethod]
+        public void NavigateToCafeDetails()
+        {
+            var navigationService = new MockNavigationService();
+            var cafe = new Cafe { Id = 1 };
+            var item = new CafeListItem(cafe, navigationService);
+            
+            item.Navigate.Execute(null);
+
+            Assert.AreEqual("CafeDetails", navigationService.Current.Location);
+            Assert.AreEqual(1, navigationService.Current.Parameters["Id"]);
         }
     }
 }
