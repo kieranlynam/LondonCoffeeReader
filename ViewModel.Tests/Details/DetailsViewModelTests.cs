@@ -70,7 +70,7 @@ namespace ViewModel.Tests.Details
 
                 CollectionAssert.AreEquivalent(
                     context.Reviews[cafe].ToArray(),
-                    context.ViewModel.Comments);
+                    context.ViewModel.Reviews);
             }
         }
 
@@ -106,9 +106,9 @@ namespace ViewModel.Tests.Details
                         { "Id", cafe.Id }
                     });
 
-                Assert.AreEqual("Today", context.ViewModel.Comments[0].Comment);
-                Assert.AreEqual("Yesterday", context.ViewModel.Comments[1].Comment);
-                Assert.AreEqual("Ancient!", context.ViewModel.Comments[2].Comment);
+                Assert.AreEqual("Today", context.ViewModel.Reviews[0].Comment);
+                Assert.AreEqual("Yesterday", context.ViewModel.Reviews[1].Comment);
+                Assert.AreEqual("Ancient!", context.ViewModel.Reviews[2].Comment);
             }
         }
 
@@ -131,9 +131,9 @@ namespace ViewModel.Tests.Details
 
                 Assert.IsTrue(context.Reviews.ContainsKey(cafe),
                     "Expected a comment to be submitted");
-                var comments = context.Reviews[cafe];
-                Assert.AreEqual(1, comments.Count);
-                Assert.AreEqual("New!", comments.Last().Comment, "Review text");
+                var reviews = context.Reviews[cafe];
+                Assert.AreEqual(1, reviews.Count);
+                Assert.AreEqual("New!", reviews.Last().Comment, "Review text");
             }
         }
 

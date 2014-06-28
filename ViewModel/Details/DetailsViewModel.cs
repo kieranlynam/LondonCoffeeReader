@@ -45,14 +45,14 @@ namespace CoffeeClientPrototype.ViewModel.Details
             private set { this.Set(ref this.numberOfVotes, value); }
         }
 
-        public ObservableCollection<Review> Comments { get; private set; }
+        public ObservableCollection<Review> Reviews { get; private set; }
         
         public UserReviewViewModel UserReview { get; private set; }
 
         public DetailsViewModel(IDataService dataService, INavigationService navigationService)
         {
             this.dataService = dataService;
-            this.Comments = new ObservableCollection<Review>();
+            this.Reviews = new ObservableCollection<Review>();
             this.UserReview = new UserReviewViewModel(this.dataService);
         }
 
@@ -61,8 +61,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
             var cafeId = (int) parameters["Id"];
 
             var detailsTask = this.GetCafe(cafeId).ContinueWith(task => Populate(task.Result));
-            var commentsTask = this.dataService.GetCafeReviews(cafeId).ContinueWith(task => Populate(task.Result));
-            return Task.WhenAll(detailsTask, commentsTask);
+            var reviewsTask = this.dataService.GetCafeReviews(cafeId).ContinueWith(task => Populate(task.Result));
+            return Task.WhenAll(detailsTask, reviewsTask);
         }
 
         private void Populate(Cafe cafe)
@@ -90,13 +90,13 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.NumberOfVotes = cafe.NumberOfVotes;
         }
 
-        private void Populate(IEnumerable<Review> comments)
+        private void Populate(IEnumerable<Review> reviews)
         {
-            var sorted = comments
+            var sorted = reviews
                 .OrderByDescending(comment => comment.CreatedDate);
-            foreach (var comment in sorted)
+            foreach (var review in sorted)
             {
-                this.Comments.Add(comment);
+                this.Reviews.Add(review);
             }
         }
 
