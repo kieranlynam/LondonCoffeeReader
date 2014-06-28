@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Details;
@@ -109,11 +110,79 @@ namespace ViewModel.Tests.Details
             }
         }
 
+        [TestMethod]
+        public async Task SubmitNewComment()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 1 };
+                context.Cafes.Add(cafe);
+
+                await context.ViewModel.OnNavigatedTo(
+                    new Dictionary<string, object>
+                    {
+                        { "Id", cafe.Id }
+                    });
+
+                context.ViewModel.NewComment.Text = "New!";
+                context.ViewModel.NewComment.Submit.Execute(null);
+
+                Assert.IsTrue(context.Comments.ContainsKey(cafe),
+                    "Expected a comment to be submitted");
+                var comments = context.Comments[cafe];
+                Assert.AreEqual(1, comments.Count);
+                Assert.AreEqual("New!", comments.Last().Text, "Comment text");
+            }
+        }
+
+        [TestMethod]
+        public async Task CannotSubmitCommentWithoutText()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 1 };
+                context.Cafes.Add(cafe);
+
+                await context.ViewModel.OnNavigatedTo(
+                    new Dictionary<string, object>
+                    {
+                        { "Id", cafe.Id }
+                    });
+
+                context.ViewModel.NewComment.Text = "";
+                Assert.IsFalse(context.ViewModel.NewComment.Submit.CanExecute(null));
+
+                context.ViewModel.NewComment.Text = "Something";
+                Assert.IsTrue(context.ViewModel.NewComment.Submit.CanExecute(null));
+            }
+        }
+
+        [TestMethod]
+        public async Task CannotSubmitCommentBeforeNavigating()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 1 };
+                context.Cafes.Add(cafe);
+
+                context.ViewModel.NewComment.Text = "Something";
+                Assert.IsFalse(context.ViewModel.NewComment.Submit.CanExecute(null));
+
+                await context.ViewModel.OnNavigatedTo(
+                    new Dictionary<string, object>
+                    {
+                        { "Id", cafe.Id }
+                    });
+
+                Assert.IsTrue(context.ViewModel.NewComment.Submit.CanExecute(null));
+            }
+        }
+
         private class Context : BaseTestContext
         {
             public DetailsViewModel ViewModel { get; private set; }
 
-            public Dictionary<Cafe, IEnumerable<Comment>> Comments { get { return this.DataService.Comments; } }
+            public Dictionary<Cafe, IList<Comment>> Comments { get { return this.DataService.Comments; } }
 
             public Context()
             {

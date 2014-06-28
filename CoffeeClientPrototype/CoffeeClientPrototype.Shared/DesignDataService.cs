@@ -39,5 +39,10 @@ namespace CoffeeClientPrototype
                     }
                 };
         }
+
+        public Task SubmitComment(int cafeId, Comment comment)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

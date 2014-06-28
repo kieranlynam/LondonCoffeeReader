@@ -39,11 +39,14 @@ namespace CoffeeClientPrototype.ViewModel.Details
         public string PostCode { get; private set; }
 
         public ObservableCollection<Comment> Comments { get; private set; }
+        
+        public NewComment NewComment { get; set; }
 
         public DetailsViewModel(IDataService dataService, INavigationService navigationService)
         {
             this.dataService = dataService;
             this.Comments = new ObservableCollection<Comment>();
+            this.NewComment = new NewComment(this.dataService);
         }
 
         public Task OnNavigatedTo(IDictionary<string, object> parameters)
@@ -57,6 +60,9 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private void Populate(Cafe cafe)
         {
+            // TODO: Unassign during navigate away?
+            this.NewComment.AssociatedCafe = cafe;
+
             this.Name = cafe.Name;
             this.RaisePropertyChanged(() => this.Name);
 

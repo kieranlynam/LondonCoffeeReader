@@ -9,5 +9,7 @@ namespace CoffeeClientPrototype.ViewModel.Services
         Task<IEnumerable<Cafe>> GetAllCafes();
 
         Task<IEnumerable<Comment>> GetCafeComments(int cafeId);
+
+        Task SubmitComment(int cafeId, Comment comment);
     }
 }

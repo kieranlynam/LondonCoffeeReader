@@ -11,12 +11,12 @@ namespace ViewModel.Tests
     {
         public List<Cafe> Cafes { get; private set; }
 
-        public Dictionary<Cafe, IEnumerable<Comment>> Comments { get; private set; }
+        public Dictionary<Cafe, IList<Comment>> Comments { get; private set; }
 
         public MockDataService()
         {
             this.Cafes = new List<Cafe>();
-            this.Comments = new Dictionary<Cafe, IEnumerable<Comment>>();
+            this.Comments = new Dictionary<Cafe, IList<Comment>>();
         }
 
         public async Task<IEnumerable<Cafe>> GetAllCafes()
@@ -30,7 +30,7 @@ namespace ViewModel.Tests
 
             if (cafe != null)
             {
-                IEnumerable<Comment> result;
+                IList<Comment> result;
                 if (Comments.TryGetValue(cafe, out result))
                 {
                     return result;
@@ -38,6 +38,18 @@ namespace ViewModel.Tests
             }
 
             return Enumerable.Empty<Comment>();
+        }
+
+        public async Task SubmitComment(int cafeId, Comment comment)
+        {
+            var cafe = this.Cafes.Single(c => c.Id == cafeId);
+
+            if (!this.Comments.ContainsKey(cafe))
+            {
+                this.Comments.Add(cafe, new List<Comment>());
+            }
+
+            this.Comments[cafe].Add(comment);
         }
     }
 }
