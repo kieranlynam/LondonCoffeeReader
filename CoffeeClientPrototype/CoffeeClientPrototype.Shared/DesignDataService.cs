@@ -31,7 +31,7 @@ namespace CoffeeClientPrototype
                     new Review
                     {
                         Comment = cafe.Name + " is great!",
-                        CreatedDate = DateTime.Now.AddDays(-100)
+                        SubmittedDate = DateTime.Now.AddDays(-100)
                     },
                     new Review
                     {

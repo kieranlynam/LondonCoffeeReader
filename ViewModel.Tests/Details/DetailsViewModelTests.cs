@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Details;
@@ -86,17 +85,17 @@ namespace ViewModel.Tests.Details
                         new Review
                         {
                             Comment = "Yesterday",
-                            CreatedDate = DateTime.Today.AddDays(-1)
+                            SubmittedDate = DateTime.Today.AddDays(-1)
                         },
                         new Review
                         {
                             Comment = "Ancient!",
-                            CreatedDate = DateTime.Today.AddYears(-5)
+                            SubmittedDate = DateTime.Today.AddYears(-5)
                         },
                         new Review
                         {
                             Comment = "Today",
-                            CreatedDate = DateTime.Today
+                            SubmittedDate = DateTime.Today
                         }
                     };
 

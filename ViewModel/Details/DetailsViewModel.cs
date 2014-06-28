@@ -93,7 +93,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private void Populate(IEnumerable<Review> reviews)
         {
             var sorted = reviews
-                .OrderByDescending(comment => comment.CreatedDate);
+                .OrderByDescending(comment => comment.SubmittedDate);
             foreach (var review in sorted)
             {
                 this.Reviews.Add(review);

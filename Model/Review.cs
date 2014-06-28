@@ -6,11 +6,11 @@ namespace CoffeeClientPrototype.Model
     {
         public string Comment { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime SubmittedDate { get; set; }
 
         public Review()
         {
-            this.CreatedDate = DateTime.Now;
+            this.SubmittedDate = DateTime.Now;
         }
     }
 }
