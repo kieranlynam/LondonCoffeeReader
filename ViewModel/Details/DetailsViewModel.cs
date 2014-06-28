@@ -13,22 +13,11 @@ namespace CoffeeClientPrototype.ViewModel.Details
     {
         private readonly IDataService dataService;
 
-        private double rating;
+        private double coffeeRating;
+        private double atmosphereRating;
         private int numberOfVotes;
 
         public string Name { get; private set; }
-
-        public double Rating
-        {
-            get { return this.rating; }
-            private set { this.Set(ref this.rating, value); }
-        }
-
-        public int NumberOfVotes
-        {
-            get { return this.numberOfVotes; }
-            private set { this.Set(ref this.numberOfVotes, value); }
-        }
 
         public double Longitude { get; private set; }
 
@@ -37,6 +26,24 @@ namespace CoffeeClientPrototype.ViewModel.Details
         public string Address { get; private set; }
 
         public string PostCode { get; private set; }
+
+        public double CoffeeRating
+        {
+            get { return this.coffeeRating; }
+            private set { this.Set(ref this.coffeeRating, value); }
+        }
+
+        public double AtmosphereRating
+        {
+            get { return this.atmosphereRating; }
+            private set { this.Set(ref this.atmosphereRating, value); }
+        }
+
+        public int NumberOfVotes
+        {
+            get { return this.numberOfVotes; }
+            private set { this.Set(ref this.numberOfVotes, value); }
+        }
 
         public ObservableCollection<Comment> Comments { get; private set; }
         
@@ -78,7 +85,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Latitude = cafe.Latitude;
             this.RaisePropertyChanged(() => this.Latitude);
 
-            this.Rating = cafe.Rating;
+            this.CoffeeRating = cafe.CoffeeRating;
+            this.AtmosphereRating = cafe.AtmosphereRating;
             this.NumberOfVotes = cafe.NumberOfVotes;
         }
 

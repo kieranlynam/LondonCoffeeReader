@@ -6,7 +6,9 @@
 
         public string Name { get; set; }
 
-        public double Rating { get; set; }
+        public double CoffeeRating { get; set; }
+        
+        public double AtmosphereRating { get; set; }
 
         public int NumberOfVotes { get; set; }
 

@@ -17,7 +17,8 @@ namespace ViewModel.Tests.List
                     PostCode = "A1",
                     Longitude = 45,
                     Latitude = -12,
-                    Rating = 3.5,
+                    CoffeeRating = 3.5,
+                    AtmosphereRating = 4.5,
                     NumberOfVotes = 12
                 };
 
@@ -26,7 +27,7 @@ namespace ViewModel.Tests.List
             Assert.AreEqual("Coffee Shop", result.Name, "Name");
             Assert.AreEqual(45, result.Longitude, "Longitude");
             Assert.AreEqual(-12, result.Latitude, "Latitude");
-            Assert.AreEqual(3.5, result.Rating, "Rating");
+            Assert.AreEqual(4, result.Rating, "Rating");
             Assert.AreEqual(12, result.NumberOfVotes, "NumberOfVotes");
         }
 

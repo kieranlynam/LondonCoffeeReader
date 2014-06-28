@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Input;
-using CoffeeClientPrototype.Model;
+﻿using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;

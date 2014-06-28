@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using CoffeeClientPrototype.Model;
@@ -92,7 +93,7 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.name = model.Name;
             this.longitude = model.Longitude;
             this.latitude = model.Latitude;
-            this.rating = model.Rating;
+            this.rating = (model.CoffeeRating + model.AtmosphereRating) / 2;
             this.numberOfVotes = model.NumberOfVotes;
         }
     }

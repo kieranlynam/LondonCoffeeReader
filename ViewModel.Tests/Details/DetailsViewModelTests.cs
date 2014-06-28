@@ -26,8 +26,9 @@ namespace ViewModel.Tests.Details
                         PostCode = "A1 11A",
                         Latitude = 15,
                         Longitude = -10,
-                        NumberOfVotes = 200,
-                        Rating = 3.5
+                        CoffeeRating = 3.5,
+                        AtmosphereRating = 4.75,
+                        NumberOfVotes = 200
                     });
 
                 await context.ViewModel.OnNavigatedTo(
@@ -41,8 +42,9 @@ namespace ViewModel.Tests.Details
                 Assert.AreEqual("A1 11A", context.ViewModel.PostCode, "PostCode");
                 Assert.AreEqual(15, context.ViewModel.Latitude, "Latitude");
                 Assert.AreEqual(-10, context.ViewModel.Longitude, "Longitude");
+                Assert.AreEqual(3.5, context.ViewModel.CoffeeRating, "CoffeeRating");
+                Assert.AreEqual(4.75, context.ViewModel.AtmosphereRating, "AtmosphereRating");
                 Assert.AreEqual(200, context.ViewModel.NumberOfVotes, "NumberOfVotes");
-                Assert.AreEqual(3.5, context.ViewModel.Rating, "Rating");
             }
         }
 
