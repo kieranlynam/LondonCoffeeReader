@@ -6,6 +6,10 @@ namespace CoffeeClientPrototype.Model
     {
         public string Comment { get; set; }
 
+        public double CoffeeRating { get; set; }
+
+        public double AtmosphereRating { get; set; }
+
         public DateTime SubmittedDate { get; set; }
 
         public Review()

@@ -126,35 +126,17 @@ namespace ViewModel.Tests.Details
                     });
 
                 context.ViewModel.UserReview.Comment = "New!";
+                context.ViewModel.UserReview.CoffeeRating = 3.5;
+                context.ViewModel.UserReview.AtmosphereRating = 4.5;
                 context.ViewModel.UserReview.Submit.Execute(null);
 
                 Assert.IsTrue(context.Reviews.ContainsKey(cafe),
                     "Expected a comment to be submitted");
                 var reviews = context.Reviews[cafe];
                 Assert.AreEqual(1, reviews.Count);
-                Assert.AreEqual("New!", reviews.Last().Comment, "Review text");
-            }
-        }
-
-        [TestMethod]
-        public async Task CannotSubmitReviewWithoutText()
-        {
-            using (var context = new Context())
-            {
-                var cafe = new Cafe { Id = 1 };
-                context.Cafes.Add(cafe);
-
-                await context.ViewModel.OnNavigatedTo(
-                    new Dictionary<string, object>
-                    {
-                        { "Id", cafe.Id }
-                    });
-
-                context.ViewModel.UserReview.Comment = "";
-                Assert.IsFalse(context.ViewModel.UserReview.Submit.CanExecute(null));
-
-                context.ViewModel.UserReview.Comment = "Something";
-                Assert.IsTrue(context.ViewModel.UserReview.Submit.CanExecute(null));
+                Assert.AreEqual("New!", reviews.Last().Comment);
+                Assert.AreEqual(3.5, reviews.Last().CoffeeRating);
+                Assert.AreEqual(4.5, reviews.Last().AtmosphereRating);
             }
         }
 
@@ -167,6 +149,8 @@ namespace ViewModel.Tests.Details
                 context.Cafes.Add(cafe);
 
                 context.ViewModel.UserReview.Comment = "Something";
+                context.ViewModel.UserReview.CoffeeRating = 3;
+                context.ViewModel.UserReview.AtmosphereRating = 4.5;
                 Assert.IsFalse(context.ViewModel.UserReview.Submit.CanExecute(null));
 
                 await context.ViewModel.OnNavigatedTo(

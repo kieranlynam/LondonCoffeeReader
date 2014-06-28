@@ -11,6 +11,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private string comment;
         private Cafe associatedCafe;
+        private double? coffeeRating;
+        private double? atmosphereRating;
 
         public string Comment
         {
@@ -19,6 +21,40 @@ namespace CoffeeClientPrototype.ViewModel.Details
             {
                 var before = this.CanExecuteSubmit();
                 if (this.Set(ref this.comment, value))
+                {
+                    var after = this.CanExecuteSubmit();
+                    if (before != after)
+                    {
+                        this.Submit.RaiseCanExecuteChanged();
+                    }
+                }
+            }
+        }
+
+        public double? CoffeeRating
+        {
+            get { return this.coffeeRating; }
+            set
+            {
+                var before = this.CanExecuteSubmit();
+                if (this.Set(ref this.coffeeRating, value))
+                {
+                    var after = this.CanExecuteSubmit();
+                    if (before != after)
+                    {
+                        this.Submit.RaiseCanExecuteChanged();
+                    }
+                }
+            }
+        }
+
+        public double? AtmosphereRating
+        {
+            get { return this.atmosphereRating; }
+            set
+            {
+                var before = this.CanExecuteSubmit();
+                if (this.Set(ref this.atmosphereRating, value))
                 {
                     var after = this.CanExecuteSubmit();
                     if (before != after)
@@ -63,6 +99,16 @@ namespace CoffeeClientPrototype.ViewModel.Details
             {
                 return false;
             }
+
+            if (!this.coffeeRating.HasValue)
+            {
+                return false;
+            }
+
+            if (!this.atmosphereRating.HasValue)
+            {
+                return false;
+            }
             
             return true;
         }
@@ -71,8 +117,17 @@ namespace CoffeeClientPrototype.ViewModel.Details
         {
             var review = new Review
                 {
-                    Comment = this.comment
+                    Comment = this.comment,
                 };
+            if (this.coffeeRating.HasValue)
+            {
+                review.CoffeeRating = this.coffeeRating.Value;
+            }
+            if (this.atmosphereRating.HasValue)
+            {
+                review.AtmosphereRating = this.atmosphereRating.Value;
+            }
+
             this.dataService.SubmitCafeReview(
                 this.AssociatedCafe.Id,
                 review);
