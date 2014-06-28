@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Details\DetailsViewModel.cs" />
-    <Compile Include="Details\UserFeedbackViewModel.cs" />
+    <Compile Include="Details\UserReviewViewModel.cs" />
     <Compile Include="List\CafeListItem.cs" />
     <Compile Include="INavigationListener.cs" />
     <Compile Include="List\ListViewModel.cs" />

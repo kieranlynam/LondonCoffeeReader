@@ -8,7 +8,7 @@ namespace ViewModel.Tests
     {
         public List<Cafe> Cafes { get { return this.DataService.Cafes; } }
 
-        protected MockDataService DataService { get; private set; }
+        public MockDataService DataService { get; private set; }
 
         public BaseTestContext()
         {

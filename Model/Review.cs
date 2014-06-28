@@ -2,13 +2,13 @@
 
 namespace CoffeeClientPrototype.Model
 {
-    public class Feedback
+    public class Review
     {
         public string Comment { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
-        public Feedback()
+        public Review()
         {
             this.CreatedDate = DateTime.Now;
         }

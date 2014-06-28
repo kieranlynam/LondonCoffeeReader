@@ -45,15 +45,15 @@ namespace CoffeeClientPrototype.ViewModel.Details
             private set { this.Set(ref this.numberOfVotes, value); }
         }
 
-        public ObservableCollection<Feedback> Comments { get; private set; }
+        public ObservableCollection<Review> Comments { get; private set; }
         
-        public UserFeedbackViewModel UserFeedback { get; private set; }
+        public UserReviewViewModel UserReview { get; private set; }
 
         public DetailsViewModel(IDataService dataService, INavigationService navigationService)
         {
             this.dataService = dataService;
-            this.Comments = new ObservableCollection<Feedback>();
-            this.UserFeedback = new UserFeedbackViewModel(this.dataService);
+            this.Comments = new ObservableCollection<Review>();
+            this.UserReview = new UserReviewViewModel(this.dataService);
         }
 
         public Task OnNavigatedTo(IDictionary<string, object> parameters)
@@ -61,14 +61,14 @@ namespace CoffeeClientPrototype.ViewModel.Details
             var cafeId = (int) parameters["Id"];
 
             var detailsTask = this.GetCafe(cafeId).ContinueWith(task => Populate(task.Result));
-            var commentsTask = this.dataService.GetAllCafeFeedback(cafeId).ContinueWith(task => Populate(task.Result));
+            var commentsTask = this.dataService.GetCafeReviews(cafeId).ContinueWith(task => Populate(task.Result));
             return Task.WhenAll(detailsTask, commentsTask);
         }
 
         private void Populate(Cafe cafe)
         {
             // TODO: Unassign during navigate away?
-            this.UserFeedback.AssociatedCafe = cafe;
+            this.UserReview.AssociatedCafe = cafe;
 
             this.Name = cafe.Name;
             this.RaisePropertyChanged(() => this.Name);
@@ -90,7 +90,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.NumberOfVotes = cafe.NumberOfVotes;
         }
 
-        private void Populate(IEnumerable<Feedback> comments)
+        private void Populate(IEnumerable<Review> comments)
         {
             var sorted = comments
                 .OrderByDescending(comment => comment.CreatedDate);

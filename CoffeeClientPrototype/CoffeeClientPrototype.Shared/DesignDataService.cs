@@ -22,25 +22,25 @@ namespace CoffeeClientPrototype
             return Task.FromResult(AllCafes);
         }
 
-        public async Task<IEnumerable<Feedback>> GetAllCafeFeedback(int cafeId)
+        public async Task<IEnumerable<Review>> GetCafeReviews(int cafeId)
         {
             var cafe = AllCafes.First(c => c.Id == cafeId);
 
-            return new List<Feedback>
+            return new List<Review>
                 {
-                    new Feedback
+                    new Review
                     {
                         Comment = cafe.Name + " is great!",
                         CreatedDate = DateTime.Now.AddDays(-100)
                     },
-                    new Feedback
+                    new Review
                     {
                         Comment = "Not crazy about " + cafe.Name
                     }
                 };
         }
 
-        public Task SubmitFeedback(int cafeId, Feedback feedback)
+        public Task SubmitCafeReview(int cafeId, Review review)
         {
             throw new NotImplementedException();
         }

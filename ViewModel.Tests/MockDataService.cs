@@ -11,12 +11,12 @@ namespace ViewModel.Tests
     {
         public List<Cafe> Cafes { get; private set; }
 
-        public Dictionary<Cafe, IList<Feedback>> Comments { get; private set; }
+        public Dictionary<Cafe, IList<Review>> Reviews { get; private set; }
 
         public MockDataService()
         {
             this.Cafes = new List<Cafe>();
-            this.Comments = new Dictionary<Cafe, IList<Feedback>>();
+            this.Reviews = new Dictionary<Cafe, IList<Review>>();
         }
 
         public async Task<IEnumerable<Cafe>> GetAllCafes()
@@ -24,32 +24,32 @@ namespace ViewModel.Tests
             return this.Cafes;
         }
 
-        public async Task<IEnumerable<Feedback>> GetAllCafeFeedback(int cafeId)
+        public async Task<IEnumerable<Review>> GetCafeReviews(int cafeId)
         {
             var cafe = this.Cafes.SingleOrDefault(c => c.Id == cafeId);
 
             if (cafe != null)
             {
-                IList<Feedback> result;
-                if (Comments.TryGetValue(cafe, out result))
+                IList<Review> result;
+                if (Reviews.TryGetValue(cafe, out result))
                 {
                     return result;
                 }    
             }
 
-            return Enumerable.Empty<Feedback>();
+            return Enumerable.Empty<Review>();
         }
 
-        public async Task SubmitFeedback(int cafeId, Feedback feedback)
+        public async Task SubmitCafeReview(int cafeId, Review review)
         {
             var cafe = this.Cafes.Single(c => c.Id == cafeId);
 
-            if (!this.Comments.ContainsKey(cafe))
+            if (!this.Reviews.ContainsKey(cafe))
             {
-                this.Comments.Add(cafe, new List<Feedback>());
+                this.Reviews.Add(cafe, new List<Review>());
             }
 
-            this.Comments[cafe].Add(feedback);
+            this.Reviews[cafe].Add(review);
         }
     }
 }

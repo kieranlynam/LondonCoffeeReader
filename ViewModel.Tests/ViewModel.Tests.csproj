@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="BaseTestContext.cs" />
     <Compile Include="Details\DetailsViewModelTests.cs" />
+    <Compile Include="Details\UserReviewViewModelTests.cs" />
     <Compile Include="List\CafeListItemTests.cs" />
     <Compile Include="MockNavigationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
