@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cafe.cs" />
+    <Compile Include="Photo.cs" />
     <Compile Include="Review.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

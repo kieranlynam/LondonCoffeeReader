@@ -8,7 +8,7 @@ namespace ViewModel.Tests.List
     public class CafeListItemTests
     {
         [TestMethod]
-        public void CreateFromCafeModel()
+        public void PropertiesPopulatedFromModel()
         {
             var cafe = new Cafe
                 {
@@ -29,6 +29,37 @@ namespace ViewModel.Tests.List
             Assert.AreEqual(-12, result.Latitude, "Latitude");
             Assert.AreEqual(4, result.Rating, "Rating");
             Assert.AreEqual(12, result.NumberOfVotes, "NumberOfVotes");
+        }
+
+        [TestMethod]
+        public void MostPopularPhotoShown()
+        {
+            var cafe = new Cafe
+                {
+                    Photos = new[]
+                        {
+                            new Photo
+                            {
+                                SubmittedBy = "Tom",
+                                NumberOfVotes = 2
+                            },
+                            new Photo
+                            {
+                                SubmittedBy = "Dick",
+                                NumberOfVotes = 5
+                            },
+                            new Photo
+                            {
+                                SubmittedBy = "Harry",
+                                NumberOfVotes = 3
+                            }
+                        }
+                };
+
+            var result = new CafeListItem(cafe, new MockNavigationService());
+
+            Assert.IsNotNull(result.Photo);
+            Assert.AreEqual("Dick", result.Photo.SubmittedBy);
         }
 
         [TestMethod]

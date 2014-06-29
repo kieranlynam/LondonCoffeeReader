@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using CoffeeClientPrototype.Model;
@@ -14,6 +15,7 @@ namespace CoffeeClientPrototype.ViewModel.List
         private int numberOfVotes;
         private double latitude;
         private double longitude;
+        private Photo photo;
 
         public string Name
         {
@@ -70,6 +72,17 @@ namespace CoffeeClientPrototype.ViewModel.List
             }
         }
 
+        public Photo Photo
+        {
+            get { return this.photo; }
+            set
+            {
+                if (Equals(value, photo)) return;
+                this.photo = value;
+                this.OnPropertyChanged();
+            }
+        }
+
         public ICommand Navigate { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -78,6 +91,7 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             this.Navigate = new NavigateToCafeDetailsCommand(model, navigationService);
             this.Populate(model);
+            this.PopulatePhoto(model);
         }
 
         [NotifyPropertyChangedInvocator]
@@ -94,6 +108,13 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.latitude = model.Latitude;
             this.rating = (model.CoffeeRating + model.AtmosphereRating) / 2;
             this.numberOfVotes = model.NumberOfVotes;
+        }
+
+        private void PopulatePhoto(Cafe model)
+        {
+            this.photo = model.Photos
+                                .OrderByDescending(p => p.NumberOfVotes)
+                                .FirstOrDefault();
         }
     }
 }

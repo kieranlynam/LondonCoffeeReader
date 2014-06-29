@@ -48,6 +48,50 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
+        public async Task PhotosPopulatedWhenNavigatedTo()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe
+                    {
+                        Id = 1,
+                        Photos = new[]
+                        {
+                            new Photo
+                            {
+                                SubmittedBy = "Tom",
+                                NumberOfVotes = 2
+                            },
+                            new Photo
+                            {
+                                SubmittedBy = "Dick",
+                                NumberOfVotes = 5
+                            },
+                            new Photo
+                            {
+                                SubmittedBy = "Harry",
+                                NumberOfVotes = 3
+                            }
+                        }
+                    };
+                context.Cafes.Add(cafe);
+
+                await context.ViewModel.OnNavigatedTo(
+                    new Dictionary<string, object>
+                    {
+                        { "Id", cafe.Id }
+                    });
+
+                var expected = cafe.Photos
+                    .OrderByDescending(photo => photo.NumberOfVotes)
+                    .ToArray();
+                CollectionAssert.AreEquivalent(
+                    expected,
+                    context.ViewModel.Photos);
+            }
+        }
+
+        [TestMethod]
         public async Task ReviewsPopulatedWhenNavigatedTo()
         {
             using (var context = new Context())

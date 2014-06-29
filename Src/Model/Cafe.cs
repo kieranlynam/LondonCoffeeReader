@@ -1,4 +1,7 @@
-﻿namespace CoffeeClientPrototype.Model
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace CoffeeClientPrototype.Model
 {
     public class Cafe
     {
@@ -19,5 +22,12 @@
         public string Address { get; set; }
 
         public string PostCode { get; set; }
+
+        public IEnumerable<Photo> Photos { get; set; }
+
+        public Cafe()
+        {
+            this.Photos = Enumerable.Empty<Photo>();
+        }
     }
 }
