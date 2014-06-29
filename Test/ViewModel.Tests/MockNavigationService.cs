@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using CoffeeClientPrototype.ViewModel.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,7 +11,7 @@ namespace ViewModel.Tests
 
         public NavigationEntry Current
         {
-            get { return this.History.Any() ? this.navigationStack.Peek() : null; }
+            get { return this.navigationStack.Any() ? this.navigationStack.Peek() : null; }
         }
 
         public IEnumerable<NavigationEntry> History
@@ -53,8 +52,14 @@ namespace ViewModel.Tests
         public void CurrentIsNullAtFirst()
         {
             var service = new MockNavigationService();
-
             Assert.IsNull(service.Current);
+        }
+
+        [TestMethod]
+        public void HistoryIsEmptyAtFirst()
+        {
+            var service = new MockNavigationService();
+            Assert.IsFalse(service.History.Any());
         }
 
         [TestMethod]
@@ -73,6 +78,24 @@ namespace ViewModel.Tests
         
             service.Navigate("FOUR");
             Assert.IsFalse(service.Current.Parameters.Any());
+        }
+
+        [TestMethod]
+        public void HistoryExtendedAfterNavigation()
+        {
+            var service = new MockNavigationService();
+
+            service.Navigate("ONE");
+            Assert.AreEqual("ONE", service.History.First().Location);
+            Assert.AreEqual(1, service.History.Count());
+
+            service.Navigate("TWO");
+            Assert.AreEqual("TWO", service.History.First().Location);
+            Assert.AreEqual(2, service.History.Count());
+
+            service.Navigate("THREE", new Dictionary<string, object> { { "Param", "Value" } });
+            Assert.AreEqual("Value", service.History.First().Parameters["Param"]);
+            Assert.AreEqual(3, service.History.Count());
         }
     }
 }
