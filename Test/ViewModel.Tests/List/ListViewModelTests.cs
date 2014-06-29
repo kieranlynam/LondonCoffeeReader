@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.List;
@@ -12,24 +10,19 @@ namespace ViewModel.Tests.List
     public class ListViewModelTests
     {
         [TestMethod]
-        public async Task BestCafesPopulatedWhenNavigatedTo()
+        public async Task TenBestCafesPopulatedWhenNavigatedTo()
         {
             using (var context = new Context())
             {
-                context.Cafes.AddRange(
-                    new[]
-                    {
-                        new Cafe { Name = "Cafe 1" },
-                        new Cafe { Name = "Cafe 2" },
-                        new Cafe { Name = "Cafe 3" }
-                    });
+                for (int i = 0; i < 11; i++)
+                {
+                    context.Cafes.Add(new Cafe { Name = "Cafe " + i });
+                }
 
                 await context.ViewModel.OnNavigatedTo();
 
-                Assert.AreEqual(3, context.ViewModel.BestCafes.Count);
-                Assert.IsTrue(context.ViewModel.BestCafes.Any(item => item.Name == "Cafe 1"));
-                Assert.IsTrue(context.ViewModel.BestCafes.Any(item => item.Name == "Cafe 2"));
-                Assert.IsTrue(context.ViewModel.BestCafes.Any(item => item.Name == "Cafe 3"));
+                Assert.AreEqual(10, context.ViewModel.BestCafes.Count);
+                Assert.IsTrue(context.ViewModel.BestCafes.All(c => c.Name.StartsWith("Cafe ")));
             }
         }
 
@@ -43,7 +36,7 @@ namespace ViewModel.Tests.List
                     {
                         new Cafe { Name = "B1", CoffeeRating = 4, NumberOfVotes = 10 },
                         new Cafe { Name = "A",  CoffeeRating = 5 },
-                        new Cafe { Name = "C",  CoffeeRating  = 1 },
+                        new Cafe { Name = "C",  CoffeeRating = 1 },
                         new Cafe { Name = "B2", CoffeeRating = 4, NumberOfVotes = 5 }
                     });
 
