@@ -74,6 +74,14 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
+        public async Task UserReviewPopulatedWhenNavigatedTo()
+        {
+            using (var context = new Context())
+            {
+            }
+        }
+
+        [TestMethod]
         public async Task ReviewsSortedNewestToOldest()
         {
             using (var context = new Context())
@@ -125,6 +133,7 @@ namespace ViewModel.Tests.Details
                         { "Id", cafe.Id }
                     });
 
+                context.IdentityService.Id = "UserA";
                 context.ViewModel.UserReview.Comment = "New!";
                 context.ViewModel.UserReview.CoffeeRating = 3.5;
                 context.ViewModel.UserReview.AtmosphereRating = 4.5;
@@ -137,6 +146,7 @@ namespace ViewModel.Tests.Details
                 Assert.AreEqual("New!", reviews.Last().Comment);
                 Assert.AreEqual(3.5, reviews.Last().CoffeeRating);
                 Assert.AreEqual(4.5, reviews.Last().AtmosphereRating);
+                Assert.AreEqual("UserA", reviews.Last().SubmittedBy);
             }
         }
 
@@ -148,6 +158,7 @@ namespace ViewModel.Tests.Details
                 var cafe = new Cafe { Id = 1 };
                 context.Cafes.Add(cafe);
 
+                context.IdentityService.Id = "UserA";
                 context.ViewModel.UserReview.Comment = "Something";
                 context.ViewModel.UserReview.CoffeeRating = 3;
                 context.ViewModel.UserReview.AtmosphereRating = 4.5;
@@ -172,7 +183,8 @@ namespace ViewModel.Tests.Details
             public Context()
             {
                 this.ViewModel = new DetailsViewModel(
-                    this.DataService);
+                    this.DataService,
+                    this.IdentityService);
             }
         }
     }

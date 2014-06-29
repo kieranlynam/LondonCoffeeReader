@@ -8,6 +8,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
     public class UserReviewViewModel : ViewModelBase
     {
         private readonly IDataService dataService;
+        private readonly IIdentityService identityService;
 
         private string comment;
         private Cafe associatedCafe;
@@ -82,14 +83,20 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public RelayCommand Submit { get; private set; }
 
-        public UserReviewViewModel(IDataService dataService)
+        public UserReviewViewModel(IDataService dataService, IIdentityService identityService)
         {
             this.dataService = dataService;
+            this.identityService = identityService;
             this.Submit = new RelayCommand(this.OnSubmitExecuted, this.CanExecuteSubmit);
         }
 
         private bool CanExecuteSubmit()
         {
+            if (this.identityService.Id == null)
+            {
+                return false;
+            }
+
             if (this.AssociatedCafe == null)
             {
                 return false;
@@ -118,6 +125,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             var review = new Review
                 {
                     Comment = this.comment,
+                    SubmittedBy = this.identityService.Id
                 };
             if (this.coffeeRating.HasValue)
             {
@@ -128,7 +136,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 review.AtmosphereRating = this.atmosphereRating.Value;
             }
 
-            this.dataService.SubmitCafeReview(
+            this.dataService.SaveCafeReview(
                 this.AssociatedCafe.Id,
                 review);
         }

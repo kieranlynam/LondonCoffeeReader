@@ -10,13 +10,14 @@ namespace ViewModel.Tests.Details
     public class UserReviewViewModelTests
     {
         [TestMethod]
-        public void SubmittingPushesToDataService()
+        public void SubmittingSavesReviewToDataService()
         {
             using (var context = new Context())
             {
                 var cafe = new Cafe { Id = 5 };
                 context.DataService.Cafes.Add(cafe);
 
+                context.IdentityService.Id = "UserA";
                 context.ViewModel.AssociatedCafe = cafe;
                 context.ViewModel.Comment = "Great!";
                 context.ViewModel.CoffeeRating = 3.5;
@@ -27,6 +28,7 @@ namespace ViewModel.Tests.Details
                 Assert.AreEqual("Great!", review.Comment, "Comment");
                 Assert.AreEqual(3.5, review.CoffeeRating, "CoffeeRating");
                 Assert.AreEqual(4, review.AtmosphereRating, "AtmosphereRating");
+                Assert.AreEqual("UserA", review.SubmittedBy, "SubmittedBy");
             }
         }
 
@@ -35,6 +37,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
+                context.IdentityService.Id = "UserA";
                 context.ViewModel.AssociatedCafe = new Cafe();
                 context.ViewModel.Comment = "Great!";
                 context.ViewModel.CoffeeRating = 5;
@@ -48,6 +51,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
+                context.IdentityService.Id = "UserA";
                 context.ViewModel.AssociatedCafe = new Cafe();
                 context.ViewModel.CoffeeRating = 1;
                 context.ViewModel.AtmosphereRating = 1.5;
@@ -65,6 +69,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
+                context.IdentityService.Id = "UserA";
                 context.ViewModel.AssociatedCafe = new Cafe();
                 context.ViewModel.Comment = "OK";
                 context.ViewModel.CoffeeRating = null;
@@ -79,6 +84,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
+                context.IdentityService.Id = "UserA";
                 context.ViewModel.AssociatedCafe = new Cafe();
                 context.ViewModel.Comment = "OK";
                 context.ViewModel.CoffeeRating = 3;
@@ -93,9 +99,25 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
+                context.IdentityService.Id = "UserA";
                 context.ViewModel.AssociatedCafe = null;
                 context.ViewModel.CoffeeRating = 1;
                 context.ViewModel.AtmosphereRating = 1.5;
+
+                Assert.IsFalse(context.ViewModel.Submit.CanExecute(null));
+            }
+        }
+
+        [TestMethod]
+        public void CannotSubmitWithoutAuthenticatedIdentity()
+        {
+            using (var context = new Context())
+            {
+                context.ViewModel.AssociatedCafe = new Cafe();
+                context.ViewModel.CoffeeRating = 1;
+                context.ViewModel.AtmosphereRating = 1.5;
+
+                context.IdentityService.Id = null;
 
                 Assert.IsFalse(context.ViewModel.Submit.CanExecute(null));
             }
@@ -107,7 +129,10 @@ namespace ViewModel.Tests.Details
 
             public Context()
             {
-                this.ViewModel = new UserReviewViewModel(this.DataService);
+                this.ViewModel = 
+                    new UserReviewViewModel(
+                        this.DataService,
+                        this.IdentityService);
             }
         }
     }

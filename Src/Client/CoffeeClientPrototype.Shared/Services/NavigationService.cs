@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 using CoffeeClientPrototype.View;
 using CoffeeClientPrototype.ViewModel.Services;
 
-namespace CoffeeClientPrototype
+namespace CoffeeClientPrototype.Services
 {
     public class NavigationService : INavigationService
     {

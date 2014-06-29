@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using CoffeeClientPrototype.ViewModel.Services;
 
-namespace CoffeeClientPrototype
+namespace CoffeeClientPrototype.Services
 {
     internal class DesignDataService : IDataService
     {
@@ -40,7 +40,7 @@ namespace CoffeeClientPrototype
                 };
         }
 
-        public Task SubmitCafeReview(int cafeId, Review review)
+        public Task SaveCafeReview(int cafeId, Review review)
         {
             throw new NotImplementedException();
         }

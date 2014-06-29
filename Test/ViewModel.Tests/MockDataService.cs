@@ -40,7 +40,7 @@ namespace ViewModel.Tests
             return Enumerable.Empty<Review>();
         }
 
-        public async Task SubmitCafeReview(int cafeId, Review review)
+        public async Task SaveCafeReview(int cafeId, Review review)
         {
             var cafe = this.Cafes.Single(c => c.Id == cafeId);
 

@@ -6,6 +6,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using CoffeeClientPrototype.Services;
 using CoffeeClientPrototype.ViewModel.Details;
 using CoffeeClientPrototype.ViewModel.List;
 using CoffeeClientPrototype.ViewModel.Services;
@@ -40,6 +41,7 @@ namespace CoffeeClientPrototype
             }
 
             SimpleIoc.Default.Register<INavigationService, NavigationService>();
+            SimpleIoc.Default.Register<IIdentityService, NullIdentityService>();
 
             SimpleIoc.Default.Register<ListViewModel>();
             SimpleIoc.Default.Register<DetailsViewModel>();

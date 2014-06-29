@@ -10,6 +10,6 @@ namespace CoffeeClientPrototype.ViewModel.Services
 
         Task<IEnumerable<Review>> GetCafeReviews(int cafeId);
 
-        Task SubmitCafeReview(int cafeId, Review review);
+        Task SaveCafeReview(int cafeId, Review review);
     }
 }

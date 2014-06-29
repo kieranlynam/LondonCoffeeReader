@@ -12,6 +12,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
     public class DetailsViewModel : ViewModelBase, INavigationListener
     {
         private readonly IDataService dataService;
+        private readonly IIdentityService identityService;
 
         private double coffeeRating;
         private double atmosphereRating;
@@ -49,11 +50,12 @@ namespace CoffeeClientPrototype.ViewModel.Details
         
         public UserReviewViewModel UserReview { get; private set; }
 
-        public DetailsViewModel(IDataService dataService)
+        public DetailsViewModel(IDataService dataService, IIdentityService identityService)
         {
             this.dataService = dataService;
+            this.identityService = identityService;
             this.Reviews = new ObservableCollection<Review>();
-            this.UserReview = new UserReviewViewModel(this.dataService);
+            this.UserReview = new UserReviewViewModel(this.dataService, this.identityService);
         }
 
         public Task OnNavigatedTo(IDictionary<string, object> parameters)

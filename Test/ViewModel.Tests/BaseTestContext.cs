@@ -10,9 +10,12 @@ namespace ViewModel.Tests
 
         public MockDataService DataService { get; private set; }
 
+        public MockIdentityService IdentityService { get; private set; }
+
         public BaseTestContext()
         {
             this.DataService = new MockDataService();
+            this.IdentityService = new MockIdentityService();
         }
 
         public void Dispose()
