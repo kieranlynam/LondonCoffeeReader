@@ -65,8 +65,10 @@ namespace CoffeeClientPrototype.ViewModel.Details
         {
             var cafeId = (int) parameters["Id"];
 
-            var detailsTask = this.GetCafe(cafeId).ContinueWith(task => Populate(task.Result));
-            var reviewsTask = this.dataService.GetCafeReviews(cafeId).ContinueWith(task => Populate(task.Result));
+            var detailsTask = this.GetCafe(cafeId)
+                .ContinueWith(task => Populate(task.Result), TaskScheduler.FromCurrentSynchronizationContext());
+            var reviewsTask = this.dataService.GetCafeReviews(cafeId)
+                .ContinueWith(task => Populate(task.Result), TaskScheduler.FromCurrentSynchronizationContext());
             return Task.WhenAll(detailsTask, reviewsTask);
         }
 
