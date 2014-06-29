@@ -49,7 +49,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
         
         public UserReviewViewModel UserReview { get; private set; }
 
-        public DetailsViewModel(IDataService dataService, INavigationService navigationService)
+        public DetailsViewModel(IDataService dataService)
         {
             this.dataService = dataService;
             this.Reviews = new ObservableCollection<Review>();

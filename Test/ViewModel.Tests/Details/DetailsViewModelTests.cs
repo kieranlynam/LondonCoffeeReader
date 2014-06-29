@@ -172,8 +172,7 @@ namespace ViewModel.Tests.Details
             public Context()
             {
                 this.ViewModel = new DetailsViewModel(
-                    this.DataService,
-                    new MockNavigationService());
+                    this.DataService);
             }
         }
     }
