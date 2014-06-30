@@ -14,7 +14,7 @@ namespace ViewModel.Tests.List
         {
             using (var context = new Context())
             {
-                for (int i = 0; i < 11; i++)
+                for (int i = 0; i < 20; i++)
                 {
                     context.Cafes.Add(new Cafe { Name = "Cafe " + i });
                 }
