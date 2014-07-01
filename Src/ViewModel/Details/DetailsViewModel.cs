@@ -96,7 +96,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.AtmosphereRating = cafe.AtmosphereRating;
             this.NumberOfVotes = cafe.NumberOfVotes;
 
-            foreach (var photo in cafe.Photos)
+            foreach (var photo in cafe.Photos.OrderByDescending(p => p.NumberOfVotes))
             {
                 this.Photos.Add(photo);
             }

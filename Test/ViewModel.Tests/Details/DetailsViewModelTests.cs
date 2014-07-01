@@ -85,7 +85,7 @@ namespace ViewModel.Tests.Details
                 var expected = cafe.Photos
                     .OrderByDescending(photo => photo.NumberOfVotes)
                     .ToArray();
-                CollectionAssert.AreEquivalent(
+                CollectionAssert.AreEqual(
                     expected,
                     context.ViewModel.Photos);
             }
