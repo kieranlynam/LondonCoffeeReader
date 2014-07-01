@@ -118,10 +118,34 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public async Task UserReviewPopulatedWhenNavigatedTo()
+        public async Task UserReviewPopulatedWithPreviouslySubmittedReviewIfExists()
         {
             using (var context = new Context())
             {
+                context.IdentityService.Id = "Me";
+
+                var cafe = new Cafe { Id = 1 };
+                context.Cafes.Add(cafe);
+                context.Reviews[cafe] = new[]
+                    {
+                        new Review
+                        {
+                            Comment = "My review!",
+                            CoffeeRating = 2,
+                            AtmosphereRating = 4,
+                            SubmittedBy = "Me"
+                        }
+                    };
+
+                await context.ViewModel.OnNavigatedTo(
+                    new Dictionary<string, object>
+                    {
+                        { "Id", cafe.Id }
+                    });
+
+                Assert.AreEqual("My review!", context.ViewModel.UserReview.Comment);
+                Assert.AreEqual(2, context.ViewModel.UserReview.CoffeeRating);
+                Assert.AreEqual(4, context.ViewModel.UserReview.AtmosphereRating);
             }
         }
 

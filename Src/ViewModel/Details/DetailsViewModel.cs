@@ -104,11 +104,26 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private void Populate(IEnumerable<Review> reviews)
         {
+            Review reviewByCurrentIdentity = null;
+
             var sorted = reviews
                 .OrderByDescending(comment => comment.SubmittedDate);
             foreach (var review in sorted)
             {
                 this.Reviews.Add(review);
+
+                if (this.identityService.Id == null) continue;
+                if (review.SubmittedBy == this.identityService.Id)
+                {
+                    reviewByCurrentIdentity = review;
+                }
+            }
+
+            if (reviewByCurrentIdentity != null)
+            {
+                this.UserReview.Comment = reviewByCurrentIdentity.Comment;
+                this.UserReview.CoffeeRating = reviewByCurrentIdentity.CoffeeRating;
+                this.UserReview.AtmosphereRating = reviewByCurrentIdentity.AtmosphereRating;
             }
         }
 
