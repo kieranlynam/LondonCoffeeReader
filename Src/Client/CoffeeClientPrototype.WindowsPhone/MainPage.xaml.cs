@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+using CoffeeClientPrototype.View;
 
 namespace CoffeeClientPrototype
 {
@@ -36,7 +37,7 @@ namespace CoffeeClientPrototype
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // TODO: Prepare page for display here.
+            this.NotifyNavigatedTo(e);
 
             // TODO: If your application contains multiple pages, ensure that you are
             // handling the hardware Back button by registering for the

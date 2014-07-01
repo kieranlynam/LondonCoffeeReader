@@ -7,6 +7,8 @@
 
     <Application.Resources>
         <local:ViewModelLocator x:Name="Locator" />
+        <SolidColorBrush x:Key="PageBackground" Color="#FFD6D4D0"/>
+        <SolidColorBrush x:Key="PrimaryForecolour" Color="#FF3E2414"/>
     </Application.Resources>
 
 </Application>

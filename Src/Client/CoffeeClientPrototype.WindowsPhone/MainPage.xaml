@@ -5,10 +5,43 @@
     xmlns:local="using:CoffeeClientPrototype"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid>
-
-    </Grid>
+    mc:Ignorable="d" DataContext="{Binding List, Mode=OneWay, Source={StaticResource Locator}}" Background="#FFD6D4D0"
+    >
+	<Page.Resources>
+		<DataTemplate x:Key="CafeListItemTemplate">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" Margin="0,9.5,0,0">
+					<Image Height="79" Width="79"/>
+				</Border>
+				<StackPanel Grid.Column="1" Margin="14.5,0,0,0">
+					<TextBlock Text="{Binding Name}" Style="{ThemeResource ListViewItemTextBlockStyle}"/>
+					<TextBlock Text="Subtitle" Style="{ThemeResource ListViewItemSubheaderTextBlockStyle}"/>
+				</StackPanel>
+			</Grid>
+		</DataTemplate>
+		<DataTemplate x:Key="PivotTitleTemplate">
+			<Grid Margin="-12,0,0,0">
+				<Image HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Source="Assets/LondonCoffeeLogo.png"/>
+			</Grid>
+		</DataTemplate>
+		<DataTemplate x:Key="PivotHeaderTemplate">
+			<Grid Margin="0,10,0,0">
+				<TextBlock Text="{Binding}" Foreground="{StaticResource PrimaryForecolour}" FontFamily="Tw Cen MT Condensed" FontSize="27" CharacterSpacing="50" />
+			</Grid>
+		</DataTemplate>		
+	</Page.Resources>
+	<Pivot Title="London Coffee" TitleTemplate="{StaticResource PivotTitleTemplate}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
+		<PivotItem Header="Best">
+			<Grid>
+				<ListView HorizontalAlignment="Left" VerticalAlignment="Top" SelectionMode="None" ItemTemplate="{StaticResource CafeListItemTemplate}" ItemsSource="{Binding BestCafes}"/>
+			</Grid>
+		</PivotItem>
+		<PivotItem Header="Nearby">
+			<Grid/>
+		</PivotItem>
+	</Pivot>
 </Page>

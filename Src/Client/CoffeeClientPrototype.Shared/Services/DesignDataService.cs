@@ -12,7 +12,7 @@ namespace CoffeeClientPrototype.Services
         private readonly static IEnumerable<Cafe> AllCafes = 
             new[]
             {
-                new Cafe { Id = 1, Name = "Tina, I Salute You" },
+                new Cafe { Id = 1, Name = "Tina, We Salute You" },
                 new Cafe { Id = 2, Name = "Shoreditch Grind" },
                 new Cafe { Id = 3, Name = "Prufrock Coffee" }
             };
