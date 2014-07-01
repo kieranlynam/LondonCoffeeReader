@@ -208,7 +208,7 @@ namespace ViewModel.Tests.Details
                 context.ViewModel.UserReview.Submit.Execute(null);
 
                 Assert.IsTrue(context.Reviews.ContainsKey(cafe),
-                    "Expected a comment to be submitted");
+                    "Expected a review to be submitted");
                 var reviews = context.Reviews[cafe];
                 Assert.AreEqual(1, reviews.Count);
                 Assert.AreEqual("New!", reviews.Last().Comment);
