@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Details\CafePhotoItem.cs" />
+    <Compile Include="Details\CafeReview.cs" />
     <Compile Include="Details\DetailsViewModel.cs" />
     <Compile Include="Details\UserReviewViewModel.cs" />
     <Compile Include="List\CafeListItem.cs" />

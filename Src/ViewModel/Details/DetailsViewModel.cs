@@ -48,7 +48,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public ObservableCollection<CafePhotoItem> Photos { get; private set; }
         
-        public ObservableCollection<Review> Reviews { get; private set; }
+        public ObservableCollection<CafeReview> Reviews { get; private set; }
         
         public UserReviewViewModel UserReview { get; private set; }
 
@@ -57,7 +57,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.dataService = dataService;
             this.identityService = identityService;
             this.Photos = new ObservableCollection<CafePhotoItem>();
-            this.Reviews = new ObservableCollection<Review>();
+            this.Reviews = new ObservableCollection<CafeReview>();
             this.UserReview = new UserReviewViewModel(this.dataService, this.identityService);
         }
 
@@ -112,7 +112,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 .OrderByDescending(comment => comment.SubmittedDate);
             foreach (var review in sorted)
             {
-                this.Reviews.Add(review);
+                this.Reviews.Add(new CafeReview(review));
 
                 if (this.identityService.Id == null) continue;
                 if (review.SubmittedBy == this.identityService.Id)

@@ -112,8 +112,8 @@ namespace ViewModel.Tests.Details
                     });
 
                 CollectionAssert.AreEquivalent(
-                    context.Reviews[cafe].ToArray(),
-                    context.ViewModel.Reviews);
+                    context.Reviews[cafe].Select(r => r.Comment).ToArray(),
+                    context.ViewModel.Reviews.Select(r => r.Comment).ToArray());
             }
         }
 
