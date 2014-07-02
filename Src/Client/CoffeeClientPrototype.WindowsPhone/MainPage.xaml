@@ -9,20 +9,10 @@
     >
 	<Page.Resources>
 		<DataTemplate x:Key="CafeListItemTemplate">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition/>
-				</Grid.ColumnDefinitions>
-				<Border Background="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" Margin="0,9.5,0,0">
-					<Image Height="79" Width="79"/>
-				</Border>
-				<StackPanel Grid.Column="1" Margin="14.5,0,0,0">
-					<TextBlock Text="{Binding Name}" Style="{ThemeResource ListViewItemTextBlockStyle}"/>
-					<TextBlock Text="Subtitle" Style="{ThemeResource ListViewItemSubheaderTextBlockStyle}"/>
-				</StackPanel>
-			</Grid>
-		</DataTemplate>
+            <Button BorderThickness="0" Command="{Binding Navigate}">
+                <TextBlock Text="{Binding Name}" Style="{ThemeResource ListViewItemTextBlockStyle}"/>
+            </Button>
+        </DataTemplate>
 		<DataTemplate x:Key="PivotTitleTemplate">
 			<Grid Margin="-12,0,0,0">
 				<Image HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Source="Assets/LondonCoffeeLogo.png"/>
