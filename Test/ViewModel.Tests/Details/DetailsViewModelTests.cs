@@ -86,8 +86,8 @@ namespace ViewModel.Tests.Details
                     .OrderByDescending(photo => photo.NumberOfVotes)
                     .ToArray();
                 CollectionAssert.AreEqual(
-                    expected,
-                    context.ViewModel.Photos);
+                    expected.Select(p => p.SubmittedBy).ToArray(),
+                    context.ViewModel.Photos.Select(p => p.SubmittedBy).ToArray());
             }
         }
 
