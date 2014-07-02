@@ -1,17 +1,26 @@
 ﻿<Page
-    x:Class="CoffeeClientPrototype.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:CoffeeClientPrototype"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" DataContext="{Binding List, Mode=OneWay, Source={StaticResource Locator}}" Background="#FFD6D4D0"
+    xmlns:Converters="using:CoffeeClientPrototype.Converters"
+    x:Class="CoffeeClientPrototype.MainPage"
+    mc:Ignorable="d" Background="#FFD6D4D0"
     >
 	<Page.Resources>
-		<DataTemplate x:Key="CafeListItemTemplate">
-            <Button BorderThickness="0" Command="{Binding Navigate}">
-                <TextBlock Text="{Binding Name}" Style="{ThemeResource ListViewItemTextBlockStyle}"/>
-            </Button>
+		<Converters:RatingToTextConverter x:Key="RatingToText"/>
+		<Converters:VotesCountToTextConverter x:Key="VotesCountToText" />
+	    <DataTemplate x:Key="CafeListItemTemplate">
+			<Button BorderThickness="0" Command="{Binding Navigate}">
+				<StackPanel Orientation="Vertical">
+					<TextBlock Text="{Binding Name}" Style="{ThemeResource ListViewItemTextBlockStyle}"/>
+					
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Rating, Converter={StaticResource RatingToText}, Mode=OneTime}" Style="{StaticResource ListViewItemSubheaderTextBlockStyle}"/>
+                        <TextBlock Margin="12 0 0 0" Text="{Binding NumberOfVotes, Converter={StaticResource VotesCountToText}, Mode=OneTime}" Style="{StaticResource ListViewItemSubheaderTextBlockStyle}"/>
+                    </StackPanel>
+                </StackPanel>
+			</Button>
         </DataTemplate>
 		<DataTemplate x:Key="PivotTitleTemplate">
 			<Grid Margin="-12,0,0,0">
@@ -24,6 +33,9 @@
 			</Grid>
 		</DataTemplate>		
 	</Page.Resources>
+	<Page.DataContext>
+		<Binding Mode="OneWay" Path="List" Source="{StaticResource Locator}"/>
+	</Page.DataContext>
 	<Pivot Title="London Coffee" TitleTemplate="{StaticResource PivotTitleTemplate}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
 		<PivotItem Header="Best">
 			<Grid>
@@ -31,9 +43,9 @@
 			</Grid>
 		</PivotItem>
 		<PivotItem Header="Nearby">
-            <Grid>
-                <ListView SelectionMode="None" ItemTemplate="{StaticResource CafeListItemTemplate}" ItemsSource="{Binding NearbyCafes}"/>
-            </Grid>
-        </PivotItem>
+			<Grid>
+				<ListView SelectionMode="None" ItemTemplate="{StaticResource CafeListItemTemplate}" ItemsSource="{Binding NearbyCafes}"/>
+			</Grid>
+		</PivotItem>
 	</Pivot>
 </Page>
