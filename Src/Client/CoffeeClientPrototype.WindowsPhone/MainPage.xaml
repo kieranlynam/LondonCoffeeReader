@@ -27,11 +27,13 @@
 	<Pivot Title="London Coffee" TitleTemplate="{StaticResource PivotTitleTemplate}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
 		<PivotItem Header="Best">
 			<Grid>
-				<ListView HorizontalAlignment="Left" VerticalAlignment="Top" SelectionMode="None" ItemTemplate="{StaticResource CafeListItemTemplate}" ItemsSource="{Binding BestCafes}"/>
+				<ListView SelectionMode="None" ItemTemplate="{StaticResource CafeListItemTemplate}" ItemsSource="{Binding BestCafes}"/>
 			</Grid>
 		</PivotItem>
 		<PivotItem Header="Nearby">
-			<Grid/>
-		</PivotItem>
+            <Grid>
+                <ListView SelectionMode="None" ItemTemplate="{StaticResource CafeListItemTemplate}" ItemsSource="{Binding NearbyCafes}"/>
+            </Grid>
+        </PivotItem>
 	</Pivot>
 </Page>
