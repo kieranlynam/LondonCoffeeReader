@@ -63,6 +63,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public Task OnNavigatedTo(IDictionary<string, object> parameters)
         {
+            this.Reviews.Clear();
+
             var cafeId = (int) parameters["Id"];
 
             var detailsTask = this.GetCafe(cafeId)
