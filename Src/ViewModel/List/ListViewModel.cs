@@ -39,6 +39,7 @@ namespace CoffeeClientPrototype.ViewModel.List
                 .Take(10)
                 .Select(CreateCafeListItem);
 
+            this.BestCafes.Clear();
             foreach (var item in items)
             {
                 this.BestCafes.Add(item);
@@ -49,6 +50,7 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             var items = cafes.Select(CreateCafeListItem);
 
+            this.NearbyCafes.Clear();
             foreach (var item in items)
             {
                 this.NearbyCafes.Add(item);

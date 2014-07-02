@@ -23,6 +23,12 @@ namespace ViewModel.Tests.List
 
                 Assert.AreEqual(10, context.ViewModel.BestCafes.Count);
                 Assert.IsTrue(context.ViewModel.BestCafes.All(c => c.Name.StartsWith("Cafe ")));
+
+                // navigate a second time
+                await context.ViewModel.OnNavigatedTo();
+
+                Assert.AreEqual(10, context.ViewModel.BestCafes.Count);
+                Assert.IsTrue(context.ViewModel.BestCafes.All(c => c.Name.StartsWith("Cafe ")));
             }
         }
 
@@ -44,6 +50,11 @@ namespace ViewModel.Tests.List
 
                 var expected = new[] { "A", "B1", "B2", "C" };
                 var actual = context.ViewModel.BestCafes.Select(cafe => cafe.Name).ToArray();
+                CollectionAssert.AreEqual(expected, actual);
+
+                // navigate a second time
+                await context.ViewModel.OnNavigatedTo();
+                actual = context.ViewModel.BestCafes.Select(cafe => cafe.Name).ToArray();
                 CollectionAssert.AreEqual(expected, actual);
             }
         }
