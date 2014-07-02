@@ -27,6 +27,9 @@ namespace CoffeeClientPrototype
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+#if WINDOWS_PHONE_APP
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+#endif
         }
 
         /// <summary>
@@ -107,7 +110,24 @@ namespace CoffeeClientPrototype
             rootFrame.ContentTransitions = this.transitions ?? new TransitionCollection() { new NavigationThemeTransition() };
             rootFrame.Navigated -= this.RootFrame_FirstNavigated;
         }
+
+        private static void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        {
+            var frame = Window.Current.Content as Frame;
+            if (frame == null)
+            {
+                return;
+            }
+
+            if (frame.CanGoBack)
+            {
+                frame.GoBack();
+                e.Handled = true;
+            }
+        }
 #endif
+
+        
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
