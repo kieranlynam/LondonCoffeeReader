@@ -12,9 +12,30 @@ namespace CoffeeClientPrototype.Services
         private readonly static IEnumerable<Cafe> AllCafes = 
             new[]
             {
-                new Cafe { Id = 1, Name = "Tina, We Salute You" },
-                new Cafe { Id = 2, Name = "Shoreditch Grind" },
-                new Cafe { Id = 3, Name = "Prufrock Coffee" }
+                new Cafe
+                {
+                    Id = 1,
+                    Name = "Tina, We Salute You",
+                    CoffeeRating = 4,
+                    AtmosphereRating = 5,
+                    NumberOfVotes = 250
+                },
+                new Cafe
+                {
+                    Id = 2,
+                    Name = "Shoreditch Grind",
+                    CoffeeRating = 4.75,
+                    AtmosphereRating = 3.5,
+                    NumberOfVotes = 320
+                },
+                new Cafe
+                {
+                    Id = 3,
+                    Name = "Prufrock Coffee",
+                    CoffeeRating = 5,
+                    AtmosphereRating = 3.5,
+                    NumberOfVotes = 527
+                }
             };
 
         public Task<IEnumerable<Cafe>> GetAllCafes()
