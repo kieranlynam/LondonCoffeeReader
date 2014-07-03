@@ -29,5 +29,10 @@ namespace CoffeeClientPrototype.Model
         {
             this.Photos = Enumerable.Empty<Photo>();
         }
+
+        public override string ToString()
+        {
+            return string.Format("Cafe {0} ({1})", this.Id, this.Name);
+        }
     }
 }

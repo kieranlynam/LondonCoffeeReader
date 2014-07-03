@@ -40,10 +40,10 @@ namespace ViewModel.Tests.List
                 context.Cafes.AddRange(
                     new[]
                     {
-                        new Cafe { Name = "B1", CoffeeRating = 4, NumberOfVotes = 10 },
-                        new Cafe { Name = "A",  CoffeeRating = 5 },
-                        new Cafe { Name = "C",  CoffeeRating = 1 },
-                        new Cafe { Name = "B2", CoffeeRating = 4, NumberOfVotes = 5 }
+                        new Cafe { Name = "B1", CoffeeRating = 4, AtmosphereRating = 3, NumberOfVotes = 10 },
+                        new Cafe { Name = "A",  CoffeeRating = 5, AtmosphereRating = 3.75 },
+                        new Cafe { Name = "C",  CoffeeRating = 1, AtmosphereRating = 4 },
+                        new Cafe { Name = "B2", CoffeeRating = 4, AtmosphereRating = 3, NumberOfVotes = 5 }
                     });
 
                 await context.ViewModel.OnNavigatedTo();

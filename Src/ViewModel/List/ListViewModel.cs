@@ -34,7 +34,8 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         private void PopulateBestCafes(IEnumerable<Cafe> cafes)
         {
-            var items = cafes.OrderByDescending(cafe => cafe.CoffeeRating)
+            var items = cafes
+                .OrderByDescending(cafe => (cafe.CoffeeRating + cafe.AtmosphereRating) / 2)
                 .ThenByDescending(cafe => cafe.NumberOfVotes)
                 .Take(10)
                 .Select(CreateCafeListItem);
