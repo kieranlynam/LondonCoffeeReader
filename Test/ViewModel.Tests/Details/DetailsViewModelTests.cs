@@ -198,7 +198,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void SubmitUserReview()
+        public void SubmitUserReviewUpdatesReviewCollection()
         {
             using (var context = new Context())
             {
@@ -206,6 +206,7 @@ namespace ViewModel.Tests.Details
                 context.Cafes.Add(cafe);
 
                 context.NavigateTo(cafe.Id);
+                Assert.AreEqual(0, context.ViewModel.Reviews.Count);
 
                 context.IdentityService.Id = "UserA";
                 context.ViewModel.UserReview.Comment = "New!";
@@ -213,14 +214,12 @@ namespace ViewModel.Tests.Details
                 context.ViewModel.UserReview.AtmosphereRating = 4.5;
                 context.ViewModel.UserReview.Submit.Execute(null);
 
-                Assert.IsTrue(context.Reviews.ContainsKey(cafe),
-                    "Expected a review to be submitted");
-                var reviews = context.Reviews[cafe];
-                Assert.AreEqual(1, reviews.Count);
-                Assert.AreEqual("New!", reviews.Last().Comment);
-                Assert.AreEqual(3.5, reviews.Last().CoffeeRating);
-                Assert.AreEqual(4.5, reviews.Last().AtmosphereRating);
-                Assert.AreEqual("UserA", reviews.Last().SubmittedBy);
+                Assert.AreEqual(1, context.ViewModel.Reviews.Count);
+                var review = context.ViewModel.Reviews.First();
+                Assert.AreEqual("New!", review.Comment);
+                Assert.AreEqual(3.5, review.CoffeeRating);
+                Assert.AreEqual(4.5, review.AtmosphereRating);
+                Assert.AreEqual("UserA", review.SubmittedBy);
             }
         }
 
