@@ -59,13 +59,24 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Photos = new ObservableCollection<CafePhotoItem>();
             this.Reviews = new ObservableCollection<CafeReview>();
             this.UserReview = new UserReviewViewModel(this.dataService, this.identityService);
+
+#if DEBUG
+            if (this.IsInDesignMode)
+            {
+                this.Populate(cafeId: 2);
+            }
+#endif
         }
 
         public Task OnNavigatedTo(IDictionary<string, object> parameters)
         {
-            this.Reviews.Clear();
-
             var cafeId = (int) parameters["Id"];
+            return this.Populate(cafeId);
+        }
+
+        private Task Populate(int cafeId)
+        {
+            this.Reviews.Clear();
 
             var detailsTask = this.GetCafe(cafeId)
                 .ContinueWith(task => Populate(task.Result), TaskScheduler.FromCurrentSynchronizationContext());

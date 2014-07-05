@@ -19,6 +19,13 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.navigationService = navigationService;
             this.BestCafes = new ObservableCollection<CafeListItem>();
             this.NearbyCafes = new ObservableCollection<CafeListItem>();
+
+#if DEBUG
+            if (this.IsInDesignMode)
+            {
+                this.OnNavigatedTo();
+            }
+#endif
         }
 
         public ObservableCollection<CafeListItem> NearbyCafes { get; private set; }

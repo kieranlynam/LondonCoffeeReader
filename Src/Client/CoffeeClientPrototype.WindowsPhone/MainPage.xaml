@@ -3,13 +3,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Converters="using:CoffeeClientPrototype.Converters"
+    xmlns:converters="using:CoffeeClientPrototype.Converters"
     x:Class="CoffeeClientPrototype.MainPage"
-    mc:Ignorable="d" Background="#FFD6D4D0"
-    >
-	<Page.Resources>
-		<Converters:RatingToTextConverter x:Key="RatingToText"/>
-		<Converters:VotesCountToTextConverter x:Key="VotesCountToText" />
+    mc:Ignorable="d" Background="#FFD6D4D0">
+    
+    <Page.DataContext>
+        <Binding Mode="OneWay" Path="List" Source="{StaticResource Locator}"/>
+    </Page.DataContext>
+
+    <Page.Resources>
+		<converters:RatingToTextConverter x:Key="RatingToText"/>
+		<converters:VotesCountToTextConverter x:Key="VotesCountToText" />
 	    <DataTemplate x:Key="CafeListItemTemplate">
 			<Button BorderThickness="0" Command="{Binding Navigate}">
 				<StackPanel Orientation="Vertical">
@@ -33,9 +37,7 @@
 			</Grid>
 		</DataTemplate>		
 	</Page.Resources>
-	<Page.DataContext>
-		<Binding Mode="OneWay" Path="List" Source="{StaticResource Locator}"/>
-	</Page.DataContext>
+	
 	<Pivot Title="London Coffee" TitleTemplate="{StaticResource PivotTitleTemplate}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
 		<PivotItem Header="Best">
 			<Grid>
