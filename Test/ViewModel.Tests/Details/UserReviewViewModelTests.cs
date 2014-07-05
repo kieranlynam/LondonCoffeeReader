@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Details;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -29,6 +28,36 @@ namespace ViewModel.Tests.Details
                 Assert.AreEqual(3.5, review.CoffeeRating, "CoffeeRating");
                 Assert.AreEqual(4, review.AtmosphereRating, "AtmosphereRating");
                 Assert.AreEqual("UserA", review.SubmittedBy, "SubmittedBy");
+            }
+        }
+
+        [TestMethod]
+        public void SubmittingRaisesEvent()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 5 };
+                context.DataService.Cafes.Add(cafe);
+
+                context.IdentityService.Id = "UserA";
+                context.ViewModel.AssociatedCafe = cafe;
+                context.ViewModel.Comment = "Great!";
+                context.ViewModel.CoffeeRating = 3.5;
+                context.ViewModel.AtmosphereRating = 4;
+
+                bool wasEventRaised = false;
+                context.ViewModel.ReviewSubmitted += (sender, submitted) =>
+                {
+                    wasEventRaised = true;
+                    Assert.AreEqual("Great!", submitted.Review.Comment, "Comment");
+                    Assert.AreEqual(3.5, submitted.Review.CoffeeRating, "CoffeeRating");
+                    Assert.AreEqual(4, submitted.Review.AtmosphereRating, "AtmosphereRating");
+                    Assert.AreEqual("UserA", submitted.Review.SubmittedBy, "SubmittedBy");
+                };
+                
+                context.ViewModel.Submit.Execute(null);
+
+                Assert.IsTrue(wasEventRaised);
             }
         }
 

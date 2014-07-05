@@ -169,7 +169,7 @@
                                 PointerPressedFill="{StaticResource PhoneAccentBrush}"
                                 PointerOverFill="{StaticResource PhoneAccentBrush}"
                                 ItemCount="5"
-                                Value="{Binding CoffeeRating}"
+                                Value="{Binding CoffeeRating, Mode=TwoWay}"
                                 SelectionMode="Continuous" />
                             
                             <TextBlock
@@ -185,7 +185,7 @@
                                 PointerPressedFill="{StaticResource PhoneAccentBrush}"
                                 PointerOverFill="{StaticResource PhoneAccentBrush}"
                                 ItemCount="5"
-                                Value="{Binding AtmosphereRating}"
+                                Value="{Binding AtmosphereRating, Mode=TwoWay}"
                                 SelectionMode="Continuous" />
                         </Grid>
 

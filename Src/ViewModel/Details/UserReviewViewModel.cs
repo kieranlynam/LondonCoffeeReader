@@ -1,4 +1,5 @@
-﻿using CoffeeClientPrototype.Model;
+﻿using System;
+using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -14,6 +15,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private Cafe associatedCafe;
         private double? coffeeRating;
         private double? atmosphereRating;
+
+        public event EventHandler<ReviewSubmittedEventArgs> ReviewSubmitted; 
 
         public string Comment
         {
@@ -139,6 +142,21 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.dataService.SaveCafeReview(
                 this.AssociatedCafe.Id,
                 review);
+
+            if (this.ReviewSubmitted != null)
+            {
+                this.ReviewSubmitted(this, new ReviewSubmittedEventArgs(review));
+            }
+        }
+    }
+
+    public class ReviewSubmittedEventArgs : EventArgs
+    {
+        public Review Review { get; private set; }
+
+        public ReviewSubmittedEventArgs(Review review)
+        {
+            this.Review = review;
         }
     }
 }

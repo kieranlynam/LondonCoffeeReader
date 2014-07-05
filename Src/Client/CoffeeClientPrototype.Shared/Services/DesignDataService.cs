@@ -44,6 +44,8 @@ namespace CoffeeClientPrototype.Services
                 }
             };
 
+        private readonly static IDictionary<Cafe, IEnumerable<Review>> CafeReviews = new Dictionary<Cafe, IEnumerable<Review>>(); 
+
         public Task<IEnumerable<Cafe>> GetAllCafes()
         {
             return Task.FromResult(AllCafes);
@@ -51,39 +53,48 @@ namespace CoffeeClientPrototype.Services
 
         public async Task<IEnumerable<Review>> GetCafeReviews(int cafeId)
         {
-            var cafe = AllCafes.First(c => c.Id == cafeId);
-
-            var reviews = new List<Review>
-                {
-                    new Review
-                    {
-                        Comment = cafe.Name + " is great!",
-                        SubmittedDate = DateTime.Now.AddDays(-100)
-                    },
-                    new Review
-                    {
-                        Comment = "Not crazy about " + cafe.Name
-                    }
-                };
-
-            if (cafeId == 1)
+            if (!CafeReviews.Any())
             {
-                reviews.Add(
-                    new Review
+                foreach (var cafe in AllCafes)
+                {
+                    var reviews = new List<Review>
+                                    {
+                                        new Review
+                                        {
+                                            Comment = cafe.Name + " is great!",
+                                            SubmittedDate = DateTime.Now.AddDays(-100)
+                                        },
+                                        new Review
+                                        {
+                                            Comment = "Not crazy about " + cafe.Name
+                                        }
+                                    };
+
+                    if (cafeId == 1)
                     {
-                        Comment = "My favourite coffeeshop in town!",
-                        SubmittedDate = DateTime.Today.AddDays(-5),
-                        CoffeeRating = 4.5,
-                        SubmittedBy = DesignIdentityService.CurrentUserIdentity
-                    });
+                        reviews.Add(
+                            new Review
+                            {
+                                Comment = "My favourite coffeeshop in town!",
+                                SubmittedDate = DateTime.Today.AddDays(-5),
+                                CoffeeRating = 4.5,
+                                SubmittedBy = DesignIdentityService.CurrentUserIdentity
+                            });
+                    }
+
+                    CafeReviews[cafe] = reviews;
+                }
             }
 
-            return reviews;
+            return CafeReviews[AllCafes.First(cafe => cafe.Id == cafeId)];
         }
 
-        public Task SaveCafeReview(int cafeId, Review review)
+        public async Task SaveCafeReview(int cafeId, Review review)
         {
-            throw new NotImplementedException();
+            var cafe = AllCafes.First(c => c.Id == cafeId);
+            var reviews = CafeReviews[cafe].Where(rev => rev.SubmittedBy != review.SubmittedBy).ToList();
+            reviews.Insert(0, review);
+            CafeReviews[cafe] = reviews;
         }
     }
 }

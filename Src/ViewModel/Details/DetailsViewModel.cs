@@ -59,6 +59,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Photos = new ObservableCollection<CafePhotoItem>();
             this.Reviews = new ObservableCollection<CafeReview>();
             this.UserReview = new UserReviewViewModel(this.dataService, this.identityService);
+            this.UserReview.ReviewSubmitted += this.OnUserReviewSubmitted;
 
 #if DEBUG
             if (this.IsInDesignMode)
@@ -72,6 +73,12 @@ namespace CoffeeClientPrototype.ViewModel.Details
         {
             var cafeId = (int) parameters["Id"];
             return this.Populate(cafeId);
+        }
+
+        public override void Cleanup()
+        {
+            base.Cleanup();
+            this.UserReview.ReviewSubmitted -= this.OnUserReviewSubmitted;
         }
 
         private Task Populate(int cafeId)
@@ -157,6 +164,11 @@ namespace CoffeeClientPrototype.ViewModel.Details
                     string.Format("Could not retrieve cafe {0} from data service", cafeId));
             }
             return cafe;
+        }
+
+        private void OnUserReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
+        {
+            this.Reviews.Insert(0, new CafeReview(args.Review));
         }
     }
 }
