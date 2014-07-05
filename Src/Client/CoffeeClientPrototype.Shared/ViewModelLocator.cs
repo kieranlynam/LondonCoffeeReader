@@ -33,15 +33,16 @@ namespace CoffeeClientPrototype
             {
                 // Create design time view services and models
                 SimpleIoc.Default.Register<IDataService, DesignDataService>();
+                SimpleIoc.Default.Register<IIdentityService, DesignIdentityService>();
             }
             else
             {
                 // Create run time view services and models
                 SimpleIoc.Default.Register<IDataService, DesignDataService>();
+                SimpleIoc.Default.Register<IIdentityService, DesignIdentityService>();
             }
 
             SimpleIoc.Default.Register<INavigationService, NavigationService>();
-            SimpleIoc.Default.Register<IIdentityService, NullIdentityService>();
 
             SimpleIoc.Default.Register<ListViewModel>();
             SimpleIoc.Default.Register<DetailsViewModel>();

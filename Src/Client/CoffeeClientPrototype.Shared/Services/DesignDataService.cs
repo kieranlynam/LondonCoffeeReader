@@ -53,7 +53,7 @@ namespace CoffeeClientPrototype.Services
         {
             var cafe = AllCafes.First(c => c.Id == cafeId);
 
-            return new List<Review>
+            var reviews = new List<Review>
                 {
                     new Review
                     {
@@ -65,6 +65,20 @@ namespace CoffeeClientPrototype.Services
                         Comment = "Not crazy about " + cafe.Name
                     }
                 };
+
+            if (cafeId == 1)
+            {
+                reviews.Add(
+                    new Review
+                    {
+                        Comment = "My favourite coffeeshop in town!",
+                        SubmittedDate = DateTime.Today.AddDays(-5),
+                        CoffeeRating = 4.5,
+                        SubmittedBy = DesignIdentityService.CurrentUserIdentity
+                    });
+            }
+
+            return reviews;
         }
 
         public Task SaveCafeReview(int cafeId, Review review)

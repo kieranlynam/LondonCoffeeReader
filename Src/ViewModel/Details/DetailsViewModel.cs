@@ -137,6 +137,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 this.UserReview.Comment = reviewByCurrentIdentity.Comment;
                 this.UserReview.CoffeeRating = reviewByCurrentIdentity.CoffeeRating;
                 this.UserReview.AtmosphereRating = reviewByCurrentIdentity.AtmosphereRating;
+                this.RaisePropertyChanged(() => this.UserReview);
             }
         }
 
