@@ -2,7 +2,7 @@
 
 namespace CoffeeClientPrototype.Services
 {
-    public class DesignIdentityService : IIdentityService
+    internal sealed class DesignIdentityService : IIdentityService
     {
         public const string CurrentUserIdentity = "Me";
 
