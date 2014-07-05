@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\CountToStringConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\RatingToTextConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\TextToUpperConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\VotesCountToTextConverter.cs" />
