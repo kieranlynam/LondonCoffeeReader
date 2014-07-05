@@ -18,7 +18,9 @@ namespace CoffeeClientPrototype.Services
                     Name = "Tina, We Salute You",
                     CoffeeRating = 4,
                     AtmosphereRating = 5,
-                    NumberOfVotes = 250
+                    NumberOfVotes = 250,
+                    Address = "47 King Henry's Walk",
+                    PostCode = "N1 4NH"
                 },
                 new Cafe
                 {
@@ -26,15 +28,19 @@ namespace CoffeeClientPrototype.Services
                     Name = "Shoreditch Grind",
                     CoffeeRating = 4.75,
                     AtmosphereRating = 3.5,
-                    NumberOfVotes = 320
+                    NumberOfVotes = 320,
+                    Address = "213 Old Street",
+                    PostCode = "EC1V 9NR"
                 },
                 new Cafe
                 {
                     Id = 3,
-                    Name = "Prufrock Coffee",
+                    Name = "Prufrock Café",
                     CoffeeRating = 5,
                     AtmosphereRating = 3.5,
-                    NumberOfVotes = 527
+                    NumberOfVotes = 527,
+                    Address = "23-25 Leather Ln",
+                    PostCode = "EC1N 7TE"
                 }
             };
 

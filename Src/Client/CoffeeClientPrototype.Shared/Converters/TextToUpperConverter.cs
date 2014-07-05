@@ -3,11 +3,11 @@ using Windows.UI.Xaml.Data;
 
 namespace CoffeeClientPrototype.Converters
 {
-    public sealed class VotesCountToTextConverter : IValueConverter
+    class TextToUpperConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return string.Format("{0} ratings", value);
+            return value.ToString().ToUpper();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
