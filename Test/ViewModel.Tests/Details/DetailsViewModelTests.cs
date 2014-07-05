@@ -12,7 +12,7 @@ namespace ViewModel.Tests.Details
     public class DetailsViewModelTests
     {
         [TestMethod]
-        public async Task PropertiesPopulatedWhenNavigatedTo()
+        public void PropertiesPopulatedWhenNavigatedTo()
         {
             using (var context = new Context())
             {
@@ -30,11 +30,7 @@ namespace ViewModel.Tests.Details
                         NumberOfVotes = 200
                     });
 
-                await context.ViewModel.OnNavigatedTo(
-                    new Dictionary<string, object>
-                    {
-                        { "Id", 1 }
-                    });
+                context.NavigateTo(cafeId: 1);
                 
                 Assert.AreEqual("Cafe A", context.ViewModel.Name, "Name");
                 Assert.AreEqual("1 Main Street", context.ViewModel.Address, "Address");
@@ -48,7 +44,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public async Task PhotosPopulatedWhenNavigatedTo()
+        public void PhotosPopulatedWhenNavigatedTo()
         {
             using (var context = new Context())
             {
@@ -76,11 +72,7 @@ namespace ViewModel.Tests.Details
                     };
                 context.Cafes.Add(cafe);
 
-                await context.ViewModel.OnNavigatedTo(
-                    new Dictionary<string, object>
-                    {
-                        { "Id", cafe.Id }
-                    });
+                context.NavigateTo(cafe.Id);
 
                 var expected = cafe.Photos
                     .OrderByDescending(photo => photo.NumberOfVotes)
@@ -92,7 +84,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public async Task ReviewsPopulatedWhenNavigatedTo()
+        public void ReviewsPopulatedWhenNavigatedTo()
         {
             using (var context = new Context())
             {
@@ -105,11 +97,7 @@ namespace ViewModel.Tests.Details
                         new Review { Comment = "Ugly!" }
                     };
 
-                await context.ViewModel.OnNavigatedTo(
-                    new Dictionary<string, object>
-                    {
-                        { "Id", cafe.Id }
-                    });
+                context.NavigateTo(cafe.Id);
 
                 CollectionAssert.AreEquivalent(
                     context.Reviews[cafe].Select(r => r.Comment).ToArray(),
@@ -118,7 +106,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public async Task UserReviewPopulatedWithPreviouslySubmittedReviewIfExists()
+        public void UserReviewPopulatedIfReviewByCurrentIdentityExists()
         {
             using (var context = new Context())
             {
@@ -137,11 +125,7 @@ namespace ViewModel.Tests.Details
                         }
                     };
 
-                await context.ViewModel.OnNavigatedTo(
-                    new Dictionary<string, object>
-                    {
-                        { "Id", cafe.Id }
-                    });
+                context.NavigateTo(cafe.Id);
 
                 Assert.AreEqual("My review!", context.ViewModel.UserReview.Comment);
                 Assert.AreEqual(2, context.ViewModel.UserReview.CoffeeRating);
@@ -150,7 +134,37 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public async Task ReviewsSortedNewestToOldest()
+        public void UserReviewResetIfNoReviewByCurrentIdentity()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 1 };
+                context.Cafes.Add(cafe);
+                context.Reviews[cafe] = new[]
+                    {
+                        new Review
+                        {
+                            Comment = "Somebody else's opinion",
+                            CoffeeRating = 1,
+                            AtmosphereRating = 3,
+                            SubmittedBy = "SomebodyElse"
+                        }
+                    };
+
+                context.IdentityService.Id = "SomebodyElse";
+                context.NavigateTo(cafe.Id);
+
+                context.IdentityService.Id = "Me";
+                context.NavigateTo(cafe.Id);
+
+                Assert.IsNull(context.ViewModel.UserReview.Comment);
+                Assert.IsNull(context.ViewModel.UserReview.CoffeeRating);
+                Assert.IsNull(context.ViewModel.UserReview.AtmosphereRating);
+            }
+        }
+
+        [TestMethod]
+        public void ReviewsSortedNewestToOldest()
         {
             using (var context = new Context())
             {
@@ -175,11 +189,7 @@ namespace ViewModel.Tests.Details
                         }
                     };
 
-                await context.ViewModel.OnNavigatedTo(
-                    new Dictionary<string, object>
-                    {
-                        { "Id", cafe.Id }
-                    });
+                context.NavigateTo(cafe.Id);
 
                 Assert.AreEqual("Today", context.ViewModel.Reviews[0].Comment);
                 Assert.AreEqual("Yesterday", context.ViewModel.Reviews[1].Comment);
@@ -188,18 +198,14 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public async Task SubmitUserReview()
+        public void SubmitUserReview()
         {
             using (var context = new Context())
             {
                 var cafe = new Cafe { Id = 1 };
                 context.Cafes.Add(cafe);
 
-                await context.ViewModel.OnNavigatedTo(
-                    new Dictionary<string, object>
-                    {
-                        { "Id", cafe.Id }
-                    });
+                context.NavigateTo(cafe.Id);
 
                 context.IdentityService.Id = "UserA";
                 context.ViewModel.UserReview.Comment = "New!";
@@ -219,7 +225,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public async Task CannotSubmitReviewBeforeNavigating()
+        public void CannotSubmitReviewBeforeNavigating()
         {
             using (var context = new Context())
             {
@@ -230,15 +236,8 @@ namespace ViewModel.Tests.Details
                 context.ViewModel.UserReview.Comment = "Something";
                 context.ViewModel.UserReview.CoffeeRating = 3;
                 context.ViewModel.UserReview.AtmosphereRating = 4.5;
+
                 Assert.IsFalse(context.ViewModel.UserReview.Submit.CanExecute(null));
-
-                await context.ViewModel.OnNavigatedTo(
-                    new Dictionary<string, object>
-                    {
-                        { "Id", cafe.Id }
-                    });
-
-                Assert.IsTrue(context.ViewModel.UserReview.Submit.CanExecute(null));
             }
         }
 
@@ -253,6 +252,16 @@ namespace ViewModel.Tests.Details
                 this.ViewModel = new DetailsViewModel(
                     this.DataService,
                     this.IdentityService);
+            }
+
+            public void NavigateTo(int cafeId)
+            {
+                 var navigation = this.ViewModel.OnNavigatedTo(
+                    new Dictionary<string, object>
+                    {
+                        { "Id", cafeId }
+                    });
+                navigation.Wait();
             }
         }
     }

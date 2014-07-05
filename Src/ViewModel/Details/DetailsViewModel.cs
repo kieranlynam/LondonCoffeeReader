@@ -137,8 +137,14 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 this.UserReview.Comment = reviewByCurrentIdentity.Comment;
                 this.UserReview.CoffeeRating = reviewByCurrentIdentity.CoffeeRating;
                 this.UserReview.AtmosphereRating = reviewByCurrentIdentity.AtmosphereRating;
-                this.RaisePropertyChanged(() => this.UserReview);
             }
+            else
+            {
+                this.UserReview.Comment = null;
+                this.UserReview.CoffeeRating = null;
+                this.UserReview.AtmosphereRating = null;
+            }
+            this.RaisePropertyChanged(() => this.UserReview);
         }
 
         private async Task<Cafe> GetCafe(int cafeId)
