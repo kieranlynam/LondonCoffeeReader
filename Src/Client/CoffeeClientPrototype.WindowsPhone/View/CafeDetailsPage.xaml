@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:CoffeeClientPrototype.Converters"
     xmlns:controls="using:Callisto.Controls"
+    xmlns:appBar="using:CoffeeClientPrototype.AppBar"
     x:Class="CoffeeClientPrototype.CafeDetailsPage"
     Background="{StaticResource PageBackground}"
     FontSize="20"
@@ -55,9 +56,11 @@
 			Title="{Binding Name}"
 			Foreground="{StaticResource PrimaryForecolour}"
 			TitleTemplate="{StaticResource PivotTitleTemplate}"
-			HeaderTemplate="{StaticResource PivotHeaderTemplate}">
+			HeaderTemplate="{StaticResource PivotHeaderTemplate}"
+            PivotItemLoading="OnPivotItemLoading">
             
 			<PivotItem
+                x:Name="Details"
                 Header="details"
                 Background="White" Margin="21,23,17,-0.333">
 
@@ -97,7 +100,7 @@
                                 Grid.Column="1"
                                 Grid.Row="0"
                                 Margin="0,-5,0,0"
-                                Tag="&#x1f4a7;"
+                                Tag="💧"
                                 ReadOnlyFill="{StaticResource PrimaryForecolour}"
                                 ItemCount="5"
                                 IsEnabled="False"
@@ -113,7 +116,7 @@
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 Margin="0,-5,0,0"
-                                Tag="&#x1f4a7;"
+                                Tag="💧"
                                 ReadOnlyFill="{StaticResource PrimaryForecolour}"
                                 ItemCount="5"
                                 IsEnabled="False"
@@ -129,10 +132,14 @@
 						Grid.Row="1" Header="{Binding Reviews.Count, ConverterParameter=\{0\} tips, Converter={StaticResource StringFormatConverter}, Mode=OneWay}"/>
                 </Grid>
 			</PivotItem>
-			<PivotItem Header="pictures">
+			<PivotItem
+                x:Name="Pictures"
+                Header="pictures">
 				<Grid Margin="0,0,361.667,429.167"/>
 			</PivotItem>
-            <PivotItem Header="rate">
+            <PivotItem
+                x:Name="Rate"
+                Header="rate">
                 <Grid Background="White" >
                 	<StackPanel
 						Orientation="Vertical"
@@ -157,7 +164,7 @@
                                 Grid.Column="1"
                                 Grid.Row="0"
                                 Margin="0,-5,0,0"
-                                Tag="&#x1f4a7;"
+                                Tag="💧"
                                 Foreground="{StaticResource PrimaryForecolour}"
                                 PointerPressedFill="{StaticResource PhoneAccentBrush}"
                                 PointerOverFill="{StaticResource PhoneAccentBrush}"
@@ -173,7 +180,7 @@
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 Margin="0,-5,0,0"
-                                Tag="&#x1f4a7;"
+                                Tag="💧"
                                 Foreground="{StaticResource PrimaryForecolour}"
                                 PointerPressedFill="{StaticResource PhoneAccentBrush}"
                                 PointerOverFill="{StaticResource PhoneAccentBrush}"
@@ -201,4 +208,24 @@
             </PivotItem>
 		</Pivot>
 	</Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <appBar:PivotItemAppBarButton
+                Icon="map"
+                Label="map"
+                PivotItem="Details" />
+            <appBar:PivotItemAppBarButton
+                Icon="add"
+                Label="add"
+                Visibility="Collapsed"
+                PivotItem="Pictures" />
+            <appBar:PivotItemAppBarButton
+                Icon="accept"
+                Label="submit"
+                Visibility="Collapsed"
+                PivotItem="Rate"
+                Command="{Binding UserReview.Submit, Mode=OneWay}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

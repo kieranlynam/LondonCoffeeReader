@@ -1,7 +1,11 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+using CoffeeClientPrototype.AppBar;
 using CoffeeClientPrototype.View;
 
 namespace CoffeeClientPrototype
@@ -24,6 +28,16 @@ namespace CoffeeClientPrototype
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             await this.NotifyNavigatedTo(e);
+        }
+
+        private void OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
+        {
+            var commandBar = ((CommandBar) this.BottomAppBar);
+            var buttons = commandBar.PrimaryCommands.OfType<PivotItemAppBarButton>();
+            foreach (var button in buttons)
+            {
+                button.Visibility = button.PivotItem == args.Item.Name ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
     }
 }
