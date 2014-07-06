@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using CoffeeClientPrototype.View;
 
 namespace CoffeeClientPrototype
 {
@@ -83,8 +84,15 @@ namespace CoffeeClientPrototype
 
                 rootFrame.ContentTransitions = null;
                 rootFrame.Navigated += this.RootFrame_FirstNavigated;
-#endif
-
+                
+                // When the navigation stack isn't restored navigate to the first page,
+                // configuring the new page by passing required information as a navigation
+                // parameter
+                if (!rootFrame.Navigate(typeof(ListPage), e.Arguments))
+                {
+                    throw new Exception("Failed to create initial page");
+                }
+#else
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
@@ -92,6 +100,7 @@ namespace CoffeeClientPrototype
                 {
                     throw new Exception("Failed to create initial page");
                 }
+#endif
             }
 
             // Ensure the current window is active

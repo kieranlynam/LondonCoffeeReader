@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:CoffeeClientPrototype.Converters"
-    x:Class="CoffeeClientPrototype.MainPage"
+    x:Class="CoffeeClientPrototype.View.ListPage"
     mc:Ignorable="d" Background="#FFD6D4D0">
     
     <Page.DataContext>
@@ -28,7 +28,7 @@
         </DataTemplate>
 		<DataTemplate x:Key="PivotTitleTemplate">
 			<Grid Margin="-12,0,0,0">
-				<Image HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Source="Assets/LondonCoffeeLogo.png"/>
+				<Image HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Source="../Assets/LondonCoffeeLogo.png"/>
 			</Grid>
 		</DataTemplate>
 		<DataTemplate x:Key="PivotHeaderTemplate">
