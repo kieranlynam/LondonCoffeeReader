@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using CoffeeClientPrototype.AppBar;
 using CoffeeClientPrototype.ViewModel.Details;
@@ -58,6 +59,11 @@ namespace CoffeeClientPrototype.View
             {
                 button.Visibility = button.PivotItem == args.Item.Name ? Visibility.Visible : Visibility.Collapsed;
             }
+        }
+
+        private void OnRatingsGridTapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.Pivot.SelectedItem = this.Rate;
         }
     }
 }

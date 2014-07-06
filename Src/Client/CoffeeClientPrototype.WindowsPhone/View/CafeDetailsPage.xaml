@@ -91,7 +91,9 @@
                             Margin="0,0,0,12" />
 
                         <!-- Ratings -->
-                        <Grid Height="80">
+                        <Grid
+                            Height="80"
+                            Tapped="OnRatingsGridTapped">
 							<Grid.RowDefinitions>
 								<RowDefinition/>
 								<RowDefinition/>
