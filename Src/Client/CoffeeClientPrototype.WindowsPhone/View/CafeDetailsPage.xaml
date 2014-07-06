@@ -43,11 +43,18 @@
                     Fill="Navy"
                     Grid.Column="0" />
 	            <TextBlock
+                    FontFamily="Tw Cen MT Condensed"
+                    FontSize="16"
                     TextWrapping="Wrap"
                     Text="{Binding Comment}"
                     VerticalAlignment="Top"
                     Grid.Column="1" />
         	</Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ReviewListHeaderTemplate">
+            <Grid Margin="0,0,0,8">
+                <TextBlock Text="{Binding}" />
+            </Grid>
         </DataTemplate>
     </Page.Resources>
     
@@ -130,7 +137,7 @@
                     <ListView
                 		ItemsSource="{Binding Reviews}"
 						ItemTemplate="{StaticResource ReviewDataTemplate}"
-						Grid.Row="1" Header="{Binding Reviews.Count, ConverterParameter=\{0\} reviews, Converter={StaticResource StringFormatConverter}, Mode=OneWay}"/>
+						Grid.Row="1" Header="{Binding Reviews.Count, ConverterParameter=\{0\} reviews, Converter={StaticResource StringFormatConverter}, Mode=OneWay}" HeaderTemplate="{StaticResource ReviewListHeaderTemplate}"/>
                 </Grid>
 			</PivotItem>
 			<PivotItem
