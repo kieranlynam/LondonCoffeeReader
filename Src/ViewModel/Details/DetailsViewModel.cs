@@ -134,6 +134,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
                     this.Reviews.Add(new CafeReview(review));
                 }
 
+                if (reviewByCurrentIdentity != null) continue;
                 if (this.identityService.Id == null) continue;
                 if (review.SubmittedBy == this.identityService.Id)
                 {

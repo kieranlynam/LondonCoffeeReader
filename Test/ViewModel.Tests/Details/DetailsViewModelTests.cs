@@ -124,7 +124,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void UserReviewPopulatedIfReviewByCurrentIdentityExists()
+        public void UserReviewPopulatedWithLatestReviewByCurrentIdentity()
         {
             using (var context = new Context())
             {
@@ -136,16 +136,25 @@ namespace ViewModel.Tests.Details
                     {
                         new Review
                         {
-                            Comment = "My review!",
+                            Comment = "My latest review!",
                             CoffeeRating = 2,
                             AtmosphereRating = 4,
-                            SubmittedBy = "Me"
+                            SubmittedBy = "Me",
+                            SubmittedDate = DateTime.Today.AddMonths(-1)
+                        },
+                        new Review
+                        {
+                            Comment = "My ancient review",
+                            CoffeeRating = 1,
+                            AtmosphereRating = 1,
+                            SubmittedBy = "Me",
+                            SubmittedDate = DateTime.Today.AddYears(-3)
                         }
                     };
 
                 context.NavigateTo(cafe.Id);
 
-                Assert.AreEqual("My review!", context.ViewModel.UserReview.Comment);
+                Assert.AreEqual("My latest review!", context.ViewModel.UserReview.Comment);
                 Assert.AreEqual(2, context.ViewModel.UserReview.CoffeeRating);
                 Assert.AreEqual(4, context.ViewModel.UserReview.AtmosphereRating);
             }
