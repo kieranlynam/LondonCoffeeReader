@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Details;
+using CoffeeClientPrototype.ViewModel.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ViewModel.Tests.Details
@@ -289,17 +291,46 @@ namespace ViewModel.Tests.Details
             }
         }
 
+        [TestMethod]
+        public void ShowMap()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe
+                            {
+                                Id = 1,
+                                Name = "Coffee Shop",
+                                Longitude = 45.15,
+                                Latitude = 15.45
+                            };
+                context.Cafes.Add(cafe);
+                context.NavigateTo(cafe.Id);
+
+                context.ViewModel.ShowMap.Execute(null);
+
+                Assert.IsNotNull(context.MapLauncher.LastLaunch);
+                Assert.AreEqual("Coffee Shop", context.MapLauncher.LastLaunch.Name);
+                Assert.AreEqual(45.15, context.MapLauncher.LastLaunch.Longitude);
+                Assert.AreEqual(15.45, context.MapLauncher.LastLaunch.Latitude);
+            }
+        }
+
         private class Context : BaseTestContext
         {
             public DetailsViewModel ViewModel { get; private set; }
 
             public Dictionary<Cafe, List<Review>> Reviews { get { return this.DataService.Reviews; } }
 
+            public MockMapLauncher MapLauncher { get; private set; }
+
             public Context()
             {
+                this.MapLauncher = new MockMapLauncher();
+
                 this.ViewModel = new DetailsViewModel(
-                    this.DataService,
-                    this.IdentityService);
+                                    this.DataService,
+                                    this.IdentityService,
+                                    this.MapLauncher);
             }
 
             public void NavigateTo(int cafeId)
@@ -310,6 +341,31 @@ namespace ViewModel.Tests.Details
                         { "Id", cafeId }
                     });
                 navigation.Wait();
+            }
+        }
+
+        private class MockMapLauncher : IMapLauncher
+        {
+            public LaunchDetails LastLaunch { get; private set; }
+
+            public async Task<bool> Launch(double longitude, double latitude, string name)
+            {
+                this.LastLaunch = new LaunchDetails
+                                    {
+                                        Longitude = longitude,
+                                        Latitude = latitude,
+                                        Name = name
+                                    };
+                return true;
+            }
+
+            public class LaunchDetails
+            {
+                public double Longitude { get; set; }
+
+                public double Latitude { get; set; }
+
+                public string Name { get; set; }
             }
         }
     }

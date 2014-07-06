@@ -222,7 +222,8 @@
             <appBar:PivotItemAppBarButton
                 Icon="map"
                 Label="map"
-                PivotItem="Details" />
+                PivotItem="Details"
+                Command="{Binding ShowMap}"/>
             <appBar:PivotItemAppBarButton
                 Icon="add"
                 Label="add"

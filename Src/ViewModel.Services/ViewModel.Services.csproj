@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="IDataService.cs" />
     <Compile Include="IIdentityService.cs" />
+    <Compile Include="IMapLauncher.cs" />
     <Compile Include="INavigationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

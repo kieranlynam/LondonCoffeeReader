@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace CoffeeClientPrototype.ViewModel.Details
 {
@@ -13,6 +14,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
     {
         private readonly IDataService dataService;
         private readonly IIdentityService identityService;
+        private readonly IMapLauncher mapLauncher;
 
         private double coffeeRating;
         private double atmosphereRating;
@@ -52,12 +54,16 @@ namespace CoffeeClientPrototype.ViewModel.Details
         
         public ReviewViewModel CurrentIdentityReview { get; private set; }
 
-        public DetailsViewModel(IDataService dataService, IIdentityService identityService)
+        public RelayCommand ShowMap { get; private set; }
+
+        public DetailsViewModel(IDataService dataService, IIdentityService identityService, IMapLauncher mapLauncher)
         {
             this.dataService = dataService;
             this.identityService = identityService;
+            this.mapLauncher = mapLauncher;
             this.Photos = new ObservableCollection<PhotoViewModel>();
             this.Reviews = new ObservableCollection<ReviewViewModel>();
+            this.ShowMap = new RelayCommand(OnShowMapExecuted);
             this.CurrentIdentityReview = new ReviewViewModel(this.dataService, this.identityService);
             this.CurrentIdentityReview.ReviewSubmitted += this.OnCurrentIdentityReviewSubmitted;
 
@@ -156,6 +162,11 @@ namespace CoffeeClientPrototype.ViewModel.Details
                     string.Format("Could not retrieve cafe {0} from data service", cafeId));
             }
             return cafe;
+        }
+
+        private void OnShowMapExecuted()
+        {
+            this.mapLauncher.Launch(this.Longitude, this.Latitude, this.Name);
         }
 
         private void OnCurrentIdentityReviewSubmitted(object sender, ReviewSubmittedEventArgs args)

@@ -30,7 +30,9 @@ namespace CoffeeClientPrototype.Services
                     AtmosphereRating = 3.5,
                     NumberOfVotes = 320,
                     Address = "213 Old Street",
-                    PostCode = "EC1V 9NR"
+                    PostCode = "EC1V 9NR",
+                    Latitude = -0.088196,
+                    Longitude = 51.526
                 },
                 new Cafe
                 {
