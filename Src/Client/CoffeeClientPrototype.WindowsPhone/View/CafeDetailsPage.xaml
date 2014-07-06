@@ -6,7 +6,7 @@
     xmlns:converters="using:CoffeeClientPrototype.Converters"
     xmlns:controls="using:Callisto.Controls"
     xmlns:appBar="using:CoffeeClientPrototype.AppBar"
-    x:Class="CoffeeClientPrototype.CafeDetailsPage"
+    x:Class="CoffeeClientPrototype.View.CafeDetailsPage"
     Background="{StaticResource PageBackground}"
     FontSize="20"
     CharacterSpacing="50" 
@@ -53,6 +53,7 @@
     
 	<Grid>
 		<Pivot
+            x:Name="Pivot"
 			Title="{Binding Name}"
 			Foreground="{StaticResource PrimaryForecolour}"
 			TitleTemplate="{StaticResource PivotTitleTemplate}"

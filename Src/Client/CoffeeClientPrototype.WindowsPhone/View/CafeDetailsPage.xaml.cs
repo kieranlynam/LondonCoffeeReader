@@ -1,20 +1,25 @@
-﻿using System.Collections.Generic;
+﻿// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+
+using System;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 using CoffeeClientPrototype.AppBar;
-using CoffeeClientPrototype.View;
+using CoffeeClientPrototype.ViewModel.Details;
 
-namespace CoffeeClientPrototype
+namespace CoffeeClientPrototype.View
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class CafeDetailsPage : Page
     {
+        public DetailsViewModel ViewModel
+        {
+            get { return ((ViewModelLocator) Application.Current.Resources["Locator"]).Details; } 
+        }
+
         public CafeDetailsPage()
         {
             this.InitializeComponent();
@@ -28,6 +33,21 @@ namespace CoffeeClientPrototype
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             await this.NotifyNavigatedTo(e);
+            this.ViewModel.CurrentIdentityReview.ReviewSubmitted += OnReviewSubmitted;
+        }
+
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            this.ViewModel.CurrentIdentityReview.ReviewSubmitted -= OnReviewSubmitted;
+        }
+        private void OnReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
+        {
+            if (this.Pivot.SelectedItem == this.Rate)
+            {
+                this.Pivot.SelectedItem = this.Details;
+            }
         }
 
         private void OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
