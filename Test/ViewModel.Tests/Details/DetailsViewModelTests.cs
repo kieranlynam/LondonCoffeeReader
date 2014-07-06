@@ -124,7 +124,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void UserReviewPopulatedWithLatestReviewByCurrentIdentity()
+        public void IdentityReviewPopulatedWithLatestReviewByCurrentIdentity()
         {
             using (var context = new Context())
             {
@@ -161,7 +161,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void UserReviewResetIfNoReviewByCurrentIdentity()
+        public void IdentityReviewResetIfNoReviewByCurrentIdentity()
         {
             using (var context = new Context())
             {
@@ -225,7 +225,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void SubmittedUserReviewUpdatesReviewCollectionIfCommentSupplied()
+        public void SubmittedIdentityReviewUpdatesReviewCollectionIfCommentSupplied()
         {
             using (var context = new Context())
             {
@@ -247,7 +247,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void SubmittedUserReviewDoesNotUpdatesReviewCollectionIfNoComment()
+        public void SubmittedIdentityReviewDoesNotUpdatesReviewCollectionIfNoComment()
         {
             using (var context = new Context())
             {

@@ -59,7 +59,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Photos = new ObservableCollection<PhotoViewModel>();
             this.Reviews = new ObservableCollection<ReviewViewModel>();
             this.CurrentIdentityReview = new ReviewViewModel(this.dataService, this.identityService);
-            this.CurrentIdentityReview.ReviewSubmitted += this.OnUserReviewSubmitted;
+            this.CurrentIdentityReview.ReviewSubmitted += this.OnCurrentIdentityReviewSubmitted;
 
 #if DEBUG
             if (this.IsInDesignMode)
@@ -78,7 +78,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
         public override void Cleanup()
         {
             base.Cleanup();
-            this.CurrentIdentityReview.ReviewSubmitted -= this.OnUserReviewSubmitted;
+            this.CurrentIdentityReview.ReviewSubmitted -= this.OnCurrentIdentityReviewSubmitted;
         }
 
         private Task Populate(int cafeId)
@@ -131,7 +131,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             {
                 if (!string.IsNullOrEmpty(review.Comment))
                 {
-                    this.Reviews.Add(this.CreateUserReviewViewModel(review));
+                    this.Reviews.Add(this.CreateReviewViewModel(review));
                 }
 
                 if (reviewByCurrentIdentity != null) continue;
@@ -158,17 +158,17 @@ namespace CoffeeClientPrototype.ViewModel.Details
             return cafe;
         }
 
-        private void OnUserReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
+        private void OnCurrentIdentityReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
         {
             if (string.IsNullOrEmpty(args.Review.Comment))
             {
                 return;
             }
 
-            this.Reviews.Insert(0, CreateUserReviewViewModel(args.Review));
+            this.Reviews.Insert(0, this.CreateReviewViewModel(args.Review));
         }
 
-        private ReviewViewModel CreateUserReviewViewModel(Review model)
+        private ReviewViewModel CreateReviewViewModel(Review model)
         {
             var viewModel = new ReviewViewModel(this.dataService, this.identityService);
             viewModel.Initialize(model);
