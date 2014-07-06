@@ -70,7 +70,7 @@ namespace CoffeeClientPrototype.Services
                                         }
                                     };
 
-                    if (cafeId == 1)
+                    if (cafe.Id == 1)
                     {
                         reviews.Add(
                             new Review
