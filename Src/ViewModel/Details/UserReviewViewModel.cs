@@ -106,7 +106,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             return this.isDirty;
         }
 
-        private void OnSubmitExecuted()
+        private async void OnSubmitExecuted()
         {
             var review = new Review
                 {
@@ -122,9 +122,12 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 review.AtmosphereRating = this.atmosphereRating.Value;
             }
 
-            this.dataService.SaveCafeReview(
+            await this.dataService.SaveCafeReview(
                 this.AssociatedCafe.Id,
                 review);
+
+            this.isDirty = false;
+            this.Submit.RaiseCanExecuteChanged();
 
             if (this.ReviewSubmitted != null)
             {

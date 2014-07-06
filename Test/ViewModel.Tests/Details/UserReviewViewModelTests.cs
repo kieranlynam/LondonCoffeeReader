@@ -108,8 +108,11 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
+                var cafe = new Cafe { Id = 5 };
+                context.DataService.Cafes.Add(cafe);
+                
                 context.IdentityService.Id = "UserA";
-                context.ViewModel.AssociatedCafe = new Cafe();
+                context.ViewModel.AssociatedCafe = cafe;
                 context.ViewModel.Comment = "Great!";
                 context.ViewModel.CoffeeRating = 3.5;
                 context.ViewModel.AtmosphereRating = 4;
@@ -127,6 +130,25 @@ namespace ViewModel.Tests.Details
                 context.ViewModel.Submit.Execute(null);
 
                 Assert.IsTrue(wasEventRaised);
+            }
+        }
+
+        [TestMethod]
+        public void CannotSubmitIfUnchangedSinceLastSubmit()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 5 };
+                context.DataService.Cafes.Add(cafe);
+
+                context.IdentityService.Id = "UserA";
+                context.ViewModel.AssociatedCafe = cafe;
+                context.ViewModel.Comment = "Great!";
+
+                context.ViewModel.Submit.Execute(null);
+                context.ViewModel.Comment = "Great!";
+                
+                Assert.IsFalse(context.ViewModel.Submit.CanExecute(null));
             }
         }
 
