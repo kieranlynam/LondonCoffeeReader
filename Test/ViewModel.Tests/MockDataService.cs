@@ -11,12 +11,12 @@ namespace ViewModel.Tests
     {
         public List<Cafe> Cafes { get; private set; }
 
-        public Dictionary<Cafe, IList<Review>> Reviews { get; private set; }
+        public Dictionary<Cafe, List<Review>> Reviews { get; private set; }
 
         public MockDataService()
         {
             this.Cafes = new List<Cafe>();
-            this.Reviews = new Dictionary<Cafe, IList<Review>>();
+            this.Reviews = new Dictionary<Cafe, List<Review>>();
         }
 
         public async Task<IEnumerable<Cafe>> GetAllCafes()
@@ -30,7 +30,7 @@ namespace ViewModel.Tests
 
             if (cafe != null)
             {
-                IList<Review> result;
+                List<Review> result;
                 if (Reviews.TryGetValue(cafe, out result))
                 {
                     return result;

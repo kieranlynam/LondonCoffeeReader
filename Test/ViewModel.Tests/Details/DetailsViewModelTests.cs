@@ -89,7 +89,7 @@ namespace ViewModel.Tests.Details
             {
                 var cafe = new Cafe { Id = 1 };
                 context.Cafes.Add(cafe);
-                context.Reviews[cafe] = new[]
+                context.Reviews[cafe] = new List<Review>
                     {
                         new Review { Comment = "Good!" },
                         new Review { Comment = "Bad!" },
@@ -111,7 +111,7 @@ namespace ViewModel.Tests.Details
             {
                 var cafe = new Cafe { Id = 1 };
                 context.Cafes.Add(cafe);
-                context.Reviews[cafe] = new[]
+                context.Reviews[cafe] = new List<Review>
                     {
                         new Review { Comment = null, CoffeeRating = 5 },
                         new Review { Comment = null, AtmosphereRating = 3 }
@@ -132,7 +132,7 @@ namespace ViewModel.Tests.Details
 
                 var cafe = new Cafe { Id = 1 };
                 context.Cafes.Add(cafe);
-                context.Reviews[cafe] = new[]
+                context.Reviews[cafe] = new List<Review>
                     {
                         new Review
                         {
@@ -167,7 +167,7 @@ namespace ViewModel.Tests.Details
             {
                 var cafe = new Cafe { Id = 1 };
                 context.Cafes.Add(cafe);
-                context.Reviews[cafe] = new[]
+                context.Reviews[cafe] = new List<Review>
                     {
                         new Review
                         {
@@ -197,7 +197,7 @@ namespace ViewModel.Tests.Details
             {
                 var cafe = new Cafe { Id = 1 };
                 context.Cafes.Add(cafe);
-                context.Reviews[cafe] = new[]
+                context.Reviews[cafe] = new List<Review>
                     {
                         new Review
                         {
@@ -229,20 +229,27 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
+                context.IdentityService.Id = "Me";
+
                 var cafe = new Cafe { Id = 1 };
                 context.Cafes.Add(cafe);
-
                 context.NavigateTo(cafe.Id);
-                Assert.AreEqual(0, context.ViewModel.Reviews.Count);
 
-                context.IdentityService.Id = "UserA";
-                context.ViewModel.CurrentIdentityReview.Comment = "New!";
+                context.ViewModel.CurrentIdentityReview.Comment = "My review";
                 context.ViewModel.CurrentIdentityReview.Submit.Execute(null);
 
                 Assert.AreEqual(1, context.ViewModel.Reviews.Count);
                 var review = context.ViewModel.Reviews.First();
-                Assert.AreEqual("New!", review.Comment);
-                Assert.AreEqual("UserA", review.SubmittedBy);
+                Assert.AreEqual("My review", review.Comment);
+                Assert.AreEqual("Me", review.SubmittedBy);
+
+                context.ViewModel.CurrentIdentityReview.Comment = "My updated review!";
+                context.ViewModel.CurrentIdentityReview.Submit.Execute(null);
+
+                Assert.AreEqual(1, context.ViewModel.Reviews.Count);
+                review = context.ViewModel.Reviews.First();
+                Assert.AreEqual("My updated review!", review.Comment);
+                Assert.AreEqual("Me", review.SubmittedBy);
             }
         }
 
@@ -286,7 +293,7 @@ namespace ViewModel.Tests.Details
         {
             public DetailsViewModel ViewModel { get; private set; }
 
-            public Dictionary<Cafe, IList<Review>> Reviews { get { return this.DataService.Reviews; } }
+            public Dictionary<Cafe, List<Review>> Reviews { get { return this.DataService.Reviews; } }
 
             public Context()
             {

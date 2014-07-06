@@ -165,6 +165,9 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 return;
             }
 
+            var existingReview = this.Reviews.FirstOrDefault(review => review.SubmittedBy == args.Review.SubmittedBy);
+            this.Reviews.Remove(existingReview);
+
             this.Reviews.Insert(0, this.CreateReviewViewModel(args.Review));
         }
 
