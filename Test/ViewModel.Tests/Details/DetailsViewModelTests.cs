@@ -105,6 +105,25 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
+        public void ReviewsWithCommentsSkippedWhenPopulating()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 1 };
+                context.Cafes.Add(cafe);
+                context.Reviews[cafe] = new[]
+                    {
+                        new Review { Comment = null, CoffeeRating = 5 },
+                        new Review { Comment = null, AtmosphereRating = 3 }
+                    };
+
+                context.NavigateTo(cafe.Id);
+
+                Assert.IsFalse(context.ViewModel.Reviews.Any());
+            }
+        }
+
+        [TestMethod]
         public void UserReviewPopulatedIfReviewByCurrentIdentityExists()
         {
             using (var context = new Context())
@@ -197,7 +216,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void SubmitUserReviewUpdatesReviewCollection()
+        public void SubmittedUserReviewUpdatesReviewCollectionIfCommentSupplied()
         {
             using (var context = new Context())
             {
@@ -209,16 +228,31 @@ namespace ViewModel.Tests.Details
 
                 context.IdentityService.Id = "UserA";
                 context.ViewModel.UserReview.Comment = "New!";
-                context.ViewModel.UserReview.CoffeeRating = 3.5;
-                context.ViewModel.UserReview.AtmosphereRating = 4.5;
                 context.ViewModel.UserReview.Submit.Execute(null);
 
                 Assert.AreEqual(1, context.ViewModel.Reviews.Count);
                 var review = context.ViewModel.Reviews.First();
                 Assert.AreEqual("New!", review.Comment);
-                Assert.AreEqual(3.5, review.CoffeeRating);
-                Assert.AreEqual(4.5, review.AtmosphereRating);
                 Assert.AreEqual("UserA", review.SubmittedBy);
+            }
+        }
+
+        [TestMethod]
+        public void SubmittedUserReviewDoesNotUpdatesReviewCollectionIfNoComment()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 1 };
+                context.Cafes.Add(cafe);
+
+                context.NavigateTo(cafe.Id);
+                Assert.AreEqual(0, context.ViewModel.Reviews.Count);
+
+                context.IdentityService.Id = "UserA";
+                context.ViewModel.UserReview.CoffeeRating = 3;
+                context.ViewModel.UserReview.Submit.Execute(null);
+
+                Assert.IsFalse(context.ViewModel.Reviews.Any());
             }
         }
 

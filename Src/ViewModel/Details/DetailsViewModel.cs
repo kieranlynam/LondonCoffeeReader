@@ -126,10 +126,13 @@ namespace CoffeeClientPrototype.ViewModel.Details
             Review reviewByCurrentIdentity = null;
 
             var sorted = reviews
-                .OrderByDescending(comment => comment.SubmittedDate);
+                .OrderByDescending(review => review.SubmittedDate);
             foreach (var review in sorted)
             {
-                this.Reviews.Add(new CafeReview(review));
+                if (!string.IsNullOrEmpty(review.Comment))
+                {
+                    this.Reviews.Add(new CafeReview(review));
+                }
 
                 if (this.identityService.Id == null) continue;
                 if (review.SubmittedBy == this.identityService.Id)
@@ -156,6 +159,11 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private void OnUserReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
         {
+            if (string.IsNullOrEmpty(args.Review.Comment))
+            {
+                return;
+            }
+
             this.Reviews.Insert(0, new CafeReview(args.Review));
         }
     }

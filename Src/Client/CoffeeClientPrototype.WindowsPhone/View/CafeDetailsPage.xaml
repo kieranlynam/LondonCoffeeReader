@@ -129,7 +129,7 @@
                     <ListView
                 		ItemsSource="{Binding Reviews}"
 						ItemTemplate="{StaticResource ReviewDataTemplate}"
-						Grid.Row="1" Header="{Binding Reviews.Count, ConverterParameter=\{0\} tips, Converter={StaticResource StringFormatConverter}, Mode=OneWay}"/>
+						Grid.Row="1" Header="{Binding Reviews.Count, ConverterParameter=\{0\} reviews, Converter={StaticResource StringFormatConverter}, Mode=OneWay}"/>
                 </Grid>
 			</PivotItem>
 			<PivotItem
