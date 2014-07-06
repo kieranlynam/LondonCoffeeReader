@@ -46,9 +46,9 @@ namespace CoffeeClientPrototype.ViewModel.Details
             private set { this.Set(ref this.numberOfVotes, value); }
         }
 
-        public ObservableCollection<CafePhotoItem> Photos { get; private set; }
+        public ObservableCollection<PhotoViewModel> Photos { get; private set; }
         
-        public ObservableCollection<CafeReview> Reviews { get; private set; }
+        public ObservableCollection<ReviewViewModel> Reviews { get; private set; }
         
         public UserReviewViewModel UserReview { get; private set; }
 
@@ -56,8 +56,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
         {
             this.dataService = dataService;
             this.identityService = identityService;
-            this.Photos = new ObservableCollection<CafePhotoItem>();
-            this.Reviews = new ObservableCollection<CafeReview>();
+            this.Photos = new ObservableCollection<PhotoViewModel>();
+            this.Reviews = new ObservableCollection<ReviewViewModel>();
             this.UserReview = new UserReviewViewModel(this.dataService, this.identityService);
             this.UserReview.ReviewSubmitted += this.OnUserReviewSubmitted;
 
@@ -117,7 +117,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
             foreach (var photo in cafe.Photos.OrderByDescending(p => p.NumberOfVotes))
             {
-                this.Photos.Add(new CafePhotoItem(photo));
+                this.Photos.Add(new PhotoViewModel(photo));
             }
         }
 
@@ -131,7 +131,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             {
                 if (!string.IsNullOrEmpty(review.Comment))
                 {
-                    this.Reviews.Add(new CafeReview(review));
+                    this.Reviews.Add(new ReviewViewModel(review));
                 }
 
                 if (reviewByCurrentIdentity != null) continue;
@@ -165,7 +165,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 return;
             }
 
-            this.Reviews.Insert(0, new CafeReview(args.Review));
+            this.Reviews.Insert(0, new ReviewViewModel(args.Review));
         }
     }
 }

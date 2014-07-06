@@ -17,8 +17,8 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             this.dataService = dataService;
             this.navigationService = navigationService;
-            this.BestCafes = new ObservableCollection<CafeListItem>();
-            this.NearbyCafes = new ObservableCollection<CafeListItem>();
+            this.BestCafes = new ObservableCollection<ListItemViewModel>();
+            this.NearbyCafes = new ObservableCollection<ListItemViewModel>();
 
 #if DEBUG
             if (this.IsInDesignMode)
@@ -28,9 +28,9 @@ namespace CoffeeClientPrototype.ViewModel.List
 #endif
         }
 
-        public ObservableCollection<CafeListItem> NearbyCafes { get; private set; }
+        public ObservableCollection<ListItemViewModel> NearbyCafes { get; private set; }
 
-        public ObservableCollection<CafeListItem> BestCafes { get; private set; }
+        public ObservableCollection<ListItemViewModel> BestCafes { get; private set; }
 
         public async Task OnNavigatedTo(IDictionary<string,object> parameters = null)
         {
@@ -64,9 +64,9 @@ namespace CoffeeClientPrototype.ViewModel.List
                 this.NearbyCafes.Add(item);
             }
         }
-        private CafeListItem CreateCafeListItem(Cafe cafe)
+        private ListItemViewModel CreateCafeListItem(Cafe cafe)
         {
-            return new CafeListItem(cafe, this.navigationService);
+            return new ListItemViewModel(cafe, this.navigationService);
         }
     }
 }

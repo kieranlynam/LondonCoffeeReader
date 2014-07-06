@@ -5,7 +5,7 @@ using CoffeeClientPrototype.ViewModel.Annotations;
 
 namespace CoffeeClientPrototype.ViewModel.Details
 {
-    public class CafePhotoItem : INotifyPropertyChanged
+    public class PhotoViewModel : INotifyPropertyChanged
     {
         private string submittedBy;
 
@@ -20,7 +20,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             }
         }
 
-        public CafePhotoItem(Photo model)
+        public PhotoViewModel(Photo model)
         {
             this.SubmittedBy = model.SubmittedBy;
         }

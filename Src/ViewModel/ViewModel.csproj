@@ -34,11 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Details\CafePhotoItem.cs" />
-    <Compile Include="Details\CafeReview.cs" />
+    <Compile Include="Details\PhotoViewModel.cs" />
+    <Compile Include="Details\ReviewViewModel.cs" />
     <Compile Include="Details\DetailsViewModel.cs" />
     <Compile Include="Details\UserReviewViewModel.cs" />
-    <Compile Include="List\CafeListItem.cs" />
+    <Compile Include="List\ListItemViewModel.cs" />
     <Compile Include="INavigationListener.cs" />
     <Compile Include="List\ListViewModel.cs" />
     <Compile Include="List\NavigateToCafeDetailsCommand.cs" />

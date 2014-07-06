@@ -6,7 +6,7 @@ using CoffeeClientPrototype.ViewModel.Annotations;
 
 namespace CoffeeClientPrototype.ViewModel.Details
 {
-    public class CafeReview : INotifyPropertyChanged
+    public class ReviewViewModel : INotifyPropertyChanged
     {
         private string comment;
         private double? coffeeRating;
@@ -69,7 +69,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             }
         }
 
-        public CafeReview(Review model)
+        public ReviewViewModel(Review model)
         {
             this.Comment = model.Comment;
             this.CoffeeRating = model.CoffeeRating;
