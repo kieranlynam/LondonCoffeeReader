@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Details;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,12 +19,16 @@ namespace ViewModel.Tests.Details
                     {
                         Comment = "Great!",
                         CoffeeRating = 3.5,
-                        AtmosphereRating = 4
+                        AtmosphereRating = 4,
+                        SubmittedBy = "John",
+                        SubmittedDate = new DateTime(2001, 1, 2)
                     });
 
                 Assert.AreEqual("Great!", context.ViewModel.Comment, "Comment");
                 Assert.AreEqual(3.5, context.ViewModel.CoffeeRating, "CoffeeRating");
                 Assert.AreEqual(4, context.ViewModel.AtmosphereRating, "AtmosphereRating");
+                Assert.AreEqual("John", context.ViewModel.SubmittedBy, "SubmittedBy");
+                Assert.AreEqual(new DateTime(2001, 1, 2), context.ViewModel.SubmittedDate, "SubmittedDate");
 
                 // without a comment
                 context.ViewModel.Initialize(
@@ -68,15 +73,22 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                context.ViewModel.Comment = "Fantastic";
-                context.ViewModel.CoffeeRating = 4;
-                context.ViewModel.AtmosphereRating = 5;
+                context.ViewModel.Initialize(
+                    new Review
+                    {
+                        Comment = "Lovely",
+                        CoffeeRating = 4,
+                        AtmosphereRating = 3,
+                        SubmittedBy = "Mary"
+                    });
                 
                 context.ViewModel.Initialize();
 
                 Assert.IsNull(context.ViewModel.Comment, "Comment");
                 Assert.IsNull(context.ViewModel.CoffeeRating, "CoffeeRating");
                 Assert.IsNull(context.ViewModel.AtmosphereRating, "AtmosphereRating");
+                Assert.IsNull(context.ViewModel.SubmittedBy, "SubmittedBy");
+                Assert.IsNull(context.ViewModel.SubmittedDate, "SubmittedDate");
             }
         }
 
@@ -137,6 +149,24 @@ namespace ViewModel.Tests.Details
                 context.ViewModel.Submit.Execute(null);
 
                 Assert.IsFalse(context.DataService.Reviews.ContainsKey(cafe));
+            }
+        }
+
+        [TestMethod]
+        public void SubmittingSetsSubmissionProperties()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 5 };
+                context.DataService.Cafes.Add(cafe);
+
+                context.IdentityService.Id = "Jim";
+                context.ViewModel.AssociatedCafe = cafe;
+                context.ViewModel.Comment = "Tasted better";
+                context.ViewModel.Submit.Execute(null);
+
+                Assert.AreEqual("Jim", context.ViewModel.SubmittedBy);
+                Assert.IsNotNull(context.ViewModel.SubmittedDate);
             }
         }
 
@@ -299,6 +329,25 @@ namespace ViewModel.Tests.Details
             }
         }
 
+        [TestMethod]
+        public void CannotSubmitIfReviewSubmittedByAnotherIdentity()
+        {
+            using (var context = new Context())
+            {
+                context.ViewModel.AssociatedCafe = new Cafe();
+                context.ViewModel.Initialize(
+                    new Review
+                    {
+                        CoffeeRating = 5,
+                        SubmittedBy = "Carl"
+                    });
+
+                context.IdentityService.Id = "Lenny";
+                context.ViewModel.Comment = "Trying to take over Carl's review!";
+
+                Assert.IsFalse(context.ViewModel.Submit.CanExecute(null));
+            }
+        }
         private class Context : BaseTestContext
         {
             public UserReviewViewModel ViewModel { get; private set; }

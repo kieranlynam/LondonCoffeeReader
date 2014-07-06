@@ -16,6 +16,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private Cafe associatedCafe;
         private double? coffeeRating;
         private double? atmosphereRating;
+        private string submittedBy;
+        private DateTime? submittedDate;
 
         public event EventHandler<ReviewSubmittedEventArgs> ReviewSubmitted; 
 
@@ -58,6 +60,18 @@ namespace CoffeeClientPrototype.ViewModel.Details
             }
         }
 
+        public string SubmittedBy
+        {
+            get { return this.submittedBy; }
+            private set { this.Set(ref this.submittedBy, value); }
+        }
+
+        public DateTime? SubmittedDate
+        {
+            get { return this.submittedDate; }
+            private set { this.Set(ref this.submittedDate, value); }
+        }
+
         public Cafe AssociatedCafe
         {
             get
@@ -87,6 +101,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Set(ref this.comment, review != null ? review.Comment : null);
             this.Set(ref this.coffeeRating, review != null ? review.CoffeeRating : null);
             this.Set(ref this.atmosphereRating, review != null ? review.AtmosphereRating : null);
+            this.SubmittedBy = review != null ? review.SubmittedBy : null;
+            this.SubmittedDate = review != null ? review.SubmittedDate : (DateTime?) null;
             this.isDirty = false;
             this.Submit.RaiseCanExecuteChanged();
         }
@@ -94,6 +110,11 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private bool CanExecuteSubmit()
         {
             if (this.identityService.Id == null)
+            {
+                return false;
+            }
+
+            if (this.submittedBy != null && this.submittedBy != this.identityService.Id)
             {
                 return false;
             }
@@ -141,6 +162,9 @@ namespace CoffeeClientPrototype.ViewModel.Details
             await this.dataService.SaveCafeReview(
                 this.AssociatedCafe.Id,
                 review);
+
+            this.SubmittedBy = review.SubmittedBy;
+            this.SubmittedDate = review.SubmittedDate;
 
             if (this.ReviewSubmitted != null)
             {

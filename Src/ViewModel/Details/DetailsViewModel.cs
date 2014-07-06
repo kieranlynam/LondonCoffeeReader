@@ -48,7 +48,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public ObservableCollection<PhotoViewModel> Photos { get; private set; }
         
-        public ObservableCollection<ReviewViewModel> Reviews { get; private set; }
+        public ObservableCollection<UserReviewViewModel> Reviews { get; private set; }
         
         public UserReviewViewModel UserReview { get; private set; }
 
@@ -57,7 +57,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.dataService = dataService;
             this.identityService = identityService;
             this.Photos = new ObservableCollection<PhotoViewModel>();
-            this.Reviews = new ObservableCollection<ReviewViewModel>();
+            this.Reviews = new ObservableCollection<UserReviewViewModel>();
             this.UserReview = new UserReviewViewModel(this.dataService, this.identityService);
             this.UserReview.ReviewSubmitted += this.OnUserReviewSubmitted;
 
@@ -131,7 +131,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             {
                 if (!string.IsNullOrEmpty(review.Comment))
                 {
-                    this.Reviews.Add(new ReviewViewModel(review));
+                    this.Reviews.Add(this.CreateUserReviewViewModel(review));
                 }
 
                 if (reviewByCurrentIdentity != null) continue;
@@ -165,7 +165,14 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 return;
             }
 
-            this.Reviews.Insert(0, new ReviewViewModel(args.Review));
+            this.Reviews.Insert(0, CreateUserReviewViewModel(args.Review));
+        }
+
+        private UserReviewViewModel CreateUserReviewViewModel(Review model)
+        {
+            var viewModel = new UserReviewViewModel(this.dataService, this.identityService);
+            viewModel.Initialize(model);
+            return viewModel;
         }
     }
 }
