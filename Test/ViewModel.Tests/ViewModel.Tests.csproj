@@ -68,7 +68,7 @@
   <ItemGroup>
     <Compile Include="BaseTestContext.cs" />
     <Compile Include="Details\DetailsViewModelTests.cs" />
-    <Compile Include="Details\UserReviewViewModelTests.cs" />
+    <Compile Include="Details\ReviewViewModelTests.cs" />
     <Compile Include="List\CafeListItemTests.cs" />
     <Compile Include="MockIdentityService.cs" />
     <Compile Include="MockNavigationService.cs" />

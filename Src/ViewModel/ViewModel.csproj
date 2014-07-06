@@ -36,7 +36,7 @@
   <ItemGroup>
     <Compile Include="Details\PhotoViewModel.cs" />
     <Compile Include="Details\DetailsViewModel.cs" />
-    <Compile Include="Details\UserReviewViewModel.cs" />
+    <Compile Include="Details\ReviewViewModel.cs" />
     <Compile Include="List\ListItemViewModel.cs" />
     <Compile Include="INavigationListener.cs" />
     <Compile Include="List\ListViewModel.cs" />

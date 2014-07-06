@@ -48,18 +48,18 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public ObservableCollection<PhotoViewModel> Photos { get; private set; }
         
-        public ObservableCollection<UserReviewViewModel> Reviews { get; private set; }
+        public ObservableCollection<ReviewViewModel> Reviews { get; private set; }
         
-        public UserReviewViewModel UserReview { get; private set; }
+        public ReviewViewModel CurrentIdentityReview { get; private set; }
 
         public DetailsViewModel(IDataService dataService, IIdentityService identityService)
         {
             this.dataService = dataService;
             this.identityService = identityService;
             this.Photos = new ObservableCollection<PhotoViewModel>();
-            this.Reviews = new ObservableCollection<UserReviewViewModel>();
-            this.UserReview = new UserReviewViewModel(this.dataService, this.identityService);
-            this.UserReview.ReviewSubmitted += this.OnUserReviewSubmitted;
+            this.Reviews = new ObservableCollection<ReviewViewModel>();
+            this.CurrentIdentityReview = new ReviewViewModel(this.dataService, this.identityService);
+            this.CurrentIdentityReview.ReviewSubmitted += this.OnUserReviewSubmitted;
 
 #if DEBUG
             if (this.IsInDesignMode)
@@ -78,7 +78,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
         public override void Cleanup()
         {
             base.Cleanup();
-            this.UserReview.ReviewSubmitted -= this.OnUserReviewSubmitted;
+            this.CurrentIdentityReview.ReviewSubmitted -= this.OnUserReviewSubmitted;
         }
 
         private Task Populate(int cafeId)
@@ -94,7 +94,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private void Populate(Cafe cafe)
         {
-            this.UserReview.AssociatedCafe = cafe; 
+            this.CurrentIdentityReview.AssociatedCafe = cafe; 
 
             this.Name = cafe.Name;
             this.RaisePropertyChanged(() => this.Name);
@@ -142,8 +142,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 }
             }
 
-            this.UserReview.Initialize(reviewByCurrentIdentity);
-            this.RaisePropertyChanged(() => this.UserReview);
+            this.CurrentIdentityReview.Initialize(reviewByCurrentIdentity);
+            this.RaisePropertyChanged(() => this.CurrentIdentityReview);
         }
 
         private async Task<Cafe> GetCafe(int cafeId)
@@ -168,9 +168,9 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Reviews.Insert(0, CreateUserReviewViewModel(args.Review));
         }
 
-        private UserReviewViewModel CreateUserReviewViewModel(Review model)
+        private ReviewViewModel CreateUserReviewViewModel(Review model)
         {
-            var viewModel = new UserReviewViewModel(this.dataService, this.identityService);
+            var viewModel = new ReviewViewModel(this.dataService, this.identityService);
             viewModel.Initialize(model);
             return viewModel;
         }

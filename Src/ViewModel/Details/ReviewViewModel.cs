@@ -6,7 +6,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace CoffeeClientPrototype.ViewModel.Details
 {
-    public class UserReviewViewModel : ViewModelBase
+    public class ReviewViewModel : ViewModelBase
     {
         private readonly IDataService dataService;
         private readonly IIdentityService identityService;
@@ -89,7 +89,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public RelayCommand Submit { get; private set; }
 
-        public UserReviewViewModel(IDataService dataService, IIdentityService identityService)
+        public ReviewViewModel(IDataService dataService, IIdentityService identityService)
         {
             this.dataService = dataService;
             this.identityService = identityService;

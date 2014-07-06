@@ -154,9 +154,9 @@ namespace ViewModel.Tests.Details
 
                 context.NavigateTo(cafe.Id);
 
-                Assert.AreEqual("My latest review!", context.ViewModel.UserReview.Comment);
-                Assert.AreEqual(2, context.ViewModel.UserReview.CoffeeRating);
-                Assert.AreEqual(4, context.ViewModel.UserReview.AtmosphereRating);
+                Assert.AreEqual("My latest review!", context.ViewModel.CurrentIdentityReview.Comment);
+                Assert.AreEqual(2, context.ViewModel.CurrentIdentityReview.CoffeeRating);
+                Assert.AreEqual(4, context.ViewModel.CurrentIdentityReview.AtmosphereRating);
             }
         }
 
@@ -184,9 +184,9 @@ namespace ViewModel.Tests.Details
                 context.IdentityService.Id = "Me";
                 context.NavigateTo(cafe.Id);
 
-                Assert.IsNull(context.ViewModel.UserReview.Comment);
-                Assert.IsNull(context.ViewModel.UserReview.CoffeeRating);
-                Assert.IsNull(context.ViewModel.UserReview.AtmosphereRating);
+                Assert.IsNull(context.ViewModel.CurrentIdentityReview.Comment);
+                Assert.IsNull(context.ViewModel.CurrentIdentityReview.CoffeeRating);
+                Assert.IsNull(context.ViewModel.CurrentIdentityReview.AtmosphereRating);
             }
         }
 
@@ -236,8 +236,8 @@ namespace ViewModel.Tests.Details
                 Assert.AreEqual(0, context.ViewModel.Reviews.Count);
 
                 context.IdentityService.Id = "UserA";
-                context.ViewModel.UserReview.Comment = "New!";
-                context.ViewModel.UserReview.Submit.Execute(null);
+                context.ViewModel.CurrentIdentityReview.Comment = "New!";
+                context.ViewModel.CurrentIdentityReview.Submit.Execute(null);
 
                 Assert.AreEqual(1, context.ViewModel.Reviews.Count);
                 var review = context.ViewModel.Reviews.First();
@@ -258,8 +258,8 @@ namespace ViewModel.Tests.Details
                 Assert.AreEqual(0, context.ViewModel.Reviews.Count);
 
                 context.IdentityService.Id = "UserA";
-                context.ViewModel.UserReview.CoffeeRating = 3;
-                context.ViewModel.UserReview.Submit.Execute(null);
+                context.ViewModel.CurrentIdentityReview.CoffeeRating = 3;
+                context.ViewModel.CurrentIdentityReview.Submit.Execute(null);
 
                 Assert.IsFalse(context.ViewModel.Reviews.Any());
             }
@@ -274,11 +274,11 @@ namespace ViewModel.Tests.Details
                 context.Cafes.Add(cafe);
 
                 context.IdentityService.Id = "UserA";
-                context.ViewModel.UserReview.Comment = "Something";
-                context.ViewModel.UserReview.CoffeeRating = 3;
-                context.ViewModel.UserReview.AtmosphereRating = 4.5;
+                context.ViewModel.CurrentIdentityReview.Comment = "Something";
+                context.ViewModel.CurrentIdentityReview.CoffeeRating = 3;
+                context.ViewModel.CurrentIdentityReview.AtmosphereRating = 4.5;
 
-                Assert.IsFalse(context.ViewModel.UserReview.Submit.CanExecute(null));
+                Assert.IsFalse(context.ViewModel.CurrentIdentityReview.Submit.CanExecute(null));
             }
         }
 

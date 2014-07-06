@@ -144,7 +144,7 @@
                 	<StackPanel
 						Orientation="Vertical"
                         Margin="12,12,12,12"
-                        DataContext="{Binding UserReview, Mode=OneWay}">
+                        DataContext="{Binding CurrentIdentityReview, Mode=OneWay}">
 
                         <!-- Ratings -->
                         <Grid Height="100">
@@ -225,7 +225,7 @@
                 Label="submit"
                 Visibility="Collapsed"
                 PivotItem="Rate"
-                Command="{Binding UserReview.Submit, Mode=OneWay}"/>
+                Command="{Binding CurrentIdentityReview.Submit, Mode=OneWay}"/>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

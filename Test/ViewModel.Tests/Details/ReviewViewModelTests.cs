@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ViewModel.Tests.Details
 {
     [TestClass]
-    public class UserReviewViewModelTests
+    public class ReviewViewModelTests
     {
         [TestMethod]
         public void InitializedWithReview()
@@ -350,12 +350,12 @@ namespace ViewModel.Tests.Details
         }
         private class Context : BaseTestContext
         {
-            public UserReviewViewModel ViewModel { get; private set; }
+            public ReviewViewModel ViewModel { get; private set; }
 
             public Context()
             {
                 this.ViewModel = 
-                    new UserReviewViewModel(
+                    new ReviewViewModel(
                         this.DataService,
                         this.IdentityService);
             }
