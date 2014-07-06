@@ -94,8 +94,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private void Populate(Cafe cafe)
         {
-            // TODO: Unassign during navigate away?
-            this.UserReview.AssociatedCafe = cafe;
+            this.UserReview.AssociatedCafe = cafe; 
 
             this.Name = cafe.Name;
             this.RaisePropertyChanged(() => this.Name);
@@ -139,18 +138,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 }
             }
 
-            if (reviewByCurrentIdentity != null)
-            {
-                this.UserReview.Comment = reviewByCurrentIdentity.Comment;
-                this.UserReview.CoffeeRating = reviewByCurrentIdentity.CoffeeRating;
-                this.UserReview.AtmosphereRating = reviewByCurrentIdentity.AtmosphereRating;
-            }
-            else
-            {
-                this.UserReview.Comment = null;
-                this.UserReview.CoffeeRating = null;
-                this.UserReview.AtmosphereRating = null;
-            }
+            this.UserReview.Initialize(reviewByCurrentIdentity);
             this.RaisePropertyChanged(() => this.UserReview);
         }
 

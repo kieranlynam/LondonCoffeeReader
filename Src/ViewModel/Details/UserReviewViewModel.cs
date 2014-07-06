@@ -11,6 +11,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private readonly IDataService dataService;
         private readonly IIdentityService identityService;
 
+        private bool isDirty;
         private string comment;
         private Cafe associatedCafe;
         private double? coffeeRating;
@@ -23,14 +24,10 @@ namespace CoffeeClientPrototype.ViewModel.Details
             get { return this.comment; }
             set
             {
-                var before = this.CanExecuteSubmit();
                 if (this.Set(ref this.comment, value))
                 {
-                    var after = this.CanExecuteSubmit();
-                    if (before != after)
-                    {
-                        this.Submit.RaiseCanExecuteChanged();
-                    }
+                    this.isDirty = true;
+                    this.Submit.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -40,14 +37,10 @@ namespace CoffeeClientPrototype.ViewModel.Details
             get { return this.coffeeRating; }
             set
             {
-                var before = this.CanExecuteSubmit();
                 if (this.Set(ref this.coffeeRating, value))
                 {
-                    var after = this.CanExecuteSubmit();
-                    if (before != after)
-                    {
-                        this.Submit.RaiseCanExecuteChanged();
-                    }
+                    this.isDirty = true;
+                    this.Submit.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -57,14 +50,10 @@ namespace CoffeeClientPrototype.ViewModel.Details
             get { return this.atmosphereRating; }
             set
             {
-                var before = this.CanExecuteSubmit();
                 if (this.Set(ref this.atmosphereRating, value))
                 {
-                    var after = this.CanExecuteSubmit();
-                    if (before != after)
-                    {
-                        this.Submit.RaiseCanExecuteChanged();
-                    }
+                    this.isDirty = true;
+                    this.Submit.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -93,6 +82,15 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Submit = new RelayCommand(this.OnSubmitExecuted, this.CanExecuteSubmit);
         }
 
+        public void Initialize(Review review = null)
+        {
+            this.Set(ref this.comment, review != null ? review.Comment : null);
+            this.Set(ref this.coffeeRating, review != null ? review.CoffeeRating : (double?) null);
+            this.Set(ref this.atmosphereRating, review != null ? review.AtmosphereRating : (double?) null);
+            this.isDirty = false;
+            this.Submit.RaiseCanExecuteChanged();
+        }
+
         private bool CanExecuteSubmit()
         {
             if (this.identityService.Id == null)
@@ -105,22 +103,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 return false;
             }
 
-            if (string.IsNullOrEmpty(this.comment))
-            {
-                return false;
-            }
-
-            if (!this.coffeeRating.HasValue)
-            {
-                return false;
-            }
-
-            if (!this.atmosphereRating.HasValue)
-            {
-                return false;
-            }
-            
-            return true;
+            return this.isDirty;
         }
 
         private void OnSubmitExecuted()
