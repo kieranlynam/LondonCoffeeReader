@@ -70,6 +70,7 @@
     <Compile Include="Details\DetailsViewModelTests.cs" />
     <Compile Include="Details\ReviewViewModelTests.cs" />
     <Compile Include="List\CafeListItemTests.cs" />
+    <Compile Include="List\MapViewModelTests.cs" />
     <Compile Include="MockIdentityService.cs" />
     <Compile Include="MockNavigationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

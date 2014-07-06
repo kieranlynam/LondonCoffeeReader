@@ -11,14 +11,17 @@ namespace ViewModel.Tests
 
         public List<Cafe> Cafes { get { return this.DataService.Cafes; } }
 
-        public MockDataService DataService { get; private set; }
+        internal MockDataService DataService { get; private set; }
 
-        public MockIdentityService IdentityService { get; private set; }
+        internal MockIdentityService IdentityService { get; private set; }
+
+        internal MockNavigationService NavigationService { get; private set; }
 
         public BaseTestContext()
         {
             this.DataService = new MockDataService();
             this.IdentityService = new MockIdentityService();
+            this.NavigationService = new MockNavigationService();
             this.savedSynchronizationContext = SynchronizationContext.Current;
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
         }

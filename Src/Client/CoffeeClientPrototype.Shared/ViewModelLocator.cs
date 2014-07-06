@@ -48,6 +48,7 @@ namespace CoffeeClientPrototype
 
             SimpleIoc.Default.Register<ListViewModel>();
             SimpleIoc.Default.Register<DetailsViewModel>();
+            SimpleIoc.Default.Register<MapViewModel>();
         }
 
         public ListViewModel List
@@ -63,6 +64,14 @@ namespace CoffeeClientPrototype
             get
             {
                 return ServiceLocator.Current.GetInstance<DetailsViewModel>();
+            }
+        }
+
+        public MapViewModel Map
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<MapViewModel>();
             }
         }
         

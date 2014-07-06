@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using CoffeeClientPrototype.View;
@@ -15,7 +16,21 @@ namespace CoffeeClientPrototype.Services
 
         public void Navigate(string destination, IDictionary<string, object> parameters = null)
         {
-            Frame.Navigate(typeof(CafeDetailsPage), parameters);
+            switch (destination)
+            {
+                case "CafeDetails":
+                    Frame.Navigate(typeof(CafeDetailsPage), parameters);
+                    break;
+
+#if WINDOWS_PHONE_APP
+                case "Map":
+                    Frame.Navigate(typeof(MapPage), parameters);
+                    break;
+#endif
+
+                default:
+                    throw new NotSupportedException(destination + " navigation destination not supported");
+            }
         }
     }
 }

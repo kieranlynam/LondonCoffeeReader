@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace CoffeeClientPrototype.ViewModel.List
 {
@@ -13,12 +15,20 @@ namespace CoffeeClientPrototype.ViewModel.List
         private readonly IDataService dataService;
         private readonly INavigationService navigationService;
 
+
+        public ObservableCollection<ListItemViewModel> NearbyCafes { get; private set; }
+
+        public ObservableCollection<ListItemViewModel> BestCafes { get; private set; }
+
+        public RelayCommand ShowMap { get; private set; }
+
         public ListViewModel(IDataService dataService, INavigationService navigationService)
         {
             this.dataService = dataService;
             this.navigationService = navigationService;
             this.BestCafes = new ObservableCollection<ListItemViewModel>();
             this.NearbyCafes = new ObservableCollection<ListItemViewModel>();
+            this.ShowMap = new RelayCommand(this.OnShowMapExecuted);
 
 #if DEBUG
             if (this.IsInDesignMode)
@@ -27,10 +37,6 @@ namespace CoffeeClientPrototype.ViewModel.List
             }
 #endif
         }
-
-        public ObservableCollection<ListItemViewModel> NearbyCafes { get; private set; }
-
-        public ObservableCollection<ListItemViewModel> BestCafes { get; private set; }
 
         public async Task OnNavigatedTo(IDictionary<string,object> parameters = null)
         {
@@ -64,9 +70,15 @@ namespace CoffeeClientPrototype.ViewModel.List
                 this.NearbyCafes.Add(item);
             }
         }
+
         private ListItemViewModel CreateCafeListItem(Cafe cafe)
         {
             return new ListItemViewModel(cafe, this.navigationService);
+        }
+
+        private void OnShowMapExecuted()
+        {
+            this.navigationService.Navigate("Map");
         }
     }
 }

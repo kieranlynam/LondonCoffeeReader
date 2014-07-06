@@ -59,13 +59,23 @@ namespace ViewModel.Tests.List
             }
         }
 
+        [TestMethod]
+        public void ShowMap()
+        {
+            using (var context = new Context())
+            {
+                context.ViewModel.ShowMap.Execute(null);
+                Assert.AreEqual("Map", context.NavigationService.Current.Location);
+            }
+        }
+
         private class Context : BaseTestContext
         {
             public ListViewModel ViewModel { get; private set; }
 
             public Context()
             {
-                this.ViewModel = new ListViewModel(this.DataService, new MockNavigationService());
+                this.ViewModel = new ListViewModel(this.DataService, this.NavigationService);
             }
         }
     }

@@ -41,6 +41,7 @@
     <Compile Include="INavigationListener.cs" />
     <Compile Include="List\ListViewModel.cs" />
     <Compile Include="List\NavigateToCafeDetailsCommand.cs" />
+    <Compile Include="List\MapViewModel.cs" />
     <Compile Include="NavigationExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

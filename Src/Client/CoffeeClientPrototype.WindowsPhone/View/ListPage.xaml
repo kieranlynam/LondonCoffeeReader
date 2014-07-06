@@ -37,6 +37,11 @@
 			</Grid>
 		</DataTemplate>		
 	</Page.Resources>
+	<Page.BottomAppBar>
+		<CommandBar>
+			<AppBarButton Icon="Globe" Label="map" Command="{Binding ShowMap, Mode=OneWay}"/>
+		</CommandBar>
+	</Page.BottomAppBar>
 	
 	<Pivot Title="London Coffee" TitleTemplate="{StaticResource PivotTitleTemplate}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
 		<PivotItem Header="Best">
