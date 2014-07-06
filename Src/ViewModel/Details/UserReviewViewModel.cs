@@ -85,8 +85,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
         public void Initialize(Review review = null)
         {
             this.Set(ref this.comment, review != null ? review.Comment : null);
-            this.Set(ref this.coffeeRating, review != null ? review.CoffeeRating : (double?) null);
-            this.Set(ref this.atmosphereRating, review != null ? review.AtmosphereRating : (double?) null);
+            this.Set(ref this.coffeeRating, review != null ? review.CoffeeRating : null);
+            this.Set(ref this.atmosphereRating, review != null ? review.AtmosphereRating : null);
             this.isDirty = false;
             this.Submit.RaiseCanExecuteChanged();
         }

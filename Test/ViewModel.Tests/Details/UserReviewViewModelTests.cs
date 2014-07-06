@@ -24,6 +24,42 @@ namespace ViewModel.Tests.Details
                 Assert.AreEqual("Great!", context.ViewModel.Comment, "Comment");
                 Assert.AreEqual(3.5, context.ViewModel.CoffeeRating, "CoffeeRating");
                 Assert.AreEqual(4, context.ViewModel.AtmosphereRating, "AtmosphereRating");
+
+                // without a comment
+                context.ViewModel.Initialize(
+                    new Review
+                    {
+                        Comment = null,
+                        CoffeeRating = 2.5,
+                        AtmosphereRating = 5
+                    });
+                Assert.IsNull(context.ViewModel.Comment, "Comment");
+                Assert.AreEqual(2.5, context.ViewModel.CoffeeRating, "CoffeeRating");
+                Assert.AreEqual(5, context.ViewModel.AtmosphereRating, "AtmosphereRating");
+
+                // without a coffee rating
+                context.ViewModel.Initialize(
+                    new Review
+                    {
+                        Comment = "Fab!",
+                        CoffeeRating = null,
+                        AtmosphereRating = 5
+                    });
+                Assert.AreEqual("Fab!", context.ViewModel.Comment, "Comment");
+                Assert.IsNull(context.ViewModel.CoffeeRating, "CoffeeRating");
+                Assert.AreEqual(5, context.ViewModel.AtmosphereRating, "AtmosphereRating");
+
+                // without an atmosphere rating
+                context.ViewModel.Initialize(
+                    new Review
+                    {
+                        Comment = "OK",
+                        CoffeeRating = 2,
+                        AtmosphereRating = null
+                    });
+                Assert.AreEqual("OK", context.ViewModel.Comment, "Comment");
+                Assert.AreEqual(2, context.ViewModel.CoffeeRating, "CoffeeRating");
+                Assert.IsNull(context.ViewModel.AtmosphereRating, "AtmosphereRating");
             }
         }
 

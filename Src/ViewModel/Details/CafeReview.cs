@@ -9,8 +9,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
     public class CafeReview : INotifyPropertyChanged
     {
         private string comment;
-        private double coffeeRating;
-        private double atmosphereRating;
+        private double? coffeeRating;
+        private double? atmosphereRating;
         private string submittedBy;
         private DateTime submittedDate;
 
@@ -25,7 +25,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             }
         }
 
-        public double CoffeeRating
+        public double? CoffeeRating
         {
             get { return coffeeRating; }
             set
@@ -36,7 +36,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             }
         }
 
-        public double AtmosphereRating
+        public double? AtmosphereRating
         {
             get { return this.atmosphereRating; }
             set

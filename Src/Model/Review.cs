@@ -6,9 +6,9 @@ namespace CoffeeClientPrototype.Model
     {
         public string Comment { get; set; }
 
-        public double CoffeeRating { get; set; }
+        public double? CoffeeRating { get; set; }
 
-        public double AtmosphereRating { get; set; }
+        public double? AtmosphereRating { get; set; }
 
         public string SubmittedBy { get; set; }
 
