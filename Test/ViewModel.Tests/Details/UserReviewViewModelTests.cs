@@ -104,6 +104,43 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
+        public void SubmittingTrimsComment()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 5 };
+                context.DataService.Cafes.Add(cafe);
+
+                context.IdentityService.Id = "UserA";
+                context.ViewModel.AssociatedCafe = cafe;
+                context.ViewModel.Comment = " Love  it!  ";
+                context.ViewModel.Submit.Execute(null);
+
+                var review = context.DataService.Reviews[cafe].Single();
+                Assert.AreEqual("Love  it!", review.Comment, "Comment");
+            }
+        }
+
+        [TestMethod]
+        public void SubmittingSkipsSaveIfNothingToSubmitAfterTrimming()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = 5 };
+                context.DataService.Cafes.Add(cafe);
+
+                context.IdentityService.Id = "UserA";
+                context.ViewModel.AssociatedCafe = cafe;
+                context.ViewModel.Comment = "   ";
+                context.ViewModel.CoffeeRating = null;
+                context.ViewModel.AtmosphereRating = null;
+                context.ViewModel.Submit.Execute(null);
+
+                Assert.IsFalse(context.DataService.Reviews.ContainsKey(cafe));
+            }
+        }
+
+        [TestMethod]
         public void SubmittingRaisesEvent()
         {
             using (var context = new Context())

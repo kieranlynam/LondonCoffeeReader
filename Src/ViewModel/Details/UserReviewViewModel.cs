@@ -108,6 +108,14 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private async void OnSubmitExecuted()
         {
+            if (this.comment != null)
+            {
+                var formatted = this.comment.Trim();
+                formatted = formatted.Length > 0 ? formatted : null;
+                this.comment = formatted;
+                this.RaisePropertyChanged(() => this.Comment);
+            }
+
             var review = new Review
                 {
                     Comment = this.comment,
@@ -122,12 +130,17 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 review.AtmosphereRating = this.atmosphereRating.Value;
             }
 
+            this.isDirty = false;
+            this.Submit.RaiseCanExecuteChanged();
+
+            if (review.Comment == null && review.CoffeeRating == null && review.AtmosphereRating == null)
+            {
+                return;
+            }
+            
             await this.dataService.SaveCafeReview(
                 this.AssociatedCafe.Id,
                 review);
-
-            this.isDirty = false;
-            this.Submit.RaiseCanExecuteChanged();
 
             if (this.ReviewSubmitted != null)
             {
