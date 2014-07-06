@@ -4,12 +4,116 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Callisto.Controls"
+    xmlns:converters="using:CoffeeClientPrototype.Converters"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=Details}">
+	
+    <Page.BottomAppBar>
+		<CommandBar IsOpen="True">
+			<AppBarButton Label="Show Map" Command="{Binding ShowMap, Mode=OneWay}" Icon="Map"/>
+		</CommandBar>
+	</Page.BottomAppBar>
+
+    <Page.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+        <converters:VotesCountToTextConverter x:Key="VotesCountToTextConverter"/>
+        <DataTemplate x:Key="ReviewDataTemplate">
+            <Grid Margin="0,0,0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="55"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Rectangle
+                    HorizontalAlignment="Left"
+                    Width="45"
+                    Height="45"
+                    Fill="Navy"
+                    Grid.Column="0" />
+                <TextBlock
+                    FontFamily="Tw Cen MT Condensed"
+                    FontSize="16"
+                    TextWrapping="Wrap"
+                    Text="{Binding Comment}"
+                    VerticalAlignment="Top"
+                    Grid.Column="1" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ReviewListHeaderTemplate">
+            <Grid Margin="0,0,0,8">
+                <TextBlock Text="{Binding}" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    
-        <TextBlock FontSize="54" Margin="0, 24, 0, 0" Text="{Binding Name}" />
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="Auto"/>
+    		<RowDefinition Height="Auto"/>
+    		<RowDefinition Height="*"/>
+    	</Grid.RowDefinitions>
         
+        <TextBlock FontSize="54" Margin="0, 24, 0, 0" Text="{Binding Name, Mode=OneWay}" />
+
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+
+            <!-- Address -->
+            <TextBlock
+                            Text="{Binding Address, Mode=OneWay}"
+                            Margin="0,0,0,12" />
+
+            <!-- Number Of Votes -->
+            <TextBlock
+                            Text="{Binding NumberOfVotes, Converter={StaticResource VotesCountToTextConverter}, Mode=OneWay}"
+                            Margin="0,0,0,12" />
+
+            <!-- Ratings -->
+            <Grid Height="80">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                                Text="Coffee"
+                                Margin="0,0,12,0" />
+                <controls:Rating
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Margin="0,-5,0,0"
+                                Tag="💧"
+                                ReadOnlyFill="{StaticResource PrimaryForecolour}"
+                                ItemCount="5"
+                                IsEnabled="False"
+                                Value="{Binding CoffeeRating}"
+                                SelectionMode="Continuous" />
+
+                <TextBlock 
+                                Text="Atmosphere"
+                                Margin="0,0,12,0"
+                                Grid.Column="0"
+                                Grid.Row="1" />
+                <controls:Rating
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Margin="0,-5,0,0"
+                                Tag="💧"
+                                ReadOnlyFill="{StaticResource PrimaryForecolour}"
+                                ItemCount="5"
+                                IsEnabled="False"
+                                Value="{Binding AtmosphereRating}"
+                                SelectionMode="Continuous" />
+            </Grid>
+        </StackPanel>
+
+        <!-- Reviews -->
+        <ListView
+                		ItemsSource="{Binding Reviews}"
+						ItemTemplate="{StaticResource ReviewDataTemplate}"
+						Grid.Row="2" Header="{Binding Reviews.Count, ConverterParameter=\{0\} reviews, Converter={StaticResource StringFormatConverter}, Mode=OneWay}" HeaderTemplate="{StaticResource ReviewListHeaderTemplate}"/>
     </Grid>
 </Page>
