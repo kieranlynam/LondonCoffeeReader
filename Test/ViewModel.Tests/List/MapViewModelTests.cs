@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.List;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,7 +11,7 @@ namespace ViewModel.Tests.List
     public class MapViewModelTests
     {
         [TestMethod]
-        public void CafesPopulatedWhenNavigatedTo()
+        public async Task CafesPopulatedWhenNavigatedTo()
         {
             using (var context = new Context())
             {
@@ -19,7 +20,7 @@ namespace ViewModel.Tests.List
                     context.Cafes.Add(new Cafe { Id = id, Name = id.ToString() });
                 }
 
-                context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
+                await context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
 
                 var expectedNames = Enumerable.Range(0, 50).Select(i => i.ToString()).ToArray();
                 var actualNames = context.ViewModel.Cafes.Select(c => c.Name).ToArray();
