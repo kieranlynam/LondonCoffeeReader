@@ -16,9 +16,9 @@ namespace CoffeeClientPrototype.ViewModel.List
         private readonly INavigationService navigationService;
 
 
-        public ObservableCollection<ListItemViewModel> NearbyCafes { get; private set; }
+        public ObservableCollection<CafeSummaryViewModel> NearbyCafes { get; private set; }
 
-        public ObservableCollection<ListItemViewModel> BestCafes { get; private set; }
+        public ObservableCollection<CafeSummaryViewModel> BestCafes { get; private set; }
 
         public RelayCommand ShowMap { get; private set; }
 
@@ -26,8 +26,8 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             this.dataService = dataService;
             this.navigationService = navigationService;
-            this.BestCafes = new ObservableCollection<ListItemViewModel>();
-            this.NearbyCafes = new ObservableCollection<ListItemViewModel>();
+            this.BestCafes = new ObservableCollection<CafeSummaryViewModel>();
+            this.NearbyCafes = new ObservableCollection<CafeSummaryViewModel>();
             this.ShowMap = new RelayCommand(this.OnShowMapExecuted);
 
 #if DEBUG
@@ -51,7 +51,7 @@ namespace CoffeeClientPrototype.ViewModel.List
                 .OrderByDescending(cafe => (cafe.CoffeeRating + cafe.AtmosphereRating) / 2)
                 .ThenByDescending(cafe => cafe.NumberOfVotes)
                 .Take(10)
-                .Select(CreateCafeListItem);
+                .Select(this.CreateCafeSummary);
 
             this.BestCafes.Clear();
             foreach (var item in items)
@@ -62,7 +62,7 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         private void PopulateNearbyCafes(IEnumerable<Cafe> cafes)
         {
-            var items = cafes.Select(CreateCafeListItem);
+            var items = cafes.Select(this.CreateCafeSummary);
 
             this.NearbyCafes.Clear();
             foreach (var item in items)
@@ -71,9 +71,9 @@ namespace CoffeeClientPrototype.ViewModel.List
             }
         }
 
-        private ListItemViewModel CreateCafeListItem(Cafe cafe)
+        private CafeSummaryViewModel CreateCafeSummary(Cafe cafe)
         {
-            return new ListItemViewModel(cafe, this.navigationService);
+            return new CafeSummaryViewModel(cafe, this.navigationService);
         }
 
         private void OnShowMapExecuted()

@@ -13,13 +13,13 @@ namespace CoffeeClientPrototype.ViewModel.List
         private readonly INavigationService navigationService;
         private readonly IDataService dataService;
 
-        public ObservableCollection<ListItemViewModel> Cafes { get; private set; }
+        public ObservableCollection<CafeSummaryViewModel> Cafes { get; private set; }
 
         public MapViewModel(INavigationService navigationService, IDataService dataService)
         {
             this.navigationService = navigationService;
             this.dataService = dataService;
-            this.Cafes = new ObservableCollection<ListItemViewModel>();
+            this.Cafes = new ObservableCollection<CafeSummaryViewModel>();
         }
 
         public async Task OnNavigatedTo(IDictionary<string, object> parameters)
@@ -28,7 +28,7 @@ namespace CoffeeClientPrototype.ViewModel.List
             {
                 foreach (var cafe in await this.dataService.GetAllCafes())
                 {
-                    this.Cafes.Add(new ListItemViewModel(cafe, this.navigationService));
+                    this.Cafes.Add(new CafeSummaryViewModel(cafe, this.navigationService));
                 }
             }
         }

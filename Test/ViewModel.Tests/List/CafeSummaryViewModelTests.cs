@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ViewModel.Tests.List
 {
     [TestClass]
-    public class CafeListItemTests
+    public class CafeSummaryViewModelTests
     {
         [TestMethod]
         public void PropertiesPopulatedFromModel()
@@ -22,7 +22,7 @@ namespace ViewModel.Tests.List
                     NumberOfVotes = 12
                 };
 
-            var result = new ListItemViewModel(cafe, new MockNavigationService());
+            var result = new CafeSummaryViewModel(cafe, new MockNavigationService());
 
             Assert.AreEqual("Coffee Shop", result.Name, "Name");
             Assert.AreEqual(45, result.Longitude, "Longitude");
@@ -56,7 +56,7 @@ namespace ViewModel.Tests.List
                         }
                 };
 
-            var result = new ListItemViewModel(cafe, new MockNavigationService());
+            var result = new CafeSummaryViewModel(cafe, new MockNavigationService());
 
             Assert.IsNotNull(result.Photo);
             Assert.AreEqual("Dick", result.Photo.SubmittedBy);
@@ -67,7 +67,7 @@ namespace ViewModel.Tests.List
         {
             var navigationService = new MockNavigationService();
             var cafe = new Cafe { Id = 1 };
-            var item = new ListItemViewModel(cafe, navigationService);
+            var item = new CafeSummaryViewModel(cafe, navigationService);
             
             item.Navigate.Execute(null);
 

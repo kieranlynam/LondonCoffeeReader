@@ -8,7 +8,7 @@ using CoffeeClientPrototype.ViewModel.Services;
 
 namespace CoffeeClientPrototype.ViewModel.List
 {
-    public class ListItemViewModel : INotifyPropertyChanged
+    public class CafeSummaryViewModel : INotifyPropertyChanged
     {
         private string name;
         private double rating;
@@ -87,7 +87,7 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ListItemViewModel(Cafe model, INavigationService navigationService)
+        public CafeSummaryViewModel(Cafe model, INavigationService navigationService)
         {
             this.Navigate = new NavigateToCafeDetailsCommand(model, navigationService);
             this.Populate(model);
