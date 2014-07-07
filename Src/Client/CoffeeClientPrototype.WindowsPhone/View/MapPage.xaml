@@ -1,15 +1,25 @@
 ﻿<Page
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:CoffeeClientPrototype.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:CoffeeClientPrototype="using:CoffeeClientPrototype"
+    xmlns:converters="using:CoffeeClientPrototype.Converters"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     x:Class="CoffeeClientPrototype.View.MapPage"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" DataContext="{Binding Map, Mode=OneWay, Source={StaticResource Locator}}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+	<Page.Resources>
+		<converters:GeopointConverter x:Key="GeopointConverter"/>
+	</Page.Resources>
+	<Page.DataContext>
+		<Binding Mode="OneWay" Path="Map" Source="{StaticResource Locator}"/>
+	</Page.DataContext>
 
 	<Grid>
-
+		<maps:MapControl
+            MapServiceToken="AgmOZx1ALYdlKdLAblFANCcxD8-tEhNq7l1bm0iaJbxc931t3nXEXCMonZQe3288"
+            ZoomLevel="16"
+            Center="{Binding Centre, Converter={StaticResource GeopointConverter}, Mode=OneWay}"/>
 	</Grid>
 </Page>

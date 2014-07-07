@@ -44,6 +44,7 @@ namespace CoffeeClientPrototype
 
             SimpleIoc.Default.Register<INavigationService, NavigationService>();
 
+            SimpleIoc.Default.Register<IGeolocationProvider, GeolocationProvider>(true);
             SimpleIoc.Default.Register<IMapLauncher, MapLauncher>();
 
             SimpleIoc.Default.Register<ListViewModel>();
