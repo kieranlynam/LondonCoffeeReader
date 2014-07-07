@@ -20,7 +20,9 @@ namespace CoffeeClientPrototype.Services
                     AtmosphereRating = 5,
                     NumberOfVotes = 250,
                     Address = "47 King Henry's Walk",
-                    PostCode = "N1 4NH"
+                    PostCode = "N1 4NH",
+                    Latitude = 51.549112,
+                    Longitude = -0.07934
                 },
                 new Cafe
                 {
@@ -31,8 +33,8 @@ namespace CoffeeClientPrototype.Services
                     NumberOfVotes = 320,
                     Address = "213 Old Street",
                     PostCode = "EC1V 9NR",
-                    Latitude = -0.088196,
-                    Longitude = 51.526
+                    Latitude = 51.526,
+                    Longitude = -0.088196
                 },
                 new Cafe
                 {

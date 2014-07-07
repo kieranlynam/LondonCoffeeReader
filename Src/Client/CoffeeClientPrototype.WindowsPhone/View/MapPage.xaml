@@ -18,6 +18,7 @@
 
 	<Grid>
 		<maps:MapControl
+            x:Name="Map"
             MapServiceToken="AgmOZx1ALYdlKdLAblFANCcxD8-tEhNq7l1bm0iaJbxc931t3nXEXCMonZQe3288"
             ZoomLevel="16"
             Center="{Binding Centre, Converter={StaticResource GeopointConverter}, Mode=OneWay}"/>
