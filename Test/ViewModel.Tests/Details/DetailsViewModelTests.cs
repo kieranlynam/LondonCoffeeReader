@@ -107,7 +107,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void ReviewsWithCommentsSkippedWhenPopulating()
+        public void ReviewsWithoutCommentsSkippedWhenPopulating()
         {
             using (var context = new Context())
             {
