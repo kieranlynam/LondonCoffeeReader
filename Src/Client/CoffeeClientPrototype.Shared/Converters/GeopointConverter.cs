@@ -22,6 +22,17 @@ namespace CoffeeClientPrototype.Converters
                 return new Geopoint(position);
             }
 
+            var viewmodel = value as CafeSummaryViewModel;
+            if (viewmodel != null)
+            {
+                var position = new BasicGeoposition
+                    {
+                        Latitude = viewmodel.Latitude,
+                        Longitude = viewmodel.Longitude
+                    };
+                return new Geopoint(position);
+            }
+
             return value;
         }
 

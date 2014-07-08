@@ -76,16 +76,16 @@ namespace CoffeeClientPrototype.View
         private void AddCafeToMap(CafeSummaryViewModel cafe)
         {
             var position = new BasicGeoposition
-            {
-                Latitude = cafe.Latitude,
-                Longitude = cafe.Longitude
-            };
+                {
+                    Latitude = cafe.Latitude,
+                    Longitude = cafe.Longitude
+                };
             var icon = new MapIcon
-            {
-                Location = new Geopoint(position),
-                NormalizedAnchorPoint = new Point(1.0, 0.5),
-                Title = cafe.Name
-            };
+                {
+                    Location = new Geopoint(position),
+                    NormalizedAnchorPoint = new Point(1.0, 0.5),
+                    Title = cafe.Name
+                };
 
             this.Map.MapElements.Add(icon);
         }
