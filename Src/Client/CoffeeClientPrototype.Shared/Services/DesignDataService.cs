@@ -44,7 +44,21 @@ namespace CoffeeClientPrototype.Services
                     AtmosphereRating = 3.5,
                     NumberOfVotes = 527,
                     Address = "23-25 Leather Ln",
-                    PostCode = "EC1N 7TE"
+                    PostCode = "EC1N 7TE",
+                    Latitude = 51.519933,
+                    Longitude = -0.109494
+                },
+                new Cafe
+                {
+                    Id = 4,
+                    Name = "Railroad",
+                    CoffeeRating = 4,
+                    AtmosphereRating = 4,
+                    NumberOfVotes = 127,
+                    Address = "120-122 Morning Ln",
+                    PostCode = "E9 6LH",
+                    Latitude = 51.546979,
+                    Longitude = -0.049501
                 }
             };
 

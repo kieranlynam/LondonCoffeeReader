@@ -9,7 +9,7 @@ namespace CoffeeClientPrototype.Services
     {
         public async Task<bool> Launch(double longitude, double latitude, string name)
         {
-            var uri = new Uri(string.Format("bingmaps:?cp={0}~{1}&lvl=16&collection=point.{0}_{1}_{2}", longitude, latitude, name));
+            var uri = new Uri(string.Format("bingmaps:?cp={0}~{1}&lvl=16&collection=point.{0}_{1}_{2}", latitude, longitude, name));
             return await Launcher.LaunchUriAsync(uri);
         }
     }
