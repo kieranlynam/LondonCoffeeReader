@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.List;
+using CoffeeClientPrototype.ViewModel.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ViewModel.Tests.List
@@ -60,6 +61,26 @@ namespace ViewModel.Tests.List
         }
 
         [TestMethod]
+        public async Task NearbyCafesSortedByDistance()
+        {
+            using (var context = new Context())
+            {
+                context.Cafes.Add(new Cafe { Name = "C", Latitude = 1,  Longitude = 1 });
+                context.Cafes.Add(new Cafe { Name = "A", Latitude = 9,  Longitude = 8 });
+                context.Cafes.Add(new Cafe { Name = "B", Latitude = 5,  Longitude = 6 });
+                context.Cafes.Add(new Cafe { Name = "D", Latitude = 25, Longitude = 20 });
+
+                context.GeolocationProvider.CurrentLocation = new Coordinate(10, 10);
+
+                await context.ViewModel.OnNavigatedTo();
+
+                var expected = new[] { "A", "B", "C", "D" };
+                var actual = context.ViewModel.NearbyCafes.Select(cafe => cafe.Name).ToArray();
+                CollectionAssert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
         public void ShowMap()
         {
             using (var context = new Context())
@@ -73,9 +94,16 @@ namespace ViewModel.Tests.List
         {
             public ListViewModel ViewModel { get; private set; }
 
+            public MockGeolocationProvider GeolocationProvider { get; private set; }
+
             public Context()
             {
-                this.ViewModel = new ListViewModel(this.DataService, this.NavigationService);
+                this.GeolocationProvider = new MockGeolocationProvider();
+                
+                this.ViewModel = new ListViewModel(
+                    this.DataService,
+                    this.NavigationService,
+                    this.GeolocationProvider);
             }
         }
     }

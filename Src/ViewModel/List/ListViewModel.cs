@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
@@ -14,7 +15,7 @@ namespace CoffeeClientPrototype.ViewModel.List
     {
         private readonly IDataService dataService;
         private readonly INavigationService navigationService;
-
+        private readonly IGeolocationProvider geolocationProvider;
 
         public ObservableCollection<CafeSummaryViewModel> NearbyCafes { get; private set; }
 
@@ -22,10 +23,11 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         public RelayCommand ShowMap { get; private set; }
 
-        public ListViewModel(IDataService dataService, INavigationService navigationService)
+        public ListViewModel(IDataService dataService, INavigationService navigationService, IGeolocationProvider geolocationProvider)
         {
             this.dataService = dataService;
             this.navigationService = navigationService;
+            this.geolocationProvider = geolocationProvider;
             this.BestCafes = new ObservableCollection<CafeSummaryViewModel>();
             this.NearbyCafes = new ObservableCollection<CafeSummaryViewModel>();
             this.ShowMap = new RelayCommand(this.OnShowMapExecuted);
@@ -42,7 +44,10 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             var cafes = await this.dataService.GetAllCafes();
             this.PopulateBestCafes(cafes);
-            this.PopulateNearbyCafes(cafes);
+
+            // TODO: Proper cancellation token
+            var location = await this.geolocationProvider.GetLocationAsync(new CancellationToken());
+            this.PopulateNearbyCafes(location, cafes);
         }
 
         private void PopulateBestCafes(IEnumerable<Cafe> cafes)
@@ -60,9 +65,11 @@ namespace CoffeeClientPrototype.ViewModel.List
             }
         }
 
-        private void PopulateNearbyCafes(IEnumerable<Cafe> cafes)
+        private void PopulateNearbyCafes(Coordinate location, IEnumerable<Cafe> cafes)
         {
-            var items = cafes.Select(this.CreateCafeSummary);
+            var items = cafes
+                .OrderBy(cafe => DistanceCalculator.GetDistanceBetween(location.Latitude, location.Longitude, cafe.Latitude, cafe.Longitude))
+                .Select(this.CreateCafeSummary);
 
             this.NearbyCafes.Clear();
             foreach (var item in items)

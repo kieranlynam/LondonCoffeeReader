@@ -69,7 +69,11 @@ namespace ViewModel.Tests.List
             public Context()
             {
                 this.GeolocationProvider = new MockGeolocationProvider();
-                this.ViewModel = new MapViewModel(this.NavigationService, this.DataService, this.GeolocationProvider);
+                
+                this.ViewModel = new MapViewModel(
+                    this.NavigationService,
+                    this.DataService,
+                    this.GeolocationProvider);
             }
         }
     }
