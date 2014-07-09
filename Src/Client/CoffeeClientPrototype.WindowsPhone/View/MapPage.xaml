@@ -25,8 +25,7 @@
         <maps:MapControl
 			x:Name="Map"
 			MapServiceToken="AgmOZx1ALYdlKdLAblFANCcxD8-tEhNq7l1bm0iaJbxc931t3nXEXCMonZQe3288"
-			ZoomLevel="16"
-			Center="{Binding Centre, Converter={StaticResource GeopointConverter}, Mode=OneWay}">
+			ZoomLevel="16">
 		</maps:MapControl>
 		
         <Grid Height="100" VerticalAlignment="Bottom" Background="#74000000" Canvas.ZIndex="1">

@@ -16,7 +16,7 @@ namespace CoffeeClientPrototype.ViewModel.List
         private readonly IGeolocationProvider geolocationProvider;
         private CafeSummaryViewModel selectedCafe;
 
-        public ObservableCoordinate Centre { get; private set; }
+        public const string CurrentLocationPropertyName = "CurrentLocation";
 
         public ObservableCoordinate CurrentLocation { get; private set; }
 
@@ -35,11 +35,11 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.geolocationProvider = geolocationProvider;
             this.Cafes = new ObservableCollection<MapCafeSummaryViewModel>();
             this.CurrentLocation = new ObservableCoordinate();
-            this.Centre = new ObservableCoordinate
-                            {
-                                Latitude = 51.5214859,
-                                Longitude = -0.1072635,
-                            };
+            new ObservableCoordinate
+            {
+                Latitude = 51.5214859,
+                Longitude = -0.1072635
+            };
 #if DEBUG
             if (this.IsInDesignMode)
             {
@@ -96,16 +96,7 @@ namespace CoffeeClientPrototype.ViewModel.List
             if (nearestCafe != null && nearestCafe.DistanceToCurrentLocation < 1500)
             {
                 this.SelectedCafe = nearestCafe;
-                this.PopulateCentre(new Coordinate(nearestCafe.Latitude, nearestCafe.Longitude));
             }
-        }
-
-        private void PopulateCentre(Coordinate location)
-        {
-            if (location == null) return;
-            this.Centre.Latitude = location.Latitude;
-            this.Centre.Longitude = location.Longitude;
-            this.RaisePropertyChanged(() => this.Centre);
         }
     }
 }

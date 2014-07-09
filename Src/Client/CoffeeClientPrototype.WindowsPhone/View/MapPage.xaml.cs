@@ -1,4 +1,6 @@
-﻿using CoffeeClientPrototype.ViewModel.List;
+﻿using System;
+using System.ComponentModel;
+using CoffeeClientPrototype.ViewModel.List;
 using System.Collections.Specialized;
 using System.Linq;
 using Windows.Devices.Geolocation;
@@ -14,6 +16,9 @@ namespace CoffeeClientPrototype.View
     /// </summary>
     public sealed partial class MapPage
     {
+        private MapIcon currentLocationIcon;
+        private bool hasCentredMap;
+
         public MapViewModel ViewModel
         {
             get { return ((ViewModelLocator)Application.Current.Resources["Locator"]).Map; }
@@ -22,6 +27,12 @@ namespace CoffeeClientPrototype.View
         public MapPage()
         {
             this.InitializeComponent();
+            this.Map.Center = new Geopoint(
+                new BasicGeoposition
+                {
+                    Latitude = 51.5214859,
+                    Longitude = -0.1072635
+                });
         }
 
         /// <summary>
@@ -32,8 +43,17 @@ namespace CoffeeClientPrototype.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            this.ViewModel.PropertyChanged += this.OnViewModelPropertyChanged;
             this.Map.LoadingStatusChanged += this.OnMapLoadingStatusChanged;
             this.NotifyNavigatedTo(e);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            this.ViewModel.Cafes.CollectionChanged -= this.OnCafesCollectionChanged;
+            this.ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
+            this.Map.LoadingStatusChanged -= this.OnMapLoadingStatusChanged;
         }
 
         private void OnMapLoadingStatusChanged(MapControl sender, object args)
@@ -46,14 +66,42 @@ namespace CoffeeClientPrototype.View
                 {
                     this.AddCafeToMap(cafe);
                 }
+
+                this.TryCenterMap();
             }
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            base.OnNavigatedFrom(e);
-            this.ViewModel.Cafes.CollectionChanged -= this.OnCafesCollectionChanged;
-            this.Map.LoadingStatusChanged -= this.OnMapLoadingStatusChanged;
+            if (args.PropertyName == MapViewModel.CurrentLocationPropertyName)
+            {
+                this.UpdateCurrentLocationIcon();
+                this.TryCenterMap();
+            }
+        }
+
+        private void UpdateCurrentLocationIcon()
+        {
+            var position = new BasicGeoposition
+                {
+                    Latitude = this.ViewModel.CurrentLocation.Latitude,
+                    Longitude = this.ViewModel.CurrentLocation.Longitude
+                };
+
+            if (this.currentLocationIcon == null)
+            {
+                this.currentLocationIcon = new MapIcon
+                    {
+                        Location = new Geopoint(position),
+                        NormalizedAnchorPoint = new Point(1.0, 0.5),
+                    };
+
+                this.Map.MapElements.Add(this.currentLocationIcon);
+            }
+            else
+            {
+                this.currentLocationIcon.Location = new Geopoint(position);
+            }
         }
 
         private void OnCafesCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
@@ -64,6 +112,8 @@ namespace CoffeeClientPrototype.View
                 {
                     this.AddCafeToMap(cafe);
                 }
+
+                this.TryCenterMap();
             }
         }
 
@@ -82,6 +132,35 @@ namespace CoffeeClientPrototype.View
                 };
 
             this.Map.MapElements.Add(icon);
+        }
+
+        private async void TryCenterMap()
+        {
+            if (this.hasCentredMap) return;
+            if (this.Map.LoadingStatus != MapLoadingStatus.Loaded) return;
+            if (!this.ViewModel.Cafes.Any()) return;
+            if (this.ViewModel.CurrentLocation == null) return;
+
+            var points = this.ViewModel
+                .Cafes
+                .Where(cafe => cafe.DistanceToCurrentLocation.HasValue && cafe.DistanceToCurrentLocation < 1500)
+                .Select(cafe => new BasicGeoposition { Latitude = cafe.Latitude, Longitude = cafe.Longitude })
+                .ToList();
+
+            if (!points.Any())
+            {
+                return;
+            }
+
+            points.Add(
+                new BasicGeoposition
+                {
+                    Latitude = this.ViewModel.CurrentLocation.Latitude,
+                    Longitude = this.ViewModel.CurrentLocation.Longitude
+                });
+
+            var box = GeoboundingBox.TryCompute(points);
+            this.hasCentredMap = await this.Map.TrySetViewBoundsAsync(box, null, MapAnimationKind.Bow);
         }
     }
 }

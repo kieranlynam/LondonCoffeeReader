@@ -5,9 +5,9 @@ namespace CoffeeClientPrototype.ViewModel.List
 {
     public class MapCafeSummaryViewModel : CafeSummaryViewModel
     {
-        private double distanceToCurrentLocation;
+        private double? distanceToCurrentLocation;
 
-        public double DistanceToCurrentLocation
+        public double? DistanceToCurrentLocation
         {
             get { return this.distanceToCurrentLocation; }
             set { this.Set(ref this.distanceToCurrentLocation, value); }
