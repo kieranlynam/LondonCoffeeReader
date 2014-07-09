@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
+using CoffeeClientPrototype.ViewModel.Support;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
@@ -68,8 +69,8 @@ namespace CoffeeClientPrototype.ViewModel.List
         private void PopulateNearbyCafes(Coordinate location, IEnumerable<Cafe> cafes)
         {
             var items = cafes
-                .OrderBy(cafe => DistanceCalculator.GetDistanceBetween(location.Latitude, location.Longitude, cafe.Latitude, cafe.Longitude))
-                .Select(this.CreateCafeSummary);
+                .Select(this.CreateCafeSummary)
+                .OrderBy(location.DistanceTo);
 
             this.NearbyCafes.Clear();
             foreach (var item in items)

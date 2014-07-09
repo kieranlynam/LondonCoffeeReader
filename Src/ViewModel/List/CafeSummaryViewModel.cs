@@ -2,11 +2,12 @@
 using System.Windows.Input;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
+using CoffeeClientPrototype.ViewModel.Support;
 using GalaSoft.MvvmLight;
 
 namespace CoffeeClientPrototype.ViewModel.List
 {
-    public class CafeSummaryViewModel : ViewModelBase
+    public class CafeSummaryViewModel : ViewModelBase, IHasCoordinate
     {
         private string name;
         private double rating;

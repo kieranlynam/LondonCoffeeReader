@@ -1,8 +1,9 @@
-﻿using GalaSoft.MvvmLight;
+﻿using CoffeeClientPrototype.ViewModel.Support;
+using GalaSoft.MvvmLight;
 
 namespace CoffeeClientPrototype.ViewModel.List
 {
-    public class ObservableCoordinate : ObservableObject
+    public class ObservableCoordinate : ObservableObject, IHasCoordinate
     {
         private double latitude;
         private double longitude;

@@ -30,16 +30,20 @@ namespace ViewModel.Tests.List
         }
 
         [TestMethod]
-        public async Task CentrePopulatedFromGeolocationProviderWhenNavigatedTo()
+        public async Task CentrePopulatedFromNearestCafeWhenNavigatedTo()
         {
             using (var context = new Context())
             {
-                context.GeolocationProvider.CurrentLocation = new Coordinate(45.54, 12.21);
+                context.Cafes.Add(new Cafe { Name = "C", Latitude = 11.1, Longitude = 10.1 });
+                context.Cafes.Add(new Cafe { Name = "A", Latitude = 10.0001, Longitude = 10.0001 });
+                context.Cafes.Add(new Cafe { Name = "B", Latitude = 10.5, Longitude = 10.6 });
+
+                context.GeolocationProvider.CurrentLocation = new Coordinate(10, 10);
 
                 await context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
 
-                Assert.AreEqual(45.54, context.ViewModel.Centre.Latitude);
-                Assert.AreEqual(12.21, context.ViewModel.Centre.Longitude);
+                Assert.AreEqual(10.0001, context.ViewModel.Centre.Latitude);
+                Assert.AreEqual(10.0001, context.ViewModel.Centre.Longitude);
             }
         }
 
@@ -48,9 +52,9 @@ namespace ViewModel.Tests.List
         {
             using (var context = new Context())
             {
-                context.Cafes.Add(new Cafe { Name = "C", Latitude = 1, Longitude = 1 });
-                context.Cafes.Add(new Cafe { Name = "A", Latitude = 9, Longitude = 8 });
-                context.Cafes.Add(new Cafe { Name = "B", Latitude = 5, Longitude = 6 });
+                context.Cafes.Add(new Cafe { Name = "C", Latitude = 11.1, Longitude = 10.1 });
+                context.Cafes.Add(new Cafe { Name = "A", Latitude = 10.0001, Longitude = 10.0001 });
+                context.Cafes.Add(new Cafe { Name = "B", Latitude = 10.5, Longitude = 10.6 });
 
                 context.GeolocationProvider.CurrentLocation = new Coordinate(10, 10);
 
