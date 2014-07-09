@@ -5,24 +5,69 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:CoffeeClientPrototype.Converters"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:controls="using:Callisto.Controls"
     x:Class="CoffeeClientPrototype.View.MapPage"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 	<Page.Resources>
 		<converters:GeopointConverter x:Key="GeopointConverter"/>
+		<DataTemplate x:Key="RatingItemTemplate">
+			<Button Content="{Binding}" />
+		</DataTemplate>
 	</Page.Resources>
 	<Page.DataContext>
 		<Binding Mode="OneWay" Path="Map" Source="{StaticResource Locator}"/>
 	</Page.DataContext>
 
 	<Grid>
+		
         <maps:MapControl
-            x:Name="Map"
-            MapServiceToken="AgmOZx1ALYdlKdLAblFANCcxD8-tEhNq7l1bm0iaJbxc931t3nXEXCMonZQe3288"
-            ZoomLevel="16"
-            Center="{Binding Centre, Converter={StaticResource GeopointConverter}, Mode=OneWay}">
-            <maps:MapItemsControl ItemsSource="{Binding Cafes}" />
-        </maps:MapControl>
+			x:Name="Map"
+			MapServiceToken="AgmOZx1ALYdlKdLAblFANCcxD8-tEhNq7l1bm0iaJbxc931t3nXEXCMonZQe3288"
+			ZoomLevel="16"
+			Center="{Binding Centre, Converter={StaticResource GeopointConverter}, Mode=OneWay}">
+		</maps:MapControl>
+		
+        <Grid Height="100" VerticalAlignment="Bottom" Background="#74000000" Canvas.ZIndex="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="100"/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+            
+            <Rectangle
+				Stroke="Black"
+				Margin="4"
+				Fill="Navy"/>
+            
+            <StackPanel
+				Grid.Column="1"
+				Orientation="Vertical" Margin="8,4,4,0">
+				
+				<TextBlock
+					Foreground="White"
+					TextWrapping="Wrap"
+					Text="{Binding SelectedCafe.Name}"
+					FontSize="20"
+					CharacterSpacing="50"
+					FontFamily="Tw Cen MT Condensed" />
+                <controls:Rating 
+					Height="40"
+                    Margin="0,0,0,0"
+					DataContext="{Binding SelectedCafe.Rating}"
+                    ReadOnlyFill="{StaticResource PrimaryForecolour}"
+                    Background="{x:Null}"
+                    Tag="💧"
+					ItemCount="{Binding SelectedCafe.Rating}"
+					IsEnabled="False"
+                    ItemTemplate="{StaticResource RatingItemTemplate}">
+                </controls:Rating>
+				<TextBlock
+					Foreground="White"
+					Text="{Binding SelectedCafe.Address}"
+					CharacterSpacing="50"
+					FontFamily="Tw Cen MT Condensed" />
+			</StackPanel>
+		</Grid>
 	</Grid>
 </Page>

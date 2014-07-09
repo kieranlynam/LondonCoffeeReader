@@ -1,17 +1,11 @@
-﻿using System;
+﻿using CoffeeClientPrototype.ViewModel.List;
 using System.Collections.Specialized;
 using System.Linq;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
-using CoffeeClientPrototype.Model;
-using CoffeeClientPrototype.ViewModel.Details;
-using CoffeeClientPrototype.ViewModel.List;
 
 namespace CoffeeClientPrototype.View
 {

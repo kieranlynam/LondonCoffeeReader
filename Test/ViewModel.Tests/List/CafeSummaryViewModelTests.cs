@@ -25,6 +25,7 @@ namespace ViewModel.Tests.List
             var result = new CafeSummaryViewModel(cafe, new MockNavigationService());
 
             Assert.AreEqual("Coffee Shop", result.Name, "Name");
+            Assert.AreEqual("1 Main Street", result.Address, "Address");
             Assert.AreEqual(45, result.Longitude, "Longitude");
             Assert.AreEqual(-12, result.Latitude, "Latitude");
             Assert.AreEqual(4, result.Rating, "Rating");

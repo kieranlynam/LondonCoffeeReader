@@ -39,6 +39,7 @@
     <Compile Include="Details\ReviewViewModel.cs" />
     <Compile Include="List\CafeSummaryViewModel.cs" />
     <Compile Include="INavigationListener.cs" />
+    <Compile Include="List\DistanceCalculator.cs" />
     <Compile Include="List\ListViewModel.cs" />
     <Compile Include="List\NavigateToCafeDetailsCommand.cs" />
     <Compile Include="List\MapViewModel.cs" />

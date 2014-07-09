@@ -43,6 +43,23 @@ namespace ViewModel.Tests.List
             }
         }
 
+        [TestMethod]
+        public async Task InitialSelectedCafeSetToNearestToCurrentLocation()
+        {
+            using (var context = new Context())
+            {
+                context.Cafes.Add(new Cafe { Name = "C", Latitude = 1, Longitude = 1 });
+                context.Cafes.Add(new Cafe { Name = "A", Latitude = 9, Longitude = 8 });
+                context.Cafes.Add(new Cafe { Name = "B", Latitude = 5, Longitude = 6 });
+
+                context.GeolocationProvider.CurrentLocation = new Coordinate(10, 10);
+
+                await context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
+
+                Assert.AreEqual("A", context.ViewModel.SelectedCafe.Name);
+            }
+        }
+
         private class Context : BaseTestContext
         {
             public MapViewModel ViewModel { get; private set; }

@@ -34,17 +34,18 @@ namespace CoffeeClientPrototype
                 // Create design time view services and models
                 SimpleIoc.Default.Register<IDataService, DesignDataService>();
                 SimpleIoc.Default.Register<IIdentityService, DesignIdentityService>();
+                SimpleIoc.Default.Register<IGeolocationProvider, DesignGeolocationProvider>();
             }
             else
             {
                 // Create run time view services and models
                 SimpleIoc.Default.Register<IDataService, DesignDataService>();
                 SimpleIoc.Default.Register<IIdentityService, DesignIdentityService>();
+                SimpleIoc.Default.Register<IGeolocationProvider, GeolocationProvider>(true);
             }
 
             SimpleIoc.Default.Register<INavigationService, NavigationService>();
 
-            SimpleIoc.Default.Register<IGeolocationProvider, GeolocationProvider>(true);
             SimpleIoc.Default.Register<IMapLauncher, MapLauncher>();
 
             SimpleIoc.Default.Register<ListViewModel>();

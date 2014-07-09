@@ -1,18 +1,17 @@
-﻿using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Linq;
 using System.Windows.Input;
 using CoffeeClientPrototype.Model;
-using CoffeeClientPrototype.ViewModel.Annotations;
 using CoffeeClientPrototype.ViewModel.Services;
+using GalaSoft.MvvmLight;
 
 namespace CoffeeClientPrototype.ViewModel.List
 {
-    public class CafeSummaryViewModel : INotifyPropertyChanged
+    public class CafeSummaryViewModel : ViewModelBase
     {
         private string name;
         private double rating;
         private int numberOfVotes;
+        private string address;
         private double latitude;
         private double longitude;
         private Photo photo;
@@ -20,72 +19,46 @@ namespace CoffeeClientPrototype.ViewModel.List
         public string Name
         {
             get { return this.name; }
-            set
-            {
-                if (value == this.name) return;
-                this.name = value;
-                this.OnPropertyChanged();
-            }
+            set { this.Set(ref this.name, value); }
         }
 
         public double Rating
         {
             get { return this.rating; }
-            set
-            {
-                if (value.Equals(this.rating)) return;
-                this.rating = value;
-                this.OnPropertyChanged();
-            }
+            set { this.Set(ref this.rating, value); }
         }
 
         public int NumberOfVotes
         {
             get { return this.numberOfVotes; }
-            set
-            {
-                if (value == this.numberOfVotes) return;
-                this.numberOfVotes = value;
-                this.OnPropertyChanged();
-            }
+            set { this.Set(ref this.numberOfVotes, value); }
+        }
+
+        public string Address
+        {
+            get { return this.address; }
+            set { this.Set(ref this.address, value); }
         }
 
         public double Latitude
         {
             get { return this.latitude; }
-            set
-            {
-                if (value.Equals(this.latitude)) return;
-                this.latitude = value;
-                this.OnPropertyChanged();
-            }
+            set { this.Set(ref this.latitude, value); }
         }
 
         public double Longitude
         {
             get { return this.longitude; }
-            set
-            {
-                if (value.Equals(this.longitude)) return;
-                this.longitude = value;
-                this.OnPropertyChanged();
-            }
+            set { this.Set(ref this.longitude, value); }
         }
 
         public Photo Photo
         {
             get { return this.photo; }
-            set
-            {
-                if (Equals(value, photo)) return;
-                this.photo = value;
-                this.OnPropertyChanged();
-            }
+            set { this.Set(ref this.photo, value); }
         }
 
         public ICommand Navigate { get; private set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public CafeSummaryViewModel(Cafe model, INavigationService navigationService)
         {
@@ -94,20 +67,14 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.PopulatePhoto(model);
         }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void Populate(Cafe model)
         {
-            this.name = model.Name;
-            this.longitude = model.Longitude;
-            this.latitude = model.Latitude;
-            this.rating = (model.CoffeeRating + model.AtmosphereRating) / 2;
-            this.numberOfVotes = model.NumberOfVotes;
+            this.Name = model.Name;
+            this.Address = model.Address;
+            this.Longitude = model.Longitude;
+            this.Latitude = model.Latitude;
+            this.Rating = (model.CoffeeRating + model.AtmosphereRating) / 2;
+            this.NumberOfVotes = model.NumberOfVotes;
         }
 
         private void PopulatePhoto(Cafe model)
