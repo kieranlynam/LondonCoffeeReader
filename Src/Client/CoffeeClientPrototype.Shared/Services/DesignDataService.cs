@@ -59,6 +59,42 @@ namespace CoffeeClientPrototype.Services
                     PostCode = "E9 6LH",
                     Latitude = 51.546979,
                     Longitude = -0.049501
+                },
+                new Cafe
+                {
+                    Id = 5,
+                    Name = "Look Mum No Hands",
+                    CoffeeRating = 4,
+                    AtmosphereRating = 3.5,
+                    NumberOfVotes = 201,
+                    Address = "49 Old Street",
+                    PostCode = "EC1V 9HX",
+                    Latitude = 51.523928,
+                    Longitude = -0.097009
+                },
+                new Cafe
+                {
+                    Id = 6,
+                    Name = "Monmouth Coffee",
+                    CoffeeRating = 4,
+                    AtmosphereRating = 3,
+                    NumberOfVotes = 520,
+                    Address = "27 Monmouth Street",
+                    PostCode = "WC2H 9EU",
+                    Latitude = 51.514371,
+                    Longitude = -0.126778
+                },
+                new Cafe
+                {
+                    Id = 7,
+                    Name = "Flat White",
+                    CoffeeRating = 4.5,
+                    AtmosphereRating = 4,
+                    NumberOfVotes = 493,
+                    Address = "17 Berwick Street",
+                    PostCode = "W1D 4AG",
+                    Latitude = 51.5136374,
+                    Longitude = -0.1347474
                 }
             };
 
