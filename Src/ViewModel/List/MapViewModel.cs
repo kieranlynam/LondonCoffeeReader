@@ -14,6 +14,8 @@ namespace CoffeeClientPrototype.ViewModel.List
         private readonly INavigationService navigationService;
         private readonly IDataService dataService;
         private readonly IGeolocationProvider geolocationProvider;
+        private CancellationTokenSource cancellationTokenSource = null;
+
         private CafeSummaryViewModel selectedCafe;
 
         public const string CurrentLocationPropertyName = "CurrentLocation";
@@ -50,13 +52,22 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         public async Task OnNavigatedTo(IDictionary<string, object> parameters)
         {
-            // TODO: Hook cancellation task to "navigated from" event
-            var locationTask = this.geolocationProvider.GetLocationAsync(new CancellationToken());
+            this.cancellationTokenSource = new CancellationTokenSource();
+            var locationTask = this.geolocationProvider.GetLocationAsync(this.cancellationTokenSource.Token);
             await PopulateCafes();
             var location = await locationTask;
             this.PopulateCurrentLocation(location);
             this.PopulateEachCafeDistanceToCurrentLocation();
             this.PopulateSelectedCafe();
+        }
+
+        public void OnNavigatedFrom()
+        {
+            if (this.cancellationTokenSource != null)
+            {
+                this.cancellationTokenSource.Cancel();
+                this.cancellationTokenSource = null;
+            }
         }
 
         private async Task PopulateCafes()

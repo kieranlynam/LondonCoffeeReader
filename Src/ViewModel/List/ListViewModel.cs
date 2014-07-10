@@ -17,6 +17,7 @@ namespace CoffeeClientPrototype.ViewModel.List
         private readonly IDataService dataService;
         private readonly INavigationService navigationService;
         private readonly IGeolocationProvider geolocationProvider;
+        private CancellationTokenSource cancellationTokenSource = null;
 
         public ObservableCollection<CafeSummaryViewModel> NearbyCafes { get; private set; }
 
@@ -46,9 +47,18 @@ namespace CoffeeClientPrototype.ViewModel.List
             var cafes = await this.dataService.GetAllCafes();
             this.PopulateBestCafes(cafes);
 
-            // TODO: Proper cancellation token
-            var location = await this.geolocationProvider.GetLocationAsync(new CancellationToken());
+            this.cancellationTokenSource = new CancellationTokenSource();
+            var location = await this.geolocationProvider.GetLocationAsync(this.cancellationTokenSource.Token);
             this.PopulateNearbyCafes(location, cafes);
+        }
+
+        public void OnNavigatedFrom()
+        {
+            if (this.cancellationTokenSource != null)
+            {
+                this.cancellationTokenSource.Cancel();
+                this.cancellationTokenSource = null;
+            }
         }
 
         private void PopulateBestCafes(IEnumerable<Cafe> cafes)

@@ -81,6 +81,10 @@ namespace CoffeeClientPrototype.ViewModel.Details
             return this.Populate(cafeId);
         }
 
+        public void OnNavigatedFrom()
+        {
+        }
+
         public override void Cleanup()
         {
             base.Cleanup();
