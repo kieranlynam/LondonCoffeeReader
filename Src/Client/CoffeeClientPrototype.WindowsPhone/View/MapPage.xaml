@@ -34,10 +34,9 @@
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
             
-            <Rectangle
-				Stroke="Black"
-				Margin="4"
-				Fill="Navy"/>
+            <Image
+				Margin="4" Source="{Binding SelectedCafe.Photo.ImageUri}" Stretch="UniformToFill"
+				/>
             
             <StackPanel
 				Grid.Column="1"
