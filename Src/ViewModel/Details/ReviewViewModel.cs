@@ -6,7 +6,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace CoffeeClientPrototype.ViewModel.Details
 {
-    public class ReviewViewModel : ViewModelBase
+    public class ReviewViewModel : ObservableObject
     {
         private readonly IDataService dataService;
         private readonly IIdentityService identityService;

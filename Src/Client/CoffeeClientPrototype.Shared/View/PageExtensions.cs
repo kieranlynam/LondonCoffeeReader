@@ -20,5 +20,17 @@ namespace CoffeeClientPrototype.View
 
             return listener.OnNavigatedTo(args.Parameter as IDictionary<string, object>);
         }
+
+        public static void NotifyNavigatedFrom(this Page page)
+        {
+            var listener = page.DataContext as INavigationListener;
+
+            if (listener == null)
+            {
+                throw new InvalidOperationException(string.Format("DataContext must be bound to a {0}", typeof(INavigationListener).Name));
+            }
+
+            listener.OnNavigatedFrom();
+        }
     }
 }

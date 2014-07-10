@@ -65,7 +65,6 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Reviews = new ObservableCollection<ReviewViewModel>();
             this.ShowMap = new RelayCommand(OnShowMapExecuted);
             this.CurrentIdentityReview = new ReviewViewModel(this.dataService, this.identityService);
-            this.CurrentIdentityReview.ReviewSubmitted += this.OnCurrentIdentityReviewSubmitted;
 
 #if DEBUG
             if (this.IsInDesignMode)
@@ -77,24 +76,21 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public Task OnNavigatedTo(IDictionary<string, object> parameters)
         {
+            this.CurrentIdentityReview.ReviewSubmitted += this.OnCurrentIdentityReviewSubmitted;
+
             var cafeId = (int) parameters["Id"];
             return this.Populate(cafeId);
         }
 
         public void OnNavigatedFrom()
         {
-        }
-
-        public override void Cleanup()
-        {
-            base.Cleanup();
             this.CurrentIdentityReview.ReviewSubmitted -= this.OnCurrentIdentityReviewSubmitted;
+            this.Reviews.Clear();
+            this.Photos.Clear();
         }
 
         private Task Populate(int cafeId)
         {
-            this.Reviews.Clear();
-
             var detailsTask = this.GetCafe(cafeId)
                 .ContinueWith(task => Populate(task.Result), TaskScheduler.FromCurrentSynchronizationContext());
             var reviewsTask = this.dataService.GetCafeReviews(cafeId)

@@ -61,6 +61,11 @@
                 <TextBlock Text="{Binding}" />
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="PhotosItemTemplate">
+        	<StackPanel>
+        		<Image Source="{Binding ImageUri}" Margin="0,0,0,12"/>
+        	</StackPanel>
+        </DataTemplate>
     </Page.Resources>
     
 	<Grid>
@@ -150,7 +155,9 @@
 			<PivotItem
                 x:Name="Pictures"
                 Header="pictures">
-				<Grid Margin="0,0,361.667,429.167"/>
+				<Grid>
+					<ListView ItemsSource="{Binding Photos}" ItemTemplate="{StaticResource PhotosItemTemplate}"/>
+				</Grid>
 			</PivotItem>
             <PivotItem
                 x:Name="Rate"

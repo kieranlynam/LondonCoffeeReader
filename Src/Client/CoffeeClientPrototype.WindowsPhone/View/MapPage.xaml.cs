@@ -54,6 +54,7 @@ namespace CoffeeClientPrototype.View
             this.ViewModel.Cafes.CollectionChanged -= this.OnCafesCollectionChanged;
             this.ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
             this.Map.LoadingStatusChanged -= this.OnMapLoadingStatusChanged;
+            this.NotifyNavigatedFrom();
         }
 
         private void OnMapLoadingStatusChanged(MapControl sender, object args)

@@ -34,15 +34,16 @@ namespace CoffeeClientPrototype.View
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             await this.NotifyNavigatedTo(e);
-            this.ViewModel.CurrentIdentityReview.ReviewSubmitted += OnReviewSubmitted;
+            this.ViewModel.CurrentIdentityReview.ReviewSubmitted += this.OnReviewSubmitted;
         }
-
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            this.ViewModel.CurrentIdentityReview.ReviewSubmitted -= OnReviewSubmitted;
+            this.ViewModel.CurrentIdentityReview.ReviewSubmitted -= this.OnReviewSubmitted;
+            this.NotifyNavigatedFrom();
         }
+
         private void OnReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
         {
             if (this.Pivot.SelectedItem == this.Rate)

@@ -22,7 +22,16 @@ namespace CoffeeClientPrototype.Services
                     Address = "47 King Henry's Walk",
                     PostCode = "N1 4NH",
                     Latitude = 51.549112,
-                    Longitude = -0.07934
+                    Longitude = -0.07934,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            SubmittedBy = "Kieran Lynam",
+                            NumberOfVotes = 100,
+                            ImageUri = new Uri("http://1.bp.blogspot.com/_iKJ6qNuU8DQ/TN2DfZf8LII/AAAAAAAAANI/b_kKQHH8iCQ/s400/tinawesaluteyou1.JPG")
+                        }
+                    }
                 },
                 new Cafe
                 {
@@ -34,7 +43,28 @@ namespace CoffeeClientPrototype.Services
                     Address = "213 Old Street",
                     PostCode = "EC1V 9NR",
                     Latitude = 51.526,
-                    Longitude = -0.088196
+                    Longitude = -0.088196,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            SubmittedBy = "Kieran Lynam",
+                            NumberOfVotes = 100,
+                            ImageUri = new Uri("http://www.fluidnetwork.co.uk/gfx/venues/22551/shoreditch_grind_cafe_london.jpg")
+                        },
+                        new Photo
+                        {
+                            SubmittedBy = "Kieran Lynam",
+                            NumberOfVotes = 70,
+                            ImageUri = new Uri("https://c2.staticflickr.com/8/7178/6895462310_2a71a5f3ef_z.jpg")
+                        },
+                        new Photo
+                        {
+                            SubmittedBy = "Kieran Lynam",
+                            NumberOfVotes = 25,
+                            ImageUri = new Uri("http://lh3.ggpht.com/-NAGfMVwzr8I/TfHXUo7zpHI/AAAAAAAAAj4/MFdgfVSQHuY/bloggerPlus.jpg")
+                        }
+                    }
                 },
                 new Cafe
                 {

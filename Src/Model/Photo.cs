@@ -4,7 +4,7 @@ namespace CoffeeClientPrototype.Model
 {
     public class Photo
     {
-        public Uri Address { get; set; }
+        public Uri ImageUri { get; set; }
 
         public int NumberOfVotes { get; set; }
 
