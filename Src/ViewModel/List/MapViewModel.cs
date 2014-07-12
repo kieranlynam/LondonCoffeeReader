@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using CoffeeClientPrototype.ViewModel.Services;
 using CoffeeClientPrototype.ViewModel.Support;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace CoffeeClientPrototype.ViewModel.List
 {
@@ -18,9 +21,12 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         private CafeSummaryViewModel selectedCafe;
 
+        public const string CentrePropertyName = "Centre";
         public const string CurrentLocationPropertyName = "CurrentLocation";
 
         public ObservableCoordinate CurrentLocation { get; private set; }
+
+        public ObservableCoordinate Centre { get; private set; }
 
         public CafeSummaryViewModel SelectedCafe
         {
@@ -30,6 +36,8 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         public ObservableCollection<MapCafeSummaryViewModel> Cafes { get; private set; }
 
+        public RelayCommand RecentreAtCurrentLocation { get; private set; }
+
         public MapViewModel(INavigationService navigationService, IDataService dataService, IGeolocationProvider geolocationProvider)
         {
             this.navigationService = navigationService;
@@ -37,11 +45,20 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.geolocationProvider = geolocationProvider;
             this.Cafes = new ObservableCollection<MapCafeSummaryViewModel>();
             this.CurrentLocation = new ObservableCoordinate();
-            new ObservableCoordinate
-            {
-                Latitude = 51.5214859,
-                Longitude = -0.1072635
-            };
+            this.Centre = new ObservableCoordinate
+                {
+                    Latitude = 51.5214859,
+                    Longitude = -0.1072635
+                };
+
+            this.RecentreAtCurrentLocation = new RelayCommand(() =>
+                {
+                    if (this.CurrentLocation == null) return;
+                    this.Centre = this.CurrentLocation;
+                    this.RaisePropertyChanged(() => this.Centre);
+                },
+                () => this.CurrentLocation != null);
+
 #if DEBUG
             if (this.IsInDesignMode)
             {
@@ -52,11 +69,14 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         public async Task OnNavigatedTo(IDictionary<string, object> parameters)
         {
+            this.RaisePropertyChanged(() => this.RecentreAtCurrentLocation);
+
             this.cancellationTokenSource = new CancellationTokenSource();
             var locationTask = this.geolocationProvider.GetLocationAsync(this.cancellationTokenSource.Token);
             await PopulateCafes();
             var location = await locationTask;
             this.PopulateCurrentLocation(location);
+            this.PopulateCentre(location);
             this.PopulateEachCafeDistanceToCurrentLocation();
             this.PopulateSelectedCafe();
         }
@@ -85,6 +105,15 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.CurrentLocation.Latitude = location.Latitude;
             this.CurrentLocation.Longitude = location.Longitude;
             this.RaisePropertyChanged(() => this.CurrentLocation);
+            this.RecentreAtCurrentLocation.RaiseCanExecuteChanged();
+        }
+
+        private void PopulateCentre(Coordinate location)
+        {
+            if (location == null) return;
+            this.Centre.Latitude = location.Latitude;
+            this.Centre.Longitude = location.Longitude;
+            this.RaisePropertyChanged(() => this.Centre);
         }
 
         private void PopulateEachCafeDistanceToCurrentLocation()

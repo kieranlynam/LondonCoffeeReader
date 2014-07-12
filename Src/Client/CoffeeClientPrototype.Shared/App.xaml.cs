@@ -136,8 +136,6 @@ namespace CoffeeClientPrototype
         }
 #endif
 
-        
-
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
         /// without knowing whether the application will be terminated or resumed with the contents

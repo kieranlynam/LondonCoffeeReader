@@ -10,16 +10,16 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-	<Page.Resources>
-		<converters:GeopointConverter x:Key="GeopointConverter"/>
+    <Page.DataContext>
+        <Binding Mode="OneWay" Path="Map" Source="{StaticResource Locator}"/>
+    </Page.DataContext>
+    
+    <Page.Resources>
 		<DataTemplate x:Key="RatingItemTemplate">
 			<Button Content="{Binding}" />
 		</DataTemplate>
 	</Page.Resources>
-	<Page.DataContext>
-		<Binding Mode="OneWay" Path="Map" Source="{StaticResource Locator}"/>
-	</Page.DataContext>
-
+	
 	<Grid>
 		
         <maps:MapControl
@@ -28,14 +28,14 @@
 			ZoomLevel="16">
 		</maps:MapControl>
 		
-        <Grid Height="100" VerticalAlignment="Bottom" Background="#74000000" Canvas.ZIndex="1">
+        <Grid Height="100" VerticalAlignment="Bottom" Background="#A3000000" Canvas.ZIndex="1">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="100"/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
             
             <Image
-				Margin="4" Source="{Binding SelectedCafe.Photo.ImageUri}" Stretch="UniformToFill"
+				Margin="8" Source="{Binding SelectedCafe.Photo.ImageUri}" Stretch="UniformToFill"
 				/>
             
             <StackPanel
@@ -68,4 +68,11 @@
 			</StackPanel>
 		</Grid>
 	</Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Target" Label="me" Command="{Binding RecentreAtCurrentLocation, Mode=OneWay}" />
+        </CommandBar>
+    </Page.BottomAppBar>
+    
 </Page>

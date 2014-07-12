@@ -9,12 +9,6 @@
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=Details}">
 	
-    <Page.BottomAppBar>
-		<CommandBar IsOpen="True">
-			<AppBarButton Label="Show Map" Command="{Binding ShowMap, Mode=OneWay}" Icon="Map"/>
-		</CommandBar>
-	</Page.BottomAppBar>
-
     <Page.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter"/>
         <converters:VotesCountToTextConverter x:Key="VotesCountToTextConverter"/>
@@ -116,4 +110,10 @@
 						ItemTemplate="{StaticResource ReviewDataTemplate}"
 						Grid.Row="2" Header="{Binding Reviews.Count, ConverterParameter=\{0\} reviews, Converter={StaticResource StringFormatConverter}, Mode=OneWay}" HeaderTemplate="{StaticResource ReviewListHeaderTemplate}"/>
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Label="Show Map" Command="{Binding ShowMap, Mode=OneWay}" Icon="Map"/>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

@@ -46,6 +46,38 @@ namespace ViewModel.Tests.List
             }
         }
 
+        [TestMethod]
+        public async Task CentrePopulatedFromCurrentLocationWhenNavigatedTo()
+        {
+            using (var context = new Context())
+            {
+                context.GeolocationProvider.CurrentLocation = new Coordinate(10, 10);
+
+                await context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
+
+                Assert.AreEqual(10, context.ViewModel.Centre.Latitude);
+                Assert.AreEqual(10, context.ViewModel.Centre.Longitude);
+            }
+        }
+
+        [TestMethod]
+        public async Task RecentreAtCurrentLocationCommand()
+        {
+            using (var context = new Context())
+            {
+                context.GeolocationProvider.CurrentLocation = new Coordinate(10, 10);
+
+                await context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
+
+                context.ViewModel.Centre.Latitude = 5;
+                context.ViewModel.Centre.Longitude = 5;
+                context.ViewModel.RecentreAtCurrentLocation.Execute(null);
+
+                Assert.AreEqual(10, context.ViewModel.Centre.Latitude);
+                Assert.AreEqual(10, context.ViewModel.Centre.Longitude);
+            }
+        }
+
         private class Context : BaseTestContext
         {
             public MapViewModel ViewModel { get; private set; }
