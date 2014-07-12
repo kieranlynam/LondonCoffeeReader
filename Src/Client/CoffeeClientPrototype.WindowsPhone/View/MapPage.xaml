@@ -48,7 +48,7 @@
 					Text="{Binding SelectedCafe.Name}"
 					FontSize="20"
 					CharacterSpacing="50"
-					FontFamily="Tw Cen MT Condensed" />
+					FontFamily="Tw Cen MT" />
                 <controls:Rating 
 					Height="40"
                     Margin="0,0,0,0"
@@ -64,7 +64,7 @@
 					Foreground="White"
 					Text="{Binding SelectedCafe.Address}"
 					CharacterSpacing="50"
-					FontFamily="Tw Cen MT Condensed" />
+					FontFamily="Tw Cen MT" />
 			</StackPanel>
 		</Grid>
 	</Grid>

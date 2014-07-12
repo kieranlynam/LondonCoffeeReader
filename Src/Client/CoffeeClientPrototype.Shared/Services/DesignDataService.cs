@@ -15,7 +15,7 @@ namespace CoffeeClientPrototype.Services
                 new Cafe
                 {
                     Id = 1,
-                    Name = "Tina, We Salute You",
+                    Name = "Tina, we salute you",
                     CoffeeRating = 4,
                     AtmosphereRating = 5,
                     NumberOfVotes = 250,
@@ -27,9 +27,9 @@ namespace CoffeeClientPrototype.Services
                     {
                         new Photo
                         {
-                            SubmittedBy = "Kieran Lynam",
+                            SubmittedBy = "Ashley Kang",
                             NumberOfVotes = 100,
-                            ImageUri = new Uri("http://1.bp.blogspot.com/_iKJ6qNuU8DQ/TN2DfZf8LII/AAAAAAAAANI/b_kKQHH8iCQ/s400/tinawesaluteyou1.JPG")
+                            ImageUri = new Uri("http://keelertornero.com/blog/wp-content/uploads/2011/11/TWSY.jpg")
                         }
                     }
                 },
@@ -46,6 +46,12 @@ namespace CoffeeClientPrototype.Services
                     Longitude = -0.088196,
                     Photos = new[]
                     {
+                        new Photo
+                        {
+                            SubmittedBy = "Kieran Lynam",
+                            NumberOfVotes = 100,
+                            ImageUri = new Uri("http://intertitles.com/wp-content/uploads/2013/01/shoreditch_grind.jpg")
+                        },
                         new Photo
                         {
                             SubmittedBy = "Kieran Lynam",
@@ -76,7 +82,14 @@ namespace CoffeeClientPrototype.Services
                     Address = "23-25 Leather Ln",
                     PostCode = "EC1N 7TE",
                     Latitude = 51.519933,
-                    Longitude = -0.109494
+                    Longitude = -0.109494,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://www.prufrockcoffee.com/wp-content/themes/prufrocktheme/library/images/home-cafe-02.jpg")
+                        }
+                    }
                 },
                 new Cafe
                 {
@@ -88,7 +101,14 @@ namespace CoffeeClientPrototype.Services
                     Address = "120-122 Morning Ln",
                     PostCode = "E9 6LH",
                     Latitude = 51.546979,
-                    Longitude = -0.049501
+                    Longitude = -0.049501,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://file-magazine.com/wp-content/uploads/Railroad.jpeg")
+                        }
+                    }
                 },
                 new Cafe
                 {
@@ -100,7 +120,14 @@ namespace CoffeeClientPrototype.Services
                     Address = "49 Old Street",
                     PostCode = "EC1V 9HX",
                     Latitude = 51.523928,
-                    Longitude = -0.097009
+                    Longitude = -0.097009,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://thesugarmagnolia.files.wordpress.com/2011/02/bike-cafes-londons-latest-hangouts.jpg")
+                        }
+                    }
                 },
                 new Cafe
                 {
@@ -112,7 +139,20 @@ namespace CoffeeClientPrototype.Services
                     Address = "27 Monmouth Street",
                     PostCode = "WC2H 9EU",
                     Latitude = 51.514371,
-                    Longitude = -0.126778
+                    Longitude = -0.126778,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            NumberOfVotes = 20,
+                            ImageUri = new Uri("http://www.monmouthcoffee.co.uk/store/image/file/0g/cp/5m7rau/Covent-Garden-Shop.jpg")
+                        },
+                        new Photo
+                        {
+                            NumberOfVotes = 10,
+                            ImageUri = new Uri("http://www.urbanistgame.com/wp-content/uploads/2011/12/m1.jpg")
+                        }
+                    }
                 },
                 new Cafe
                 {
@@ -124,7 +164,14 @@ namespace CoffeeClientPrototype.Services
                     Address = "17 Berwick Street",
                     PostCode = "W1D 4AG",
                     Latitude = 51.5136374,
-                    Longitude = -0.1347474
+                    Longitude = -0.1347474,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://themodelsoffice.com/wp-content/uploads/2013/01/Flat-White-3-e1357925027110.jpg")
+                        }
+                    }
                 }
             };
 

@@ -22,7 +22,7 @@
     	<converters:TextToUpperConverter x:Key="TextToUpperConverter"/>
         <DataTemplate x:Key="PivotTitleTemplate">
         	<Grid>
-                <TextBlock Text="{Binding Converter={StaticResource TextToUpperConverter}}" Foreground="{StaticResource PrimaryForecolour}" FontFamily="Tw Cen MT Condensed" FontSize="27" CharacterSpacing="70" />
+                <TextBlock Text="{Binding Converter={StaticResource TextToUpperConverter}}" Foreground="{StaticResource PrimaryForecolour}" FontFamily="Tw Cen MT" FontSize="27" CharacterSpacing="70" />
         	</Grid>
         </DataTemplate>
         <DataTemplate x:Key="PivotHeaderTemplate">
@@ -30,7 +30,7 @@
         		<TextBlock
                     Text="{Binding}"
                     Foreground="{StaticResource PrimaryForecolour}"
-                    FontFamily="Tw Cen MT Condensed"
+                    FontFamily="Tw Cen MT"
                     FontSize="27"
                     CharacterSpacing="50" />
         	</Grid>
@@ -48,7 +48,7 @@
                     Fill="Navy"
                     Grid.Column="0" />
 	            <TextBlock
-                    FontFamily="Tw Cen MT Condensed"
+                    FontFamily="Tw Cen MT"
                     FontSize="16"
                     TextWrapping="Wrap"
                     Text="{Binding Comment}"

@@ -3,29 +3,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="using:CoffeeClientPrototype.Converters"
+    xmlns:controls="using:Callisto.Controls"
     x:Class="CoffeeClientPrototype.View.ListPage"
-    mc:Ignorable="d" Background="#FFD6D4D0">
+    mc:Ignorable="d" Background="{StaticResource PageBackground}">
     
     <Page.DataContext>
         <Binding Mode="OneWay" Path="List" Source="{StaticResource Locator}"/>
     </Page.DataContext>
 
     <Page.Resources>
-        <converters:RatingToTextConverter x:Key="RatingToText"/>
-        <converters:VotesCountToTextConverter x:Key="VotesCountToText" />
-        <DataTemplate x:Key="CafeListItemTemplate">
-            <Button BorderThickness="0" Command="{Binding Navigate}">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="{Binding Name}" Style="{ThemeResource ListViewItemTextBlockStyle}"/>
-
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Rating, Converter={StaticResource RatingToText}, Mode=OneTime}" Style="{StaticResource ListViewItemSubheaderTextBlockStyle}"/>
-                        <TextBlock Margin="12 0 0 0" Text="{Binding NumberOfVotes, Converter={StaticResource VotesCountToText}, Mode=OneTime}" Style="{StaticResource ListViewItemSubheaderTextBlockStyle}"/>
-                    </StackPanel>
-                </StackPanel>
-            </Button>
-        </DataTemplate>
         <DataTemplate x:Key="PivotTitleTemplate">
             <Grid Margin="-12,0,0,0">
                 <Image HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Source="../Assets/LondonCoffeeLogo.png"/>
@@ -33,8 +19,49 @@
         </DataTemplate>
         <DataTemplate x:Key="PivotHeaderTemplate">
             <Grid Margin="0,10,0,0">
-                <TextBlock Text="{Binding}" Foreground="{StaticResource PrimaryForecolour}" FontFamily="Tw Cen MT Condensed" FontSize="27" CharacterSpacing="50" />
+                <TextBlock
+					Text="{Binding}"
+					Foreground="{StaticResource PrimaryForecolour}"
+					FontFamily="Global User Interface"
+                    FontWeight="SemiBold"
+					FontSize="27"
+					CharacterSpacing="150" />
             </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="CafeListItemTemplate">
+            <Button Padding="0" BorderThickness="0" Command="{Binding Navigate}">
+                <StackPanel Orientation="Vertical">
+                    <Image Source="{Binding Photo.ImageUri}" />
+                    <StackPanel Orientation="Vertical" Background="White">
+                    	<TextBlock
+                    		Margin="12 8 4 12"
+                    		Text="{Binding Name}"
+                    		Foreground="{StaticResource PrimaryForecolour}"
+                    		FontFamily="Tw Cen MT"
+                    		FontWeight="SemiBold"
+                    		FontSize="17"
+                    		CharacterSpacing="150"
+                            FontStretch="UltraCondensed"
+                             />
+                    	<StackPanel Orientation="Horizontal" Margin="0 0 0 4">
+                    		<controls:Rating
+                                Margin="4 -5 0 0"
+                    			ItemCount="5"
+                    			Value="{Binding Rating}"
+                    			IsEnabled="False"
+                                SelectionMode="Continuous"
+                                ReadOnlyFill="{StaticResource PrimaryForecolour}"
+                                Tag="💧"
+                                />
+                    		<TextBlock
+                    			FontFamily="Global User Interface"
+                    			Margin="12 0 0 0"
+                    			Foreground="{StaticResource PageBackground}"
+                    			Text="{Binding NumberOfVotes, Mode=OneTime}" />
+                    	</StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Button>
         </DataTemplate>
     </Page.Resources>
 

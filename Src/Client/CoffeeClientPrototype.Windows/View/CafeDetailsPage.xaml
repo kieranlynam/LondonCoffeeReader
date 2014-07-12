@@ -25,7 +25,7 @@
                     Fill="Navy"
                     Grid.Column="0" />
                 <TextBlock
-                    FontFamily="Tw Cen MT Condensed"
+                    FontFamily="Tw Cen MT"
                     FontSize="16"
                     TextWrapping="Wrap"
                     Text="{Binding Comment}"
