@@ -161,11 +161,10 @@ namespace CoffeeClientPrototype.View
                 return;
             }
 
-            if (this.ViewModel.Cafes.Any())
+            if (this.ViewModel.NearbyCafes.Any())
             {
                 var points = this.ViewModel
-                    .Cafes
-                    .Where(cafe => cafe.DistanceToCurrentLocation.HasValue && cafe.DistanceToCurrentLocation < 1000)
+                    .NearbyCafes
                     .Select(cafe => new BasicGeoposition { Latitude = cafe.Latitude, Longitude = cafe.Longitude })
                     .ToList();
                 points.Add(centrePoint.Position);

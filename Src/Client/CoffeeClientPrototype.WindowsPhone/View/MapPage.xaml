@@ -71,7 +71,7 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Target" Label="me" Command="{Binding RecentreAtCurrentLocation, Mode=OneWay}" />
+            <AppBarButton Icon="Target" Label="near me" Command="{Binding RecentreAtCurrentLocation, Mode=OneWay}" />
         </CommandBar>
     </Page.BottomAppBar>
     

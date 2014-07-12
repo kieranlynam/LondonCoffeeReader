@@ -30,6 +30,26 @@ namespace ViewModel.Tests.List
         }
 
         [TestMethod]
+        public async Task NearbyCafesPopulatedRelativeToCurrentLocation()
+        {
+            using (var context = new Context())
+            {
+                context.Cafes.Add(new Cafe { Name = "D", Latitude = 10.0003, Longitude = 10.0003 });
+                context.Cafes.Add(new Cafe { Name = "C", Latitude = 10.00025, Longitude = 10.00025 });
+                context.Cafes.Add(new Cafe { Name = "A", Latitude = 10.0001, Longitude = 10.0001 });
+                context.Cafes.Add(new Cafe { Name = "B", Latitude = 10.0002, Longitude = 10.0002 });
+
+                context.GeolocationProvider.CurrentLocation = new Coordinate(10, 10);
+
+                await context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
+
+                CollectionAssert.AreEqual(
+                    context.ViewModel.NearbyCafes.Select(cafe => cafe.Name).ToArray(),
+                    new[] { "A", "B", "C", "D" });
+            }
+        }
+
+        [TestMethod]
         public async Task InitialSelectedCafeSetToNearestToCurrentLocation()
         {
             using (var context = new Context())

@@ -36,6 +36,8 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         public ObservableCollection<MapCafeSummaryViewModel> Cafes { get; private set; }
 
+        public ObservableCollection<MapCafeSummaryViewModel> NearbyCafes { get; private set; }
+
         public RelayCommand RecentreAtCurrentLocation { get; private set; }
 
         public MapViewModel(INavigationService navigationService, IDataService dataService, IGeolocationProvider geolocationProvider)
@@ -44,6 +46,7 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.dataService = dataService;
             this.geolocationProvider = geolocationProvider;
             this.Cafes = new ObservableCollection<MapCafeSummaryViewModel>();
+            this.NearbyCafes = new ObservableCollection<MapCafeSummaryViewModel>();
             this.CurrentLocation = new ObservableCoordinate();
             this.Centre = new ObservableCoordinate
                 {
@@ -75,9 +78,9 @@ namespace CoffeeClientPrototype.ViewModel.List
             var locationTask = this.geolocationProvider.GetLocationAsync(this.cancellationTokenSource.Token);
             await PopulateCafes();
             var location = await locationTask;
+            this.PopulateNearbyCafes(location);
             this.PopulateCurrentLocation(location);
             this.PopulateCentre(location);
-            this.PopulateEachCafeDistanceToCurrentLocation();
             this.PopulateSelectedCafe();
         }
 
@@ -116,27 +119,31 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.RaisePropertyChanged(() => this.Centre);
         }
 
-        private void PopulateEachCafeDistanceToCurrentLocation()
+        private void PopulateNearbyCafes(Coordinate location)
         {
-            if (this.CurrentLocation == null) return;
+            if (location == null) return;
+
             foreach (var cafe in this.Cafes)
             {
-                cafe.DistanceToCurrentLocation = cafe.DistanceTo(this.CurrentLocation);
+                cafe.DistanceToCurrentLocation = location.DistanceTo(cafe);
+            }
+
+            var nearbyCafes = this.Cafes
+                .Where(cafe => location.DistanceTo(cafe) < 1500)
+                .OrderBy(cafe => cafe.DistanceToCurrentLocation)
+                .Take(5);
+
+            this.NearbyCafes.Clear();
+            foreach (var cafe in nearbyCafes)
+            {
+                this.NearbyCafes.Add(cafe);
             }
         }
 
         private void PopulateSelectedCafe()
         {
-            if (this.CurrentLocation == null) return;
             if (this.selectedCafe != null) return;
-
-            var cafesByDistance = this.Cafes.OrderBy(cafe => cafe.DistanceToCurrentLocation);
-
-            var nearestCafe = cafesByDistance.FirstOrDefault();
-            if (nearestCafe != null && nearestCafe.DistanceToCurrentLocation < 1500)
-            {
-                this.SelectedCafe = nearestCafe;
-            }
+            this.SelectedCafe = this.NearbyCafes.FirstOrDefault();
         }
     }
 }
