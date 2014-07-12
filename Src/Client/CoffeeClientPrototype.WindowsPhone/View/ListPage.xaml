@@ -13,9 +13,7 @@
 
     <Page.Resources>
         <DataTemplate x:Key="PivotTitleTemplate">
-            <Grid Margin="-12,0,0,0">
-                <Image HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Source="../Assets/LondonCoffeeLogo.png"/>
-            </Grid>
+            <Image Margin="-12,0,0,0" HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Source="../Assets/LondonCoffeeLogo.png"/>
         </DataTemplate>
         <DataTemplate x:Key="PivotHeaderTemplate">
             <Grid Margin="0,10,0,0">
