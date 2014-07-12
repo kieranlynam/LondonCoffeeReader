@@ -20,9 +20,9 @@
                 <TextBlock
 					Text="{Binding}"
 					Foreground="{StaticResource PrimaryForecolour}"
-					FontFamily="Global User Interface"
-                    FontWeight="SemiBold"
+					FontFamily="ms-appx:/Assets/Fonts/TCB_____.TTF#Tw Cen MT"
 					FontSize="27"
+                    FontStretch="UltraCondensed"
 					CharacterSpacing="150" />
             </Grid>
         </DataTemplate>

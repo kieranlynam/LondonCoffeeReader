@@ -138,6 +138,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Fonts\TCB_____.TTF" />
+    <Content Include="Assets\Fonts\TCBI____.TTF" />
+    <Content Include="Assets\Fonts\TCCB____.TTF" />
+    <Content Include="Assets\Fonts\TCCEB.TTF" />
+    <Content Include="Assets\Fonts\TCCM____.TTF" />
+    <Content Include="Assets\Fonts\TCM_____.TTF" />
+    <Content Include="Assets\Fonts\TCMI____.TTF" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
