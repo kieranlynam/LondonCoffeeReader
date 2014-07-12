@@ -34,8 +34,7 @@ namespace ViewModel.Tests.Details
                 context.NavigateTo(cafeId: 1);
                 
                 Assert.AreEqual("Cafe A", context.ViewModel.Name, "Name");
-                Assert.AreEqual("1 Main Street", context.ViewModel.Address, "Address");
-                Assert.AreEqual("A1 11A", context.ViewModel.PostCode, "PostCode");
+                Assert.AreEqual("1 Main Street, A1 11A", context.ViewModel.Address, "Address");
                 Assert.AreEqual(15, context.ViewModel.Latitude, "Latitude");
                 Assert.AreEqual(-10, context.ViewModel.Longitude, "Longitude");
                 Assert.AreEqual(3.5, context.ViewModel.CoffeeRating, "CoffeeRating");

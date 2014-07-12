@@ -28,8 +28,6 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public string Address { get; private set; }
 
-        public string PostCode { get; private set; }
-
         public double CoffeeRating
         {
             get { return this.coffeeRating; }
@@ -105,11 +103,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Name = cafe.Name;
             this.RaisePropertyChanged(() => this.Name);
 
-            this.Address = cafe.Address;
+            this.Address = string.Format("{0}, {1}", cafe.Address, cafe.PostCode);
             this.RaisePropertyChanged(() => this.Address);
-
-            this.PostCode = cafe.PostCode;
-            this.RaisePropertyChanged(() => this.PostCode);
 
             this.Longitude = cafe.Longitude;
             this.RaisePropertyChanged(() => this.Longitude);
