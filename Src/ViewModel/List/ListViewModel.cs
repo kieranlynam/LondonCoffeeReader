@@ -78,6 +78,8 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         private void PopulateNearbyCafes(Coordinate location, IEnumerable<Cafe> cafes)
         {
+            if (location == null) return;
+
             var items = cafes
                 .Select(this.CreateCafeSummary)
                 .OrderBy(location.DistanceTo);

@@ -249,6 +249,12 @@
                 Visibility="Collapsed"
                 PivotItem="Rate"
                 Command="{Binding CurrentIdentityReview.Submit, Mode=OneWay}"/>
+        	<CommandBar.SecondaryCommands>
+        		<appBar:PivotItemAppBarButton
+					Label="share details"
+					PivotItem="Details"
+					Command="{Binding Share}" />
+        	</CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

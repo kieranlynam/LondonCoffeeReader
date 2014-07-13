@@ -55,7 +55,10 @@ namespace CoffeeClientPrototype.View
         private void OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
             var commandBar = ((CommandBar) this.BottomAppBar);
-            var buttons = commandBar.PrimaryCommands.OfType<PivotItemAppBarButton>();
+            var buttons = commandBar
+                            .PrimaryCommands
+                            .Union(commandBar.SecondaryCommands)
+                            .OfType<PivotItemAppBarButton>();
             foreach (var button in buttons)
             {
                 button.Visibility = button.PivotItem == args.Item.Name ? Visibility.Visible : Visibility.Collapsed;

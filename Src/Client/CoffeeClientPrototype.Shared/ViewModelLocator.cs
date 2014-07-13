@@ -47,6 +47,7 @@ namespace CoffeeClientPrototype
             SimpleIoc.Default.Register<INavigationService, NavigationService>();
 
             SimpleIoc.Default.Register<IMapLauncher, MapLauncher>();
+            SimpleIoc.Default.Register<IShareSource, ShareSource>();
 
             SimpleIoc.Default.Register<ListViewModel>();
             SimpleIoc.Default.Register<DetailsViewModel>();

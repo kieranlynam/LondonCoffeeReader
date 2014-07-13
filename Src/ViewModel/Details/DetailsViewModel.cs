@@ -15,6 +15,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private readonly IDataService dataService;
         private readonly IIdentityService identityService;
         private readonly IMapLauncher mapLauncher;
+        private readonly IShareSource shareSource;
 
         private double coffeeRating;
         private double atmosphereRating;
@@ -54,14 +55,18 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public RelayCommand ShowMap { get; private set; }
 
-        public DetailsViewModel(IDataService dataService, IIdentityService identityService, IMapLauncher mapLauncher)
+        public ShareCafeCommand Share { get; private set; }
+
+        public DetailsViewModel(IDataService dataService, IIdentityService identityService, IMapLauncher mapLauncher, IShareSource shareSource)
         {
             this.dataService = dataService;
             this.identityService = identityService;
             this.mapLauncher = mapLauncher;
+            this.shareSource = shareSource;
             this.Photos = new ObservableCollection<PhotoViewModel>();
             this.Reviews = new ObservableCollection<ReviewViewModel>();
-            this.ShowMap = new RelayCommand(OnShowMapExecuted);
+            this.ShowMap = new RelayCommand(this.OnShowMapExecuted);
+            this.Share = new ShareCafeCommand(this.shareSource);
             this.CurrentIdentityReview = new ReviewViewModel(this.dataService, this.identityService);
 
 #if DEBUG
@@ -85,6 +90,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.CurrentIdentityReview.ReviewSubmitted -= this.OnCurrentIdentityReviewSubmitted;
             this.Reviews.Clear();
             this.Photos.Clear();
+            this.shareSource.IsEnabled = false;
+            this.Share.Cafe = null;
         }
 
         private Task Populate(int cafeId)
@@ -120,6 +127,9 @@ namespace CoffeeClientPrototype.ViewModel.Details
             {
                 this.Photos.Add(new PhotoViewModel(photo));
             }
+
+            this.shareSource.IsEnabled = true;
+            this.Share.Cafe = cafe;
         }
 
         private void Populate(IEnumerable<Review> reviews)

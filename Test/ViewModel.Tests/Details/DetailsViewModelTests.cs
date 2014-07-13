@@ -314,6 +314,45 @@ namespace ViewModel.Tests.Details
             }
         }
 
+        [TestMethod]
+        public void ShareCafe()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe
+                    {
+                        Name = "Coffee Shop",
+                        Address = "1 Main Street",
+                        PostCode = "X1 XXX"
+                    };
+                context.Cafes.Add(cafe);
+                context.NavigateTo(cafe.Id);
+
+                context.ViewModel.Share.Execute(null);
+
+                Assert.AreEqual(1, context.ShareSource.SharedPackages.Count);
+                Assert.AreEqual("Coffee Shop", context.ShareSource.SharedPackages.Last().Title);
+                Assert.AreEqual("1 Main Street, X1 XXX", context.ShareSource.SharedPackages.Last().Text);
+            }
+        }
+        
+        [TestMethod]
+        public void ShareNotExecutableBeforeOrAfterNavigating()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Name = "A" };
+                context.Cafes.Add(cafe);
+
+                Assert.IsFalse(context.ViewModel.Share.CanExecute(null));
+
+                context.NavigateTo(cafe.Id);
+                Assert.IsTrue(context.ViewModel.Share.CanExecute(null));
+
+                context.ViewModel.OnNavigatedFrom();
+                Assert.IsFalse(context.ViewModel.Share.CanExecute(null));
+            }
+        }
         private class Context : BaseTestContext
         {
             public DetailsViewModel ViewModel { get; private set; }
@@ -322,19 +361,23 @@ namespace ViewModel.Tests.Details
 
             public MockMapLauncher MapLauncher { get; private set; }
 
+            public MockShareSource ShareSource { get; private set; }
+
             public Context()
             {
                 this.MapLauncher = new MockMapLauncher();
+                this.ShareSource = new MockShareSource();
 
                 this.ViewModel = new DetailsViewModel(
                                     this.DataService,
                                     this.IdentityService,
-                                    this.MapLauncher);
+                                    this.MapLauncher,
+                                    this.ShareSource);
             }
 
             public void NavigateTo(int cafeId)
             {
-                 var navigation = this.ViewModel.OnNavigatedTo(
+                var navigation = this.ViewModel.OnNavigatedTo(
                     new Dictionary<string, object>
                     {
                         { "Id", cafeId }
@@ -365,6 +408,23 @@ namespace ViewModel.Tests.Details
                 public double Latitude { get; set; }
 
                 public string Name { get; set; }
+            }
+        }
+
+        private class MockShareSource : IShareSource
+        {
+            public IList<SharePackage> SharedPackages { get; private set; }
+
+            public bool IsEnabled { get; set; }
+
+            public MockShareSource()
+            {
+                this.SharedPackages = new List<SharePackage>();
+            }
+
+            public void Share(SharePackage package)
+            {
+                this.SharedPackages.Add(package);
             }
         }
     }

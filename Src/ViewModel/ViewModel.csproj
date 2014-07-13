@@ -37,6 +37,7 @@
     <Compile Include="Details\PhotoViewModel.cs" />
     <Compile Include="Details\DetailsViewModel.cs" />
     <Compile Include="Details\ReviewViewModel.cs" />
+    <Compile Include="Details\ShareCafeCommand.cs" />
     <Compile Include="List\CafeSummaryViewModel.cs" />
     <Compile Include="INavigationListener.cs" />
     <Compile Include="List\MapCafeSummaryViewModel.cs" />
