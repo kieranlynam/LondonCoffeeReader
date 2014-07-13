@@ -22,17 +22,22 @@
     	<converters:TextToUpperConverter x:Key="TextToUpperConverter"/>
         <DataTemplate x:Key="PivotTitleTemplate">
         	<Grid>
-                <TextBlock Text="{Binding Converter={StaticResource TextToUpperConverter}}" Foreground="{StaticResource PrimaryForecolour}" FontFamily="Tw Cen MT" FontSize="27" CharacterSpacing="70" />
+                <TextBlock
+                    Text="{Binding Converter={StaticResource TextToUpperConverter}}"
+                    Foreground="{StaticResource PrimaryForecolour}"
+                    Style="{StaticResource PrimaryText}"
+                    FontSize="30"
+                    CharacterSpacing="70" 
+                    />
         	</Grid>
         </DataTemplate>
         <DataTemplate x:Key="PivotHeaderTemplate">
-        	<Grid Margin="0,10,0,0">
+        	<Grid Margin="2,10,0,0">
         		<TextBlock
                     Text="{Binding}"
                     Foreground="{StaticResource PrimaryForecolour}"
-                    FontFamily="Tw Cen MT"
-                    FontSize="27"
-                    CharacterSpacing="50" />
+                    Style="{StaticResource PrimaryText}"
+                    FontSize="27" />
         	</Grid>
         </DataTemplate>
         <DataTemplate x:Key="ReviewDataTemplate">
@@ -48,17 +53,19 @@
                     Fill="Navy"
                     Grid.Column="0" />
 	            <TextBlock
-                    FontFamily="Tw Cen MT"
+                    Style="{StaticResource PrimaryContentText}"
                     FontSize="16"
                     TextWrapping="Wrap"
                     Text="{Binding Comment}"
                     VerticalAlignment="Top"
-                    Grid.Column="1" />
+                    Grid.Column="1"/>
         	</Grid>
         </DataTemplate>
         <DataTemplate x:Key="ReviewListHeaderTemplate">
             <Grid Margin="0,0,0,8">
-                <TextBlock Text="{Binding}" />
+                <TextBlock
+                    Text="{Binding}"
+                    Style="{StaticResource PrimaryContentText}" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="PhotosItemTemplate">
@@ -80,7 +87,8 @@
 			<PivotItem
                 x:Name="Details"
                 Header="details"
-                Background="White" Margin="21,23,17,-0.333">
+                Background="White"
+                Margin="21,23,17,-0.333">
 
                 <Grid Margin="12,12,12,0">
                 	<Grid.RowDefinitions>
@@ -93,11 +101,13 @@
                         <!-- Address -->
                         <TextBlock
                             Text="{Binding Address, Mode=OneWay}"
+                            Style="{StaticResource PrimaryContentText}"
                             Margin="0,0,0,12" />
 
                         <!-- Number Of Votes -->
                         <TextBlock
                             Text="{Binding NumberOfVotes, Converter={StaticResource VotesCountToTextConverter}, Mode=OneWay}"
+                            Style="{StaticResource PrimaryText}"
                             Margin="0,0,0,12" />
 
                         <!-- Ratings -->
@@ -115,6 +125,7 @@
 							
                             <TextBlock
                                 Text="Coffee"
+                                Style="{StaticResource PrimaryContentText}"
                                 Margin="0,0,12,0" />
                             <controls:Rating
                                 Grid.Column="1"
@@ -129,6 +140,7 @@
 							
                             <TextBlock 
                                 Text="Atmosphere"
+                                Style="{StaticResource PrimaryContentText}"
                                 Margin="0,0,12,0"
                                 Grid.Column="0"
                                 Grid.Row="1" />
@@ -149,14 +161,18 @@
                     <ListView
                 		ItemsSource="{Binding Reviews}"
 						ItemTemplate="{StaticResource ReviewDataTemplate}"
-						Grid.Row="1" Header="{Binding Reviews.Count, ConverterParameter=\{0\} reviews, Converter={StaticResource StringFormatConverter}, Mode=OneWay}" HeaderTemplate="{StaticResource ReviewListHeaderTemplate}"/>
+						Grid.Row="1"
+                        Header="{Binding Reviews.Count, ConverterParameter=\{0\} reviews, Converter={StaticResource StringFormatConverter}, Mode=OneWay}"
+                        HeaderTemplate="{StaticResource ReviewListHeaderTemplate}"/>
                 </Grid>
 			</PivotItem>
 			<PivotItem
                 x:Name="Pictures"
                 Header="pictures">
 				<Grid>
-					<ListView ItemsSource="{Binding Photos}" ItemTemplate="{StaticResource PhotosItemTemplate}"/>
+					<ListView
+                        ItemsSource="{Binding Photos}"
+                        ItemTemplate="{StaticResource PhotosItemTemplate}"/>
 				</Grid>
 			</PivotItem>
             <PivotItem
@@ -181,6 +197,7 @@
                 			
                             <TextBlock 
 								Text="Coffee"
+                                Style="{StaticResource PrimaryContentText}"
 								VerticalAlignment="Top"/>
                             <controls:Rating
                                 Grid.Column="1"
@@ -196,6 +213,7 @@
                             
                             <TextBlock
 								Text="Atmosphere"
+                                Style="{StaticResource PrimaryContentText}"
                                 Grid.Column="0"
 								Grid.Row="1"/>
                             <controls:Rating
@@ -214,6 +232,7 @@
                         <!-- Review -->
                 		<TextBlock
                             TextWrapping="Wrap"
+                            Style="{StaticResource PrimaryContentText}"
                             Text="Review"/>
                 		<Border
                 			VerticalAlignment="Top"

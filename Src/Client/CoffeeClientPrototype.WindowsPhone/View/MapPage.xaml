@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="using:CoffeeClientPrototype.Converters"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     xmlns:controls="using:Callisto.Controls"
     x:Class="CoffeeClientPrototype.View.MapPage"
@@ -14,12 +13,6 @@
         <Binding Mode="OneWay" Path="Map" Source="{StaticResource Locator}"/>
     </Page.DataContext>
     
-    <Page.Resources>
-		<DataTemplate x:Key="RatingItemTemplate">
-			<Button Content="{Binding}" />
-		</DataTemplate>
-	</Page.Resources>
-	
 	<Grid>
 		
         <maps:MapControl
@@ -44,11 +37,9 @@
 				
 				<TextBlock
 					Foreground="White"
-					TextWrapping="Wrap"
 					Text="{Binding SelectedCafe.Name}"
 					FontSize="20"
-					CharacterSpacing="50"
-					FontFamily="Tw Cen MT" />
+					Style="{StaticResource PrimaryText}" />
                 <controls:Rating 
 					Height="40"
                     Margin="0,0,0,0"
@@ -57,14 +48,13 @@
                     Background="{x:Null}"
                     Tag="💧"
 					ItemCount="{Binding SelectedCafe.Rating}"
-					IsEnabled="False"
-                    ItemTemplate="{StaticResource RatingItemTemplate}">
+					IsEnabled="False">
                 </controls:Rating>
 				<TextBlock
-					Foreground="White"
+					Foreground="{StaticResource PageBackground}"
+                    FontSize="17"
 					Text="{Binding SelectedCafe.Address}"
-					CharacterSpacing="50"
-					FontFamily="Tw Cen MT" />
+					Style="{StaticResource PrimaryContentText}" />
 			</StackPanel>
 		</Grid>
 	</Grid>
