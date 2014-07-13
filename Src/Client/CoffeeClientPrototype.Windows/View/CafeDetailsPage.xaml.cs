@@ -20,5 +20,11 @@ namespace CoffeeClientPrototype.View
             base.OnNavigatedTo(e);
             this.NotifyNavigatedTo(e);
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            this.NotifyNavigatedFrom();
+        }
     }
 }
