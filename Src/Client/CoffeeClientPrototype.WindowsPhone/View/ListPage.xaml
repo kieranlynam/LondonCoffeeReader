@@ -4,76 +4,111 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Callisto.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     x:Class="CoffeeClientPrototype.View.ListPage"
-    mc:Ignorable="d" Background="{StaticResource PageBackground}">
+    mc:Ignorable="d"
+    >
+
+    <Page.Resources>
+        <DataTemplate x:Key="PivotTitleTemplate">
+        	<Image Margin="-12,0,0,0" HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Source="../Assets/LondonCoffeeLogo.png"/>
+        </DataTemplate>
+        <DataTemplate x:Key="PivotHeaderTemplate">
+        	<Grid Margin="0,10,0,0">
+        		<TextBlock
+        			Text="{Binding}"
+        			Foreground="{StaticResource PrimaryForecolour}"
+        			FontSize="27"
+        			Style="{StaticResource PrimaryText}" />
+        	</Grid>
+        </DataTemplate>
+        <Style x:Name="ListViewItemStyle" TargetType="ListViewItem">
+        	<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+        <DataTemplate x:Key="CafeListItemTemplate">
+        	<Grid Margin="0 0 0 24">
+        		<Grid.RowDefinitions>
+        			<RowDefinition Height="300" />
+        			<RowDefinition Height="75" />
+        		</Grid.RowDefinitions>
+
+        		<interactivity:Interaction.Behaviors>
+        			<core:EventTriggerBehavior EventName="Tapped">
+        				<core:InvokeCommandAction Command="{Binding Navigate, Mode=OneWay}"/>
+        			</core:EventTriggerBehavior>
+        		</interactivity:Interaction.Behaviors>
+
+        		<Image
+        			Source="{Binding Photo.ImageUri}"
+        			Stretch="UniformToFill" />
+
+        		<StackPanel
+        			Grid.Row="1"
+        			Orientation="Vertical"
+        			Background="White">
+        			<TextBlock
+        				Margin="12 8 4 12"
+        				Text="{Binding Name}"
+        				Foreground="{StaticResource PrimaryForecolour}"
+        				FontSize="22"
+        				Style="{StaticResource PrimaryText}" 
+                    		 />
+        			<StackPanel Orientation="Horizontal" Margin="0 0 0 4">
+        				<controls:Rating
+        					Margin="4 -5 0 0"
+        					ItemCount="5"
+        					Value="{Binding Rating}"
+        					IsEnabled="False"
+        					SelectionMode="Continuous"
+        					ReadOnlyFill="{StaticResource PrimaryForecolour}"
+        					Tag="💧"
+                                />
+        				<TextBlock
+        					Margin="12 0 0 0"
+        					FontSize="15"
+        					Foreground="{StaticResource PageBackground}"
+        					Text="{Binding NumberOfVotes, Mode=OneTime}"
+        					Style="{StaticResource PrimaryText}" />
+        			</StackPanel>
+        		</StackPanel>
+        	</Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+	<Page.Background>
+		<StaticResource ResourceKey="PageBackground"/>
+	</Page.Background>
     
     <Page.DataContext>
         <Binding Mode="OneWay" Path="List" Source="{StaticResource Locator}"/>
     </Page.DataContext>
-
-    <Page.Resources>
-        <DataTemplate x:Key="PivotTitleTemplate">
-            <Image Margin="-12,0,0,0" HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Source="../Assets/LondonCoffeeLogo.png"/>
-        </DataTemplate>
-        <DataTemplate x:Key="PivotHeaderTemplate">
-            <Grid Margin="0,10,0,0">
-                <TextBlock
-					Text="{Binding}"
-					Foreground="{StaticResource PrimaryForecolour}"
-					FontSize="27"
-					Style="{StaticResource PrimaryText}" />
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="CafeListItemTemplate">
-            <Button Padding="0" BorderThickness="0" Command="{Binding Navigate}">
-                <StackPanel Orientation="Vertical">
-                    <Image Source="{Binding Photo.ImageUri}" />
-                    <StackPanel Orientation="Vertical" Background="White">
-                    	<TextBlock
-                    		Margin="12 8 4 12"
-                    		Text="{Binding Name}"
-                    		Foreground="{StaticResource PrimaryForecolour}"
-                    		FontSize="22"
-                            Style="{StaticResource PrimaryText}" 
-                    		 />
-                    	<StackPanel Orientation="Horizontal" Margin="0 0 0 4">
-                    		<controls:Rating
-                                Margin="4 -5 0 0"
-                    			ItemCount="5"
-                    			Value="{Binding Rating}"
-                    			IsEnabled="False"
-                                SelectionMode="Continuous"
-                                ReadOnlyFill="{StaticResource PrimaryForecolour}"
-                                Tag="💧"
-                                />
-                    		<TextBlock
-                    			Margin="12 0 0 0"
-                    			Foreground="{StaticResource PageBackground}"
-                    			Text="{Binding NumberOfVotes, Mode=OneTime}"
-                                Style="{StaticResource PrimaryText}" />
-                    	</StackPanel>
-                    </StackPanel>
-                </StackPanel>
-            </Button>
-        </DataTemplate>
-    </Page.Resources>
-
-    <Pivot Title="London Coffee" TitleTemplate="{StaticResource PivotTitleTemplate}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
-		<PivotItem Header="Best">
-			<Grid>
-				<ListView SelectionMode="None" ItemTemplate="{StaticResource CafeListItemTemplate}" ItemsSource="{Binding BestCafes}"/>
-			</Grid>
-		</PivotItem>
-		<PivotItem Header="Nearby">
-			<Grid>
-				<ListView SelectionMode="None" ItemTemplate="{StaticResource CafeListItemTemplate}" ItemsSource="{Binding NearbyCafes}"/>
-			</Grid>
-		</PivotItem>
-	</Pivot>
 
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Icon="Globe" Label="map" Command="{Binding ShowMap, Mode=OneWay}"/>
         </CommandBar>
     </Page.BottomAppBar>
+
+	<Pivot Title="London Coffee" TitleTemplate="{StaticResource PivotTitleTemplate}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
+		<PivotItem Header="Best">
+			<Grid>
+				<ListView
+					SelectionMode="None"
+					ItemTemplate="{StaticResource CafeListItemTemplate}"
+					ItemsSource="{Binding BestCafes}"
+					ItemContainerStyle="{StaticResource ListViewItemStyle}"/>
+			</Grid>
+		</PivotItem>
+		<PivotItem Header="Nearby">
+			<Grid>
+				<ListView
+					SelectionMode="None"
+					ItemTemplate="{StaticResource CafeListItemTemplate}"
+					ItemsSource="{Binding NearbyCafes}"
+					ItemContainerStyle="{StaticResource ListViewItemStyle}"/>
+			</Grid>
+		</PivotItem>
+	</Pivot>
+
 </Page>
