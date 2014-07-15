@@ -44,7 +44,11 @@
 
         		<Image
         			Source="{Binding Photo.ImageUri}"
-        			Stretch="UniformToFill" />
+        			Stretch="UniformToFill" >
+        			<interactivity:Interaction.Behaviors>
+        				<core:IncrementalUpdateBehavior Phase="3"/>
+        			</interactivity:Interaction.Behaviors>
+        		</Image>
 
         		<StackPanel
         			Grid.Row="1"
@@ -55,9 +59,15 @@
         				Text="{Binding Name}"
         				Foreground="{StaticResource PrimaryForecolour}"
         				FontSize="22"
-        				Style="{StaticResource PrimaryText}" 
-                    		 />
+        				Style="{StaticResource PrimaryText}">
+        				<interactivity:Interaction.Behaviors>
+        					<core:IncrementalUpdateBehavior/>
+        				</interactivity:Interaction.Behaviors>
+        			</TextBlock>
         			<StackPanel Orientation="Horizontal" Margin="0 0 0 4">
+        				<interactivity:Interaction.Behaviors>
+        					<core:IncrementalUpdateBehavior Phase="2"/>
+        				</interactivity:Interaction.Behaviors>
         				<controls:Rating
         					Margin="4 -5 0 0"
         					ItemCount="5"
@@ -83,6 +93,7 @@
 		<PivotItem Header="Best">
 			<ListView
 				SelectionMode="None"
+				ShowsScrollingPlaceholders="True"
 				ItemTemplate="{StaticResource CafeListItemTemplate}"
 				ItemsSource="{Binding BestCafes}"
 				ItemContainerStyle="{StaticResource ListViewItemStyle}"/>
@@ -90,7 +101,8 @@
 		<PivotItem Header="Nearby">
 			<ListView
 				SelectionMode="None"
-				ItemTemplate="{StaticResource CafeListItemTemplate}"
+				ShowsScrollingPlaceholders="True"
+                ItemTemplate="{StaticResource CafeListItemTemplate}"
 				ItemsSource="{Binding NearbyCafes}"
 				ItemContainerStyle="{StaticResource ListViewItemStyle}"/>
 		</PivotItem>
