@@ -10,7 +10,6 @@
     mc:Ignorable="d"
     Background="{StaticResource PageBackground}">
     
-
     <Page.DataContext>
         <Binding Mode="OneWay" Path="List" Source="{StaticResource Locator}"/>
     </Page.DataContext>
@@ -20,13 +19,12 @@
         	<Image Margin="-12,0,0,0" HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Source="../Assets/LondonCoffeeLogo.png"/>
         </DataTemplate>
         <DataTemplate x:Key="PivotHeaderTemplate">
-        	<Grid Margin="0,10,0,0">
-        		<TextBlock
-        			Text="{Binding}"
-        			Foreground="{StaticResource PrimaryForecolour}"
-        			FontSize="27"
-        			Style="{StaticResource PrimaryText}" />
-        	</Grid>
+        	<TextBlock
+                Margin="0,10,0,0"
+        		Text="{Binding}"
+        		Foreground="{StaticResource PrimaryForecolour}"
+        		FontSize="27"
+        		Style="{StaticResource PrimaryText}" />
         </DataTemplate>
         <Style x:Name="ListViewItemStyle" TargetType="ListViewItem">
         	<Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -83,22 +81,18 @@
 
 	<Pivot Title="London Coffee" TitleTemplate="{StaticResource PivotTitleTemplate}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
 		<PivotItem Header="Best">
-			<Grid>
-				<ListView
-					SelectionMode="None"
-					ItemTemplate="{StaticResource CafeListItemTemplate}"
-					ItemsSource="{Binding BestCafes}"
-					ItemContainerStyle="{StaticResource ListViewItemStyle}"/>
-			</Grid>
+			<ListView
+				SelectionMode="None"
+				ItemTemplate="{StaticResource CafeListItemTemplate}"
+				ItemsSource="{Binding BestCafes}"
+				ItemContainerStyle="{StaticResource ListViewItemStyle}"/>
 		</PivotItem>
 		<PivotItem Header="Nearby">
-			<Grid>
-				<ListView
-					SelectionMode="None"
-					ItemTemplate="{StaticResource CafeListItemTemplate}"
-					ItemsSource="{Binding NearbyCafes}"
-					ItemContainerStyle="{StaticResource ListViewItemStyle}"/>
-			</Grid>
+			<ListView
+				SelectionMode="None"
+				ItemTemplate="{StaticResource CafeListItemTemplate}"
+				ItemsSource="{Binding NearbyCafes}"
+				ItemContainerStyle="{StaticResource ListViewItemStyle}"/>
 		</PivotItem>
 	</Pivot>
 
