@@ -8,7 +8,12 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     x:Class="CoffeeClientPrototype.View.ListPage"
     mc:Ignorable="d"
-    >
+    Background="{StaticResource PageBackground}">
+    
+
+    <Page.DataContext>
+        <Binding Mode="OneWay" Path="List" Source="{StaticResource Locator}"/>
+    </Page.DataContext>
 
     <Page.Resources>
         <DataTemplate x:Key="PivotTitleTemplate">
@@ -76,20 +81,6 @@
         </DataTemplate>
     </Page.Resources>
 
-	<Page.Background>
-		<StaticResource ResourceKey="PageBackground"/>
-	</Page.Background>
-    
-    <Page.DataContext>
-        <Binding Mode="OneWay" Path="List" Source="{StaticResource Locator}"/>
-    </Page.DataContext>
-
-    <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton Icon="Globe" Label="map" Command="{Binding ShowMap, Mode=OneWay}"/>
-        </CommandBar>
-    </Page.BottomAppBar>
-
 	<Pivot Title="London Coffee" TitleTemplate="{StaticResource PivotTitleTemplate}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
 		<PivotItem Header="Best">
 			<Grid>
@@ -111,4 +102,9 @@
 		</PivotItem>
 	</Pivot>
 
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Globe" Label="map" Command="{Binding ShowMap, Mode=OneWay}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>
