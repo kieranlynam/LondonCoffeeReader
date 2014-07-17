@@ -98,7 +98,7 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         private void OnShowMapExecuted()
         {
-            this.navigationService.Navigate("Map");
+            this.navigationService.NavigateToMap();
         }
     }
 }

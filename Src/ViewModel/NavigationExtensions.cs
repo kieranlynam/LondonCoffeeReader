@@ -15,5 +15,10 @@ namespace CoffeeClientPrototype.ViewModel
                     { "Id", cafe.Id }
                 });
         }
+
+        public static void NavigateToMap(this INavigationService navigationService)
+        {
+            navigationService.Navigate("Map");
+        }
     }
 }
