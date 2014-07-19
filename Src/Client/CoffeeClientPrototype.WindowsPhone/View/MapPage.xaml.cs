@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using CoffeeClientPrototype.ViewModel.List;
 using System.Collections.Specialized;
@@ -103,10 +105,13 @@ namespace CoffeeClientPrototype.View
 
             if (this.currentLocationIcon == null)
             {
+                var image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/MapCurrentLocation.png"));
+
                 this.currentLocationIcon = new MapIcon
                     {
                         Location = new Geopoint(position),
                         NormalizedAnchorPoint = new Point(1.0, 0.5),
+                        Image = image
                     };
 
                 this.Map.MapElements.Add(this.currentLocationIcon);
@@ -196,6 +201,5 @@ namespace CoffeeClientPrototype.View
                 await this.Map.TrySetViewAsync(centrePoint, null, null, null, MapAnimationKind.Linear);
             }
         }
-        
     }
 }
