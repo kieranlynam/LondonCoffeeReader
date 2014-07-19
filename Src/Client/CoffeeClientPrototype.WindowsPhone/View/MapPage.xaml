@@ -21,7 +21,8 @@
 		<maps:MapControl
 			x:Name="Map"
 			MapServiceToken="AgmOZx1ALYdlKdLAblFANCcxD8-tEhNq7l1bm0iaJbxc931t3nXEXCMonZQe3288"
-			ZoomLevel="16" />
+			ZoomLevel="16"
+            MapTapped="OnMapTapped" />
 		
 		<Grid Height="100" VerticalAlignment="Bottom" Background="#A3000000" Canvas.ZIndex="1">
 			<Grid.ColumnDefinitions>

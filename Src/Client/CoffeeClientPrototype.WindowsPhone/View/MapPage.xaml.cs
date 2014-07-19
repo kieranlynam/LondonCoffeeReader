@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Windows.UI.Core;
 using CoffeeClientPrototype.ViewModel.List;
@@ -19,6 +20,8 @@ namespace CoffeeClientPrototype.View
     {
         private MapIcon currentLocationIcon;
         private bool hasMapLoaded = false;
+
+        private readonly IDictionary<MapIcon, CafeSummaryViewModel> cafeMapIcons = new Dictionary<MapIcon, CafeSummaryViewModel>(); 
 
         public MapViewModel ViewModel
         {
@@ -50,6 +53,7 @@ namespace CoffeeClientPrototype.View
             this.ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
             this.Map.LoadingStatusChanged -= this.OnMapLoadingStatusChanged;
             this.NotifyNavigatedFrom();
+            this.cafeMapIcons.Clear();
         }
 
         private void OnMapLoadingStatusChanged(MapControl sender, object args)
@@ -124,6 +128,20 @@ namespace CoffeeClientPrototype.View
             }
         }
 
+        private void OnMapTapped(MapControl sender, MapInputEventArgs args)
+        {
+            var icon = sender.FindMapElementsAtOffset(args.Position).OfType<MapIcon>().FirstOrDefault();
+
+            if (icon != null)
+            {
+                CafeSummaryViewModel cafe;
+                if (this.cafeMapIcons.TryGetValue(icon, out cafe))
+                {
+                    this.ViewModel.SelectCafe.Execute(cafe);
+                }    
+            }
+        }
+
         private void AddCafeToMap(CafeSummaryViewModel cafe)
         {
             var position = new BasicGeoposition
@@ -139,6 +157,8 @@ namespace CoffeeClientPrototype.View
                 };
 
             this.Map.MapElements.Add(icon);
+
+            this.cafeMapIcons.Add(icon, cafe);
         }
 
         private async void TryCenterMap()
@@ -176,5 +196,6 @@ namespace CoffeeClientPrototype.View
                 await this.Map.TrySetViewAsync(centrePoint, null, null, null, MapAnimationKind.Linear);
             }
         }
+        
     }
 }

@@ -40,6 +40,8 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         public RelayCommand RecentreAtCurrentLocation { get; private set; }
 
+        public RelayCommand<CafeSummaryViewModel> SelectCafe { get; private set; }
+
         public MapViewModel(INavigationService navigationService, IDataService dataService, IGeolocationProvider geolocationProvider)
         {
             this.navigationService = navigationService;
@@ -61,6 +63,11 @@ namespace CoffeeClientPrototype.ViewModel.List
                     this.RaisePropertyChanged(() => this.Centre);
                 },
                 () => this.CurrentLocation != null);
+
+            this.SelectCafe = new RelayCommand<CafeSummaryViewModel>(cafe =>
+                {
+                    this.SelectedCafe = cafe;
+                });
 
 #if DEBUG
             if (this.IsInDesignMode)
