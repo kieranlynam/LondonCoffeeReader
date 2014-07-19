@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using Windows.Media.Devices;
 using Windows.UI.Core;
 using CoffeeClientPrototype.ViewModel.List;
 using System.Collections.Specialized;
