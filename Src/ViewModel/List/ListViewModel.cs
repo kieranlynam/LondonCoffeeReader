@@ -50,10 +50,11 @@ namespace CoffeeClientPrototype.ViewModel.List
             var getLocation = this.geolocationProvider.GetLocationAsync(this.cancellationTokenSource.Token);
 
             var cafes = await getCafes;
-            this.PopulateBestCafes(cafes);
+            var cafeItems = cafes.Select(CreateCafeSummary);
+            this.PopulateBestCafes(cafeItems);
 
             var location = await getLocation;
-            this.PopulateNearbyCafes(location, cafes);
+            this.PopulateNearbyCafes(location, cafeItems);
         }
 
         public void OnNavigatedFrom()
@@ -65,13 +66,12 @@ namespace CoffeeClientPrototype.ViewModel.List
             }
         }
 
-        private void PopulateBestCafes(IEnumerable<Cafe> cafes)
+        private void PopulateBestCafes(IEnumerable<CafeSummaryViewModel> cafes)
         {
             var items = cafes
-                .OrderByDescending(cafe => (cafe.CoffeeRating + cafe.AtmosphereRating) / 2)
-                .ThenByDescending(cafe => cafe.NumberOfVotes)
-                .Take(10)
-                .Select(this.CreateCafeSummary);
+                .OrderByDescending(summary => summary.Rating)
+                .ThenByDescending(summary => summary.NumberOfVotes)
+                .Take(10);
 
             this.BestCafes.Clear();
             foreach (var item in items)
@@ -80,12 +80,11 @@ namespace CoffeeClientPrototype.ViewModel.List
             }
         }
 
-        private void PopulateNearbyCafes(Coordinate location, IEnumerable<Cafe> cafes)
+        private void PopulateNearbyCafes(Coordinate location, IEnumerable<CafeSummaryViewModel> cafes)
         {
             if (location == null) return;
 
             var items = cafes
-                .Select(this.CreateCafeSummary)
                 .OrderBy(location.DistanceTo);
 
             this.NearbyCafes.Clear();
