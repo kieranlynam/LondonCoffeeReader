@@ -42,13 +42,17 @@ namespace CoffeeClientPrototype.ViewModel.List
 #endif
         }
 
-        public async Task OnNavigatedTo(IDictionary<string,object> parameters = null)
+        public async Task OnNavigatedTo(IDictionary<string, object> parameters = null)
         {
-            var cafes = await this.dataService.GetAllCafes();
+            this.cancellationTokenSource = new CancellationTokenSource();
+
+            var getCafes = this.dataService.GetAllCafes();
+            var getLocation = this.geolocationProvider.GetLocationAsync(this.cancellationTokenSource.Token);
+
+            var cafes = await getCafes;
             this.PopulateBestCafes(cafes);
 
-            this.cancellationTokenSource = new CancellationTokenSource();
-            var location = await this.geolocationProvider.GetLocationAsync(this.cancellationTokenSource.Token);
+            var location = await getLocation;
             this.PopulateNearbyCafes(location, cafes);
         }
 
