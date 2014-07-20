@@ -253,10 +253,15 @@
     <Page.BottomAppBar>
         <CommandBar>
             <appBar:PivotItemAppBarButton
-                Icon="map"
+                Icon="Directions"
+                Label="directions"
+                PivotItem="Details"
+                Command="{Binding ShowDirections}"/>
+            <appBar:PivotItemAppBarButton
+                Icon="Map"
                 Label="map"
                 PivotItem="Details"
-                Command="{Binding ShowMap}"/>
+                Command="{Binding NavigateToMap}" />
             <appBar:PivotItemAppBarButton
                 Icon="add"
                 Label="add"

@@ -16,9 +16,21 @@ namespace CoffeeClientPrototype.ViewModel
                 });
         }
 
-        public static void NavigateToMap(this INavigationService navigationService)
+        public static void NavigateToMap(this INavigationService navigationService, int? cafeId = null)
         {
-            navigationService.Navigate("Map");
+            if (cafeId == null)
+            {
+                navigationService.Navigate("Map");
+            }
+            else
+            {
+                navigationService.Navigate(
+                "Map",
+                new Dictionary<string, object>
+                {
+                    { "Id", cafeId }
+                });
+            }
         }
     }
 }

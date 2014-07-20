@@ -113,7 +113,10 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Label="Show Map" Command="{Binding ShowMap, Mode=OneWay}" Icon="Map"/>
+            <AppBarButton
+                Label="Map"
+                Command="{Binding NavigateToMap, Mode=OneWay}"
+                Icon="Map"/>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

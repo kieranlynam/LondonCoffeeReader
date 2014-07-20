@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using CoffeeClientPrototype.ViewModel.Services;
 using CoffeeClientPrototype.ViewModel.Support;
 using GalaSoft.MvvmLight;
@@ -17,7 +15,7 @@ namespace CoffeeClientPrototype.ViewModel.List
         private readonly INavigationService navigationService;
         private readonly IDataService dataService;
         private readonly IGeolocationProvider geolocationProvider;
-        private CancellationTokenSource cancellationTokenSource = null;
+        private CancellationTokenSource cancellationTokenSource;
 
         private CafeSummaryViewModel selectedCafe;
 
@@ -81,14 +79,26 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             this.RaisePropertyChanged(() => this.RecentreAtCurrentLocation);
 
+            var requestedCafeId = parameters.ContainsKey("Id") ? (int)parameters["Id"] : (int?)null;
+
             this.cancellationTokenSource = new CancellationTokenSource();
             var locationTask = this.geolocationProvider.GetLocationAsync(this.cancellationTokenSource.Token);
-            await PopulateCafes();
-            var location = await locationTask;
+            await PopulateCafes(requestedCafeId);
+
+            if (this.selectedCafe != null)
+            {
+                this.PopulateCentre(new Coordinate(this.selectedCafe.Latitude, this.selectedCafe.Longitude));
+            }
+            
+            var location =  await locationTask;
             this.PopulateNearbyCafes(location);
             this.PopulateCurrentLocation(location);
-            this.PopulateCentre(location);
-            this.PopulateSelectedCafe();
+
+            if (this.selectedCafe == null)
+            {
+                this.PopulateCentre(location);
+                this.SelectedCafe = this.NearbyCafes.FirstOrDefault();
+            }
         }
 
         public void OnNavigatedFrom()
@@ -100,12 +110,18 @@ namespace CoffeeClientPrototype.ViewModel.List
             }
         }
 
-        private async Task PopulateCafes()
+        private async Task PopulateCafes(int? selectCafeId)
         {
             if (this.Cafes.Any()) return;
             foreach (var cafe in await this.dataService.GetAllCafes())
             {
-                this.Cafes.Add(new MapCafeSummaryViewModel(cafe, this.navigationService));
+                var cafeViewModel = new MapCafeSummaryViewModel(cafe, this.navigationService);
+                this.Cafes.Add(cafeViewModel);
+
+                if (cafe.Id == selectCafeId)
+                {
+                    this.SelectedCafe = cafeViewModel;
+                }
             }
         }
 
@@ -145,12 +161,6 @@ namespace CoffeeClientPrototype.ViewModel.List
             {
                 this.NearbyCafes.Add(cafe);
             }
-        }
-
-        private void PopulateSelectedCafe()
-        {
-            if (this.selectedCafe != null) return;
-            this.SelectedCafe = this.NearbyCafes.FirstOrDefault();
         }
     }
 }

@@ -13,10 +13,12 @@ namespace CoffeeClientPrototype.ViewModel.Details
     public class DetailsViewModel : ViewModelBase, INavigationListener
     {
         private readonly IDataService dataService;
+        private readonly INavigationService navigationService;
         private readonly IIdentityService identityService;
         private readonly IMapLauncher mapLauncher;
         private readonly IShareSource shareSource;
 
+        private int cafeId;
         private double coffeeRating;
         private double atmosphereRating;
         private int numberOfVotes;
@@ -53,36 +55,41 @@ namespace CoffeeClientPrototype.ViewModel.Details
         
         public ReviewViewModel CurrentIdentityReview { get; private set; }
 
-        public RelayCommand ShowMap { get; private set; }
+        public RelayCommand ShowDirections { get; private set; }
+        
+        public RelayCommand NavigateToMap { get; private set; }
 
         public ShareCafeCommand Share { get; private set; }
 
-        public DetailsViewModel(IDataService dataService, IIdentityService identityService, IMapLauncher mapLauncher, IShareSource shareSource)
+        public DetailsViewModel(IDataService dataService, INavigationService navigationService, IIdentityService identityService, IMapLauncher mapLauncher, IShareSource shareSource)
         {
             this.dataService = dataService;
+            this.navigationService = navigationService;
             this.identityService = identityService;
             this.mapLauncher = mapLauncher;
             this.shareSource = shareSource;
             this.Photos = new ObservableCollection<PhotoViewModel>();
             this.Reviews = new ObservableCollection<ReviewViewModel>();
-            this.ShowMap = new RelayCommand(this.OnShowMapExecuted);
+            this.ShowDirections = new RelayCommand(this.OnShowDirectionsExecuted);
+            this.NavigateToMap = new RelayCommand(this.OnNavigateToMapExecuted);
             this.Share = new ShareCafeCommand(this.shareSource);
             this.CurrentIdentityReview = new ReviewViewModel(this.dataService, this.identityService);
 
 #if DEBUG
             if (this.IsInDesignMode)
             {
-                this.Populate(cafeId: 2);
+                this.cafeId = 2;
+                this.Populate();
             }
 #endif
-        }
+        }       
 
         public Task OnNavigatedTo(IDictionary<string, object> parameters)
         {
             this.CurrentIdentityReview.ReviewSubmitted += this.OnCurrentIdentityReviewSubmitted;
 
-            var cafeId = (int) parameters["Id"];
-            return this.Populate(cafeId);
+            this.cafeId = (int) parameters["Id"];
+            return this.Populate();
         }
 
         public void OnNavigatedFrom()
@@ -94,9 +101,9 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Share.Cafe = null;
         }
 
-        private Task Populate(int cafeId)
+        private Task Populate()
         {
-            var detailsTask = this.GetCafe(cafeId)
+            var detailsTask = this.GetCafe()
                 .ContinueWith(task => Populate(task.Result), TaskScheduler.FromCurrentSynchronizationContext());
             var reviewsTask = this.dataService.GetCafeReviews(cafeId)
                 .ContinueWith(task => Populate(task.Result), TaskScheduler.FromCurrentSynchronizationContext());
@@ -157,10 +164,10 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.RaisePropertyChanged(() => this.CurrentIdentityReview);
         }
 
-        private async Task<Cafe> GetCafe(int cafeId)
+        private async Task<Cafe> GetCafe()
         {
             var cafes = await this.dataService.GetAllCafes();
-            var cafe = cafes.FirstOrDefault(c => c.Id == cafeId);
+            var cafe = cafes.FirstOrDefault(c => c.Id == this.cafeId);
             if (cafe == null)
             {
                 throw new ArgumentException(
@@ -169,9 +176,14 @@ namespace CoffeeClientPrototype.ViewModel.Details
             return cafe;
         }
 
-        private void OnShowMapExecuted()
+        private void OnShowDirectionsExecuted()
         {
             this.mapLauncher.Launch(this.Longitude, this.Latitude, this.Name);
+        }
+
+        private void OnNavigateToMapExecuted()
+        {
+            this.navigationService.NavigateToMap(this.cafeId);
         }
 
         private void OnCurrentIdentityReviewSubmitted(object sender, ReviewSubmittedEventArgs args)

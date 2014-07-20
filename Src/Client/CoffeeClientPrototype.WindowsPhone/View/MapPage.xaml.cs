@@ -173,8 +173,8 @@ namespace CoffeeClientPrototype.View
             var centrePoint = new Geopoint(
                     new BasicGeoposition
                     {
-                        Latitude = this.ViewModel.CurrentLocation.Latitude,
-                        Longitude = this.ViewModel.CurrentLocation.Longitude
+                        Latitude = this.ViewModel.Centre.Latitude,
+                        Longitude = this.ViewModel.Centre.Longitude
                     });
 
             if (!this.hasMapLoaded)

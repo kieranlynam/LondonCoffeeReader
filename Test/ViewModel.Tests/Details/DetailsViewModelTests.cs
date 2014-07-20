@@ -291,7 +291,7 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void ShowMap()
+        public void ShowDirections()
         {
             using (var context = new Context())
             {
@@ -305,12 +305,34 @@ namespace ViewModel.Tests.Details
                 context.Cafes.Add(cafe);
                 context.NavigateTo(cafe.Id);
 
-                context.ViewModel.ShowMap.Execute(null);
+                context.ViewModel.ShowDirections.Execute(null);
 
                 Assert.IsNotNull(context.MapLauncher.LastLaunch);
                 Assert.AreEqual("Coffee Shop", context.MapLauncher.LastLaunch.Name);
                 Assert.AreEqual(45.15, context.MapLauncher.LastLaunch.Longitude);
                 Assert.AreEqual(15.45, context.MapLauncher.LastLaunch.Latitude);
+            }
+        }
+
+        [TestMethod]
+        public void NavigateToMap()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe
+                {
+                    Id = 1,
+                    Name = "Coffee Shop",
+                    Longitude = 45.15,
+                    Latitude = 15.45
+                };
+                context.Cafes.Add(cafe);
+                context.NavigateTo(cafe.Id);
+
+                context.ViewModel.NavigateToMap.Execute(null);
+
+                Assert.AreEqual("Map", context.NavigationService.Current.Location);
+                Assert.AreEqual(1, context.NavigationService.Current.Parameters["Id"]);
             }
         }
 
@@ -353,6 +375,7 @@ namespace ViewModel.Tests.Details
                 Assert.IsFalse(context.ViewModel.Share.CanExecute(null));
             }
         }
+
         private class Context : BaseTestContext
         {
             public DetailsViewModel ViewModel { get; private set; }
@@ -370,6 +393,7 @@ namespace ViewModel.Tests.Details
 
                 this.ViewModel = new DetailsViewModel(
                                     this.DataService,
+                                    this.NavigationService,
                                     this.IdentityService,
                                     this.MapLauncher,
                                     this.ShareSource);

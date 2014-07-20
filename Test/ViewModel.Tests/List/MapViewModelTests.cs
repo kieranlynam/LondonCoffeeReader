@@ -50,7 +50,27 @@ namespace ViewModel.Tests.List
         }
 
         [TestMethod]
-        public async Task InitialSelectedCafeSetToNearestToCurrentLocation()
+        public async Task InitialSelectedCafeSetToSpecificCafeIfRequested()
+        {
+            using (var context = new Context())
+            {
+                context.Cafes.Add(new Cafe { Id = 1, Name = "Nearest", Longitude = 8, Latitude =  8 });
+                context.Cafes.Add(new Cafe { Id = 5, Name = "Requested", Longitude = 5, Latitude = 5 });
+
+                context.GeolocationProvider.CurrentLocation = new Coordinate(8, 8);
+
+                await context.ViewModel.OnNavigatedTo(
+                    new Dictionary<string, object>
+                    {
+                        { "Id", 5 }
+                    });
+
+                Assert.AreEqual("Requested", context.ViewModel.SelectedCafe.Name);
+            }
+        }
+
+        [TestMethod]
+        public async Task InitialSelectedCafeSetToNearestToCurrentLocationIfNoSpecificRequested()
         {
             using (var context = new Context())
             {
@@ -81,6 +101,22 @@ namespace ViewModel.Tests.List
         }
 
         [TestMethod]
+        public async Task CentrePopulatedFromSelectedCafeWhenNavigatedTo()
+        {
+            using (var context = new Context())
+            {
+                context.Cafes.Add(new Cafe { Latitude = 7, Longitude = 7 });
+                await context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
+
+                context.ViewModel.SelectCafe.Execute(context.ViewModel.Cafes[0]);
+                await context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
+
+                Assert.AreEqual(7, context.ViewModel.Centre.Latitude);
+                Assert.AreEqual(7, context.ViewModel.Centre.Longitude);
+            }
+        }
+
+        [TestMethod]
         public async Task RecentreAtCurrentLocationCommand()
         {
             using (var context = new Context())
@@ -95,6 +131,24 @@ namespace ViewModel.Tests.List
 
                 Assert.AreEqual(10, context.ViewModel.Centre.Latitude);
                 Assert.AreEqual(10, context.ViewModel.Centre.Longitude);
+            }
+        }
+
+        [TestMethod]
+        public async Task SelectCafeCommand()
+        {
+            using (var context = new Context())
+            {
+                context.Cafes.Add(new Cafe { Name = "A" });
+                context.Cafes.Add(new Cafe { Name = "B" });
+                
+                await context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
+
+                context.ViewModel.SelectCafe.Execute(context.ViewModel.Cafes[0]);
+                Assert.AreEqual(context.ViewModel.Cafes[0], context.ViewModel.SelectedCafe);
+                
+                context.ViewModel.SelectCafe.Execute(context.ViewModel.Cafes[1]);
+                Assert.AreEqual(context.ViewModel.Cafes[1], context.ViewModel.SelectedCafe);
             }
         }
 

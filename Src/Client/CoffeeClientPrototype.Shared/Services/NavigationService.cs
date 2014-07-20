@@ -9,6 +9,8 @@ namespace CoffeeClientPrototype.Services
 {
     public class NavigationService : INavigationService
     {
+        private static readonly IDictionary<string, object> EmptyParametes = new Dictionary<string, object>();
+
         private static Frame Frame
         {
             get { return ((Frame) Window.Current.Content); }
@@ -16,6 +18,8 @@ namespace CoffeeClientPrototype.Services
 
         public void Navigate(string destination, IDictionary<string, object> parameters = null)
         {
+            parameters = parameters ?? EmptyParametes;
+            
             switch (destination)
             {
                 case "CafeDetails":
