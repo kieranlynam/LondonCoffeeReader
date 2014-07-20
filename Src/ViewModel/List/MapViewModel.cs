@@ -112,7 +112,7 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         private async Task PopulateCafes(int? selectCafeId)
         {
-            if (this.Cafes.Any()) return;
+            this.Cafes.Clear();
             foreach (var cafe in await this.dataService.GetAllCafes())
             {
                 var cafeViewModel = new MapCafeSummaryViewModel(cafe, this.navigationService);

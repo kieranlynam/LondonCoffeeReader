@@ -55,7 +55,8 @@ namespace ViewModel.Tests.List
             using (var context = new Context())
             {
                 context.Cafes.Add(new Cafe { Id = 1, Name = "Nearest", Longitude = 8, Latitude =  8 });
-                context.Cafes.Add(new Cafe { Id = 5, Name = "Requested", Longitude = 5, Latitude = 5 });
+                context.Cafes.Add(new Cafe { Id = 5, Name = "Five", Longitude = 5, Latitude = 4 });
+                context.Cafes.Add(new Cafe { Id = 9, Name = "Nine", Longitude = 4, Latitude = 5 });
 
                 context.GeolocationProvider.CurrentLocation = new Coordinate(8, 8);
 
@@ -64,8 +65,14 @@ namespace ViewModel.Tests.List
                     {
                         { "Id", 5 }
                     });
+                Assert.AreEqual("Five", context.ViewModel.SelectedCafe.Name);
 
-                Assert.AreEqual("Requested", context.ViewModel.SelectedCafe.Name);
+                await context.ViewModel.OnNavigatedTo(
+                    new Dictionary<string, object>
+                    {
+                        { "Id", 9 }
+                    });
+                Assert.AreEqual("Nine", context.ViewModel.SelectedCafe.Name);
             }
         }
 
