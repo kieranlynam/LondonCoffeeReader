@@ -172,6 +172,189 @@ namespace CoffeeClientPrototype.Services
                             ImageUri = new Uri("http://themodelsoffice.com/wp-content/uploads/2013/01/Flat-White-3-e1357925027110.jpg")
                         }
                     }
+                },
+                new Cafe
+                {
+                    Id = 8,
+                    Name = "Haggerston Espresso Room",
+                    CoffeeRating = 4.5,
+                    AtmosphereRating = 3.5,
+                    NumberOfVotes = 290,
+                    Address = "13 Downham Rd",
+                    PostCode = "N1 5AA",
+                    Latitude = 51.538976,
+                    Longitude = -0.077686,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://2.bp.blogspot.com/-Z60GfhWcq8I/T2DO9-OtdCI/AAAAAAAAENI/8A_WyxsS80E/s1600/her.jpg")
+                        }
+                    }
+                },
+                new Cafe
+                {
+                    Id = 9,
+                    Name = "Department of Coffee and Social Affairs",
+                    CoffeeRating = 4.25,
+                    AtmosphereRating = 4,
+                    NumberOfVotes = 324,
+                    Address = "14-16 Leather Lane",
+                    PostCode = "EC1N 7SU",
+                    Latitude = 51.51945,
+                    Longitude = -0.109094,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("https://c2.staticflickr.com/8/7129/6930994854_c619c0cd1e_z.jpg")
+                        }
+                    }
+                },
+                new Cafe
+                {
+                    Id = 10,
+                    Name = "Protein by Dunnefrankowski",
+                    CoffeeRating = 4.5,
+                    AtmosphereRating = 3.75,
+                    NumberOfVotes = 94,
+                    Address = "18 Hewett Street",
+                    PostCode = "EC2A 3NN",
+                    Latitude = 51.5231171,
+                    Longitude = -0.0797379,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://now-here-this.timeout.com/wp-content/uploads/2012/12/Unknown-198.jpg")
+                        },
+                        new Photo
+                        {
+                            ImageUri = new Uri("https://protein-publisher-prod.s3.amazonaws.com/uploads/medium_PBDF_VF-3.jpg")
+                        }
+                    }
+                },
+                new Cafe
+                {
+                    Id = 11,
+                    Name = "63 Wilton Way",
+                    CoffeeRating = 4.25,
+                    AtmosphereRating = 4.25,
+                    NumberOfVotes = 102,
+                    Address = "63 Wilton Way",
+                    PostCode = "E8 1BG",
+                    Latitude = 51.545701,
+                    Longitude = -0.061426,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://media.tumblr.com/tumblr_ls72dgJrZS1qckwze.jpg")
+                        }
+                    }
+                },
+                new Cafe
+                {
+                    Id = 12,
+                    Name = "Climpson and Sons",
+                    CoffeeRating = 4.75,
+                    AtmosphereRating = 4,
+                    NumberOfVotes = 502,
+                    Address = "67 Broadway Market",
+                    PostCode = "E8 4PH",
+                    Latitude = 51.53747,
+                    Longitude = -0.061339,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://farm4.staticflickr.com/3354/3414211179_ca33c85689.jpg")
+                        }
+                    }
+                },
+                new Cafe
+                {
+                    Id = 13,
+                    Name = "Talkhouse Coffee",
+                    CoffeeRating = 4,
+                    AtmosphereRating = 3.75,
+                    NumberOfVotes = 75,
+                    Address = "275 Portobello Rd",
+                    PostCode = "E8 4PH",
+                    Latitude = 51.517815,
+                    Longitude = -0.206698,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://media-cdn.tripadvisor.com/media/photo-s/04/7a/b9/b3/talkhouse-coffee.jpg")
+                        }
+                    }
+                },
+                new Cafe
+                {
+                    Id = 14,
+                    Name = "Nude Espresso",
+                    CoffeeRating = 4.45,
+                    AtmosphereRating = 3.85,
+                    NumberOfVotes = 240,
+                    Address = "19 Soho Square",
+                    PostCode = "W1D 3QN",
+                    Latitude = 51.515787,
+                    Longitude = -0.131787,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://www.urban75.org/blog/wp-content/uploads/2012/03/nude-espresso-soho-square-02.jpg")
+                        }
+                    }
+                },
+                new Cafe
+                {
+                    Id = 15,
+                    Name = "Store Street Espresso",
+                    CoffeeRating = 4,
+                    AtmosphereRating = 4.25,
+                    NumberOfVotes = 102,
+                    Address = "40 Store St",
+                    PostCode = "WC1E 7DB",
+                    Latitude = 51.520115,
+                    Longitude = -0.130749,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://payload82.cargocollective.com/1/8/274917/3952612/Store-Street-Espresso-Outside.jpg")
+                        },
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://ic.pics.livejournal.com/cafediaries/21119118/101017/101017_640.jpg")
+                        }
+                    }
+                },
+                new Cafe
+                {
+                    Id = 16,
+                    Name = "The Liberty of Norton Folgate",
+                    CoffeeRating = 4.1,
+                    AtmosphereRating = 3.25,
+                    NumberOfVotes = 98,
+                    Address = "201 Bishopsgate",
+                    PostCode = "EC2M 3UG",
+                    Latitude = 51.520864,
+                    Longitude = -0.079039,
+                    Photos = new[]
+                    {
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://www.broadgate.co.uk/Content/Upload/DetailImages/120_detail_1.jpg")
+                        },
+                        new Photo
+                        {
+                            ImageUri = new Uri("http://sweetsoundofcoffee.files.wordpress.com/2012/08/img_08182.jpg")
+                        }
+                    }
                 }
             };
 
