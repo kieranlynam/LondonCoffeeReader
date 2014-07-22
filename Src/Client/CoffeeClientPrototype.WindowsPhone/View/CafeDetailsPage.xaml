@@ -26,6 +26,8 @@
                     Text="{Binding Converter={StaticResource TextToUpperConverter}}"
                     Foreground="{StaticResource PrimaryForecolour}"
                     Style="{StaticResource PrimaryText}"
+                    TextWrapping="Wrap"
+                    Padding="0 0 4 0"
                     FontSize="30"
                     CharacterSpacing="70" 
                     />
