@@ -40,7 +40,6 @@
     <Compile Include="Details\ShareCafeCommand.cs" />
     <Compile Include="List\CafeSummaryViewModel.cs" />
     <Compile Include="INavigationListener.cs" />
-    <Compile Include="List\MapCafeSummaryViewModel.cs" />
     <Compile Include="Support\DistanceCalculator.cs" />
     <Compile Include="List\ListViewModel.cs" />
     <Compile Include="List\NavigateToCafeDetailsCommand.cs" />

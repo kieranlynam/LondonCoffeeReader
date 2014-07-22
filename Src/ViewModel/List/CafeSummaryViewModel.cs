@@ -15,6 +15,7 @@ namespace CoffeeClientPrototype.ViewModel.List
         private string address;
         private double latitude;
         private double longitude;
+        private double? distanceToCurrentLocation;
         private Photo photo;
 
         public string Name
@@ -51,6 +52,12 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             get { return this.longitude; }
             set { this.Set(ref this.longitude, value); }
+        }
+
+        public double? DistanceToCurrentLocation
+        {
+            get { return this.distanceToCurrentLocation; }
+            set { this.Set(ref this.distanceToCurrentLocation, value); }
         }
 
         public Photo Photo

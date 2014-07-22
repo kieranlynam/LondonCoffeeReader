@@ -32,9 +32,9 @@ namespace CoffeeClientPrototype.ViewModel.List
             private set { this.Set(ref this.selectedCafe, value); }
         }
 
-        public ObservableCollection<MapCafeSummaryViewModel> Cafes { get; private set; }
+        public ObservableCollection<CafeSummaryViewModel> Cafes { get; private set; }
 
-        public ObservableCollection<MapCafeSummaryViewModel> NearbyCafes { get; private set; }
+        public ObservableCollection<CafeSummaryViewModel> NearbyCafes { get; private set; }
 
         public RelayCommand RecentreAtCurrentLocation { get; private set; }
 
@@ -45,8 +45,8 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.navigationService = navigationService;
             this.dataService = dataService;
             this.geolocationProvider = geolocationProvider;
-            this.Cafes = new ObservableCollection<MapCafeSummaryViewModel>();
-            this.NearbyCafes = new ObservableCollection<MapCafeSummaryViewModel>();
+            this.Cafes = new ObservableCollection<CafeSummaryViewModel>();
+            this.NearbyCafes = new ObservableCollection<CafeSummaryViewModel>();
             this.CurrentLocation = new ObservableCoordinate();
             this.Centre = new ObservableCoordinate
                 {
@@ -115,7 +115,7 @@ namespace CoffeeClientPrototype.ViewModel.List
             this.Cafes.Clear();
             foreach (var cafe in await this.dataService.GetAllCafes())
             {
-                var cafeViewModel = new MapCafeSummaryViewModel(cafe, this.navigationService);
+                var cafeViewModel = new CafeSummaryViewModel(cafe, this.navigationService);
                 this.Cafes.Add(cafeViewModel);
 
                 if (cafe.Id == selectCafeId)

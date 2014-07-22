@@ -50,7 +50,7 @@ namespace CoffeeClientPrototype.ViewModel.List
             var getLocation = this.geolocationProvider.GetLocationAsync(this.cancellationTokenSource.Token);
 
             var cafes = await getCafes;
-            var cafeItems = cafes.Select(CreateCafeSummary);
+            var cafeItems = cafes.Select(CreateCafeSummary).ToArray();
             this.PopulateBestCafes(cafeItems);
 
             var location = await getLocation;
@@ -84,8 +84,14 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             if (location == null) return;
 
+            foreach (var cafe in cafes)
+            {
+                cafe.DistanceToCurrentLocation = location.DistanceTo(cafe);
+            }
+
             var items = cafes
-                .OrderBy(location.DistanceTo);
+                .Where(cafe => cafe.DistanceToCurrentLocation < 3000)
+                .OrderBy(cafe => cafe.DistanceToCurrentLocation);
 
             this.NearbyCafes.Clear();
             foreach (var item in items)

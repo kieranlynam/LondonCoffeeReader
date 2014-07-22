@@ -65,10 +65,10 @@ namespace ViewModel.Tests.List
         {
             using (var context = new Context())
             {
-                context.Cafes.Add(new Cafe { Name = "C", Latitude = 1,  Longitude = 1 });
-                context.Cafes.Add(new Cafe { Name = "A", Latitude = 9,  Longitude = 8 });
-                context.Cafes.Add(new Cafe { Name = "B", Latitude = 5,  Longitude = 6 });
-                context.Cafes.Add(new Cafe { Name = "D", Latitude = 25, Longitude = 20 });
+                context.Cafes.Add(new Cafe { Name = "C", Latitude = 10.0003, Longitude = 10.0003 });
+                context.Cafes.Add(new Cafe { Name = "A", Latitude = 10.0001, Longitude = 10.0001 });
+                context.Cafes.Add(new Cafe { Name = "B", Latitude = 10.0002, Longitude = 10.0002 });
+                context.Cafes.Add(new Cafe { Name = "D", Latitude = 10.0004, Longitude = 10.0004 });
 
                 context.GeolocationProvider.CurrentLocation = new Coordinate(10, 10);
 
