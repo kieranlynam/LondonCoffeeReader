@@ -237,7 +237,7 @@ namespace CoffeeClientPrototype.Services
                 new Cafe
                 {
                     Id = 11,
-                    Name = "63 Wilton Way",
+                    Name = "Wilton Way Cafe",
                     CoffeeRating = 4.25,
                     AtmosphereRating = 4.25,
                     NumberOfVotes = 102,
