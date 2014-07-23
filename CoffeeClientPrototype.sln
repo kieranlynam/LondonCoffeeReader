@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30626.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoffeeClientPrototype", "CoffeeClientPrototype", "{FFA7B83C-0100-493B-8E63-C52D45158064}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeClientPrototype.Windows", "Src\Client\CoffeeClientPrototype.Windows\CoffeeClientPrototype.Windows.csproj", "{4986F07D-A171-44AD-A9EF-AFE26996829C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeClientPrototype.WindowsPhone", "Src\Client\CoffeeClientPrototype.WindowsPhone\CoffeeClientPrototype.WindowsPhone.csproj", "{1B1E40A6-380A-439A-B07F-640E8C0FCDC0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{CDA635C7-DB0F-4E01-8F08-6FA23BD7C07C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileService", "Src\MobileService\MobileService.csproj", "{209FA716-A7AD-4095-BD70-C8710FC66FA7}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -124,6 +128,16 @@ Global
 		{1B1E40A6-380A-439A-B07F-640E8C0FCDC0}.Release|x86.ActiveCfg = Release|x86
 		{1B1E40A6-380A-439A-B07F-640E8C0FCDC0}.Release|x86.Build.0 = Release|x86
 		{1B1E40A6-380A-439A-B07F-640E8C0FCDC0}.Release|x86.Deploy.0 = Release|x86
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Release|ARM.ActiveCfg = Release|Any CPU
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Release|x64.ActiveCfg = Release|Any CPU
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,5 +150,6 @@ Global
 		{6024906A-9111-47E9-95A1-A0FDB9D956FD} = {3D658D31-C3D2-460C-A573-A35D39467652}
 		{4986F07D-A171-44AD-A9EF-AFE26996829C} = {FFA7B83C-0100-493B-8E63-C52D45158064}
 		{1B1E40A6-380A-439A-B07F-640E8C0FCDC0} = {FFA7B83C-0100-493B-8E63-C52D45158064}
+		{209FA716-A7AD-4095-BD70-C8710FC66FA7} = {CDA635C7-DB0F-4E01-8F08-6FA23BD7C07C}
 	EndGlobalSection
 EndGlobal
