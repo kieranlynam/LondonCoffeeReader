@@ -7,7 +7,7 @@ using londoncoffeeService.DataObjects;
 
 namespace londoncoffeeService.Models
 {
-    public class londoncoffeeContext : DbContext
+    public class DataContext : DbContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -21,11 +21,13 @@ namespace londoncoffeeService.Models
         // Web.config, is the same as the service name when hosted in Azure.
         private const string connectionStringName = "Name=MS_TableConnectionString";
 
-        public londoncoffeeContext() : base(connectionStringName)
+        public DataContext() : base(connectionStringName)
         {
         } 
 
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<CafeData> Cafes { get; set; }
+        
+        public DbSet<ReviewData> Reviews { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -40,5 +42,4 @@ namespace londoncoffeeService.Models
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
     }
-
 }

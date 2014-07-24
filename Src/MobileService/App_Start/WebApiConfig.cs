@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity.Migrations;
 using System.Web.Http;
+using londoncoffeeService.Migrations;
 using Microsoft.WindowsAzure.Mobile.Service;
-using londoncoffeeService.DataObjects;
-using londoncoffeeService.Models;
 
 namespace londoncoffeeService
 {
@@ -12,35 +10,19 @@ namespace londoncoffeeService
         public static void Register()
         {
             // Use this class to set configuration options for your mobile service
-            ConfigOptions options = new ConfigOptions();
+            var options = new ConfigOptions();
 
             // Use this class to set WebAPI configuration options
             HttpConfiguration config = ServiceConfig.Initialize(new ConfigBuilder(options));
 
             // To display errors in the browser during development, uncomment the following
             // line. Comment it out again when you deploy your service for production use.
-            // config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
             
-            Database.SetInitializer(new londoncoffeeInitializer());
-        }
-    }
-
-    public class londoncoffeeInitializer : ClearDatabaseSchemaIfModelChanges<londoncoffeeContext>
-    {
-        protected override void Seed(londoncoffeeContext context)
-        {
-            List<TodoItem> todoItems = new List<TodoItem>
-            {
-                new TodoItem { Id = "1", Text = "First item", Complete = false },
-                new TodoItem { Id = "2", Text = "Second item", Complete = false },
-            };
-
-            foreach (TodoItem todoItem in todoItems)
-            {
-                context.Set<TodoItem>().Add(todoItem);
-            }
-
-            base.Seed(context);
+            //Database.SetInitializer(new DataInitializer());
+            var configuration = new Configuration();
+            var migrator = new DbMigrator(configuration);
+            migrator.Update();
         }
     }
 }
