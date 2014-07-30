@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using CoffeeClientPrototype.View;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace CoffeeClientPrototype
 {
@@ -19,6 +20,8 @@ namespace CoffeeClientPrototype
 #if WINDOWS_PHONE_APP
         private TransitionCollection transitions;
 #endif
+
+        
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code

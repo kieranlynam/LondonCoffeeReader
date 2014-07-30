@@ -13,6 +13,7 @@ using CoffeeClientPrototype.ViewModel.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace CoffeeClientPrototype
 {
@@ -39,7 +40,7 @@ namespace CoffeeClientPrototype
             else
             {
                 // Create run time view services and models
-                SimpleIoc.Default.Register<IDataService, DesignDataService>();
+                SimpleIoc.Default.Register(CreateDataService);
                 SimpleIoc.Default.Register<IIdentityService, DesignIdentityService>();
                 SimpleIoc.Default.Register<IGeolocationProvider, GeolocationProvider>(true);
             }
@@ -77,7 +78,15 @@ namespace CoffeeClientPrototype
                 return ServiceLocator.Current.GetInstance<MapViewModel>();
             }
         }
-        
+
+        private IDataService CreateDataService()
+        {
+            return new AzureDataService(
+                new MobileServiceClient(
+                        "https://londoncoffee.azure-mobile.net/",
+                        "lTnoAEeKSVqJevElSfjpysrtTaPTON54"));
+        }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

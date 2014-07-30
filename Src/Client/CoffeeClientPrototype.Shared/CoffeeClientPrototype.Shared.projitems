@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\RatingToTextConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\TextToUpperConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\VotesCountToTextConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ShareSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DesignDataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DesignGeolocationProvider.cs" />
