@@ -79,7 +79,7 @@ namespace CoffeeClientPrototype.ViewModel.List
         {
             this.RaisePropertyChanged(() => this.RecentreAtCurrentLocation);
 
-            var requestedCafeId = parameters.ContainsKey("Id") ? (int)parameters["Id"] : (int?)null;
+            var requestedCafeId = parameters.ContainsKey("Id") ? (string)parameters["Id"] : null;
 
             this.cancellationTokenSource = new CancellationTokenSource();
             var locationTask = this.geolocationProvider.GetLocationAsync(this.cancellationTokenSource.Token);
@@ -110,7 +110,7 @@ namespace CoffeeClientPrototype.ViewModel.List
             }
         }
 
-        private async Task PopulateCafes(int? selectCafeId)
+        private async Task PopulateCafes(string selectCafeId)
         {
             this.Cafes.Clear();
             foreach (var cafe in await this.dataService.GetAllCafes())
@@ -118,7 +118,7 @@ namespace CoffeeClientPrototype.ViewModel.List
                 var cafeViewModel = new CafeSummaryViewModel(cafe, this.navigationService);
                 this.Cafes.Add(cafeViewModel);
 
-                if (cafe.Id == selectCafeId)
+                if (selectCafeId != null && cafe.Id == selectCafeId)
                 {
                     this.SelectedCafe = cafeViewModel;
                 }

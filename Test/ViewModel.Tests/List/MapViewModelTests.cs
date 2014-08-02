@@ -18,7 +18,7 @@ namespace ViewModel.Tests.List
             {
                 for (int id = 0; id < 50; id++)
                 {
-                    context.Cafes.Add(new Cafe { Id = id, Name = id.ToString() });
+                    context.Cafes.Add(new Cafe { Id = id.ToString(), Name = id.ToString() });
                 }
 
                 await context.ViewModel.OnNavigatedTo(new Dictionary<string, object>());
@@ -54,23 +54,23 @@ namespace ViewModel.Tests.List
         {
             using (var context = new Context())
             {
-                context.Cafes.Add(new Cafe { Id = 1, Name = "Nearest", Longitude = 8, Latitude =  8 });
-                context.Cafes.Add(new Cafe { Id = 5, Name = "Five", Longitude = 5, Latitude = 4 });
-                context.Cafes.Add(new Cafe { Id = 9, Name = "Nine", Longitude = 4, Latitude = 5 });
+                context.Cafes.Add(new Cafe { Id = "1", Name = "Nearest", Longitude = 8, Latitude =  8 });
+                context.Cafes.Add(new Cafe { Id = "5", Name = "Five", Longitude = 5, Latitude = 4 });
+                context.Cafes.Add(new Cafe { Id = "9", Name = "Nine", Longitude = 4, Latitude = 5 });
 
                 context.GeolocationProvider.CurrentLocation = new Coordinate(8, 8);
 
                 await context.ViewModel.OnNavigatedTo(
                     new Dictionary<string, object>
                     {
-                        { "Id", 5 }
+                        { "Id", "5" }
                     });
                 Assert.AreEqual("Five", context.ViewModel.SelectedCafe.Name);
 
                 await context.ViewModel.OnNavigatedTo(
                     new Dictionary<string, object>
                     {
-                        { "Id", 9 }
+                        { "Id", "9" }
                     });
                 Assert.AreEqual("Nine", context.ViewModel.SelectedCafe.Name);
             }

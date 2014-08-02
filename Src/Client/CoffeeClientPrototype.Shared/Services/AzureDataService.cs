@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
 using CoffeeClientPrototype.ViewModel.Services;
@@ -22,14 +21,40 @@ namespace CoffeeClientPrototype.Services
             return this.serviceClient.GetTable<Cafe>().ReadAsync();
         }
 
-        public Task<IEnumerable<Review>> GetCafeReviews(int cafeId)
+        public Task<IEnumerable<Review>> GetCafeReviews(string cafeId)
         {
-            return Task.FromResult(Enumerable.Empty<Review>());
+            return this.serviceClient
+                .GetTable<Review>()
+                .Where(review => review.CafeId == cafeId)
+                .ToEnumerableAsync();
         }
 
-        public Task SaveCafeReview(int cafeId, Review review)
+        public async Task SaveCafeReview(Review review)
         {
-            throw new NotImplementedException();
+            var tasks = new List<Task>();
+
+            Task saveReviewTask;
+            var reviewTable = this.serviceClient.GetTable<Review>();
+            if (review.Id == null)
+            {
+                review.Id = Guid.NewGuid().ToString();
+                saveReviewTask = reviewTable.InsertAsync(review);
+            }
+            else
+            {
+                saveReviewTask = reviewTable.UpdateAsync(review);
+            }
+            tasks.Add(saveReviewTask);
+
+            if (review.CoffeeRating.HasValue || review.AtmosphereRating.HasValue)
+            {
+                var cafeTable = this.serviceClient.GetTable<Cafe>();
+                var cafe = await cafeTable.LookupAsync(review.CafeId);
+                cafe.NumberOfVotes++;
+                tasks.Add(cafeTable.UpdateAsync(cafe));
+            }
+            
+            await Task.WhenAll(tasks);
         }
     }
 }

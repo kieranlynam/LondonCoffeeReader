@@ -93,11 +93,11 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
-        public void SubmittingSavesReviewToDataService()
+        public void SubmittingNewReviewSavesToDataService()
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 5 };
+                var cafe = new Cafe { Id = "5" };
                 context.DataService.Cafes.Add(cafe);
 
                 context.IdentityService.Id = "UserA";
@@ -116,11 +116,36 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
+        public void SubmittingExistingReviewSavesToDataService()
+        {
+            using (var context = new Context())
+            {
+                var cafe = new Cafe { Id = "5" };
+                context.DataService.Cafes.Add(cafe);
+                context.IdentityService.Id = "UserB";
+
+                context.ViewModel.Initialize(new Review { Id = "777" });
+                context.ViewModel.AssociatedCafe = cafe;
+                context.ViewModel.Comment = "Fantastic!";
+                context.ViewModel.CoffeeRating = 4.5;
+                context.ViewModel.AtmosphereRating = 3;
+                context.ViewModel.Submit.Execute(null);
+
+                var review = context.DataService.Reviews[cafe].Single();
+                Assert.AreEqual("777", review.Id, "Id");
+                Assert.AreEqual("Fantastic!", review.Comment, "Comment");
+                Assert.AreEqual(4.5, review.CoffeeRating, "CoffeeRating");
+                Assert.AreEqual(3, review.AtmosphereRating, "AtmosphereRating");
+                Assert.AreEqual("UserB", review.SubmittedBy, "SubmittedBy");
+            }
+        }
+
+        [TestMethod]
         public void SubmittingTrimsComment()
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 5 };
+                var cafe = new Cafe { Id = "5" };
                 context.DataService.Cafes.Add(cafe);
 
                 context.IdentityService.Id = "UserA";
@@ -138,7 +163,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 5 };
+                var cafe = new Cafe { Id = "5" };
                 context.DataService.Cafes.Add(cafe);
 
                 context.IdentityService.Id = "UserA";
@@ -157,7 +182,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 5 };
+                var cafe = new Cafe { Id = "5" };
                 context.DataService.Cafes.Add(cafe);
 
                 context.IdentityService.Id = "Jim";
@@ -175,7 +200,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 5 };
+                var cafe = new Cafe { Id = "5" };
                 context.DataService.Cafes.Add(cafe);
                 
                 context.IdentityService.Id = "UserA";
@@ -205,7 +230,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 5 };
+                var cafe = new Cafe { Id = "5" };
                 context.DataService.Cafes.Add(cafe);
 
                 context.IdentityService.Id = "UserA";

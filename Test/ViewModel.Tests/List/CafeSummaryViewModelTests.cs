@@ -67,13 +67,13 @@ namespace ViewModel.Tests.List
         public void NavigateToCafeDetails()
         {
             var navigationService = new MockNavigationService();
-            var cafe = new Cafe { Id = 1 };
+            var cafe = new Cafe { Id = "1" };
             var item = new CafeSummaryViewModel(cafe, navigationService);
             
             item.Navigate.Execute(null);
 
             Assert.AreEqual("CafeDetails", navigationService.Current.Location);
-            Assert.AreEqual(1, navigationService.Current.Parameters["Id"]);
+            Assert.AreEqual("1", navigationService.Current.Parameters["Id"]);
         }
     }
 }

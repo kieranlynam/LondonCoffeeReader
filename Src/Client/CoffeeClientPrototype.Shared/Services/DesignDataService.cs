@@ -14,7 +14,7 @@ namespace CoffeeClientPrototype.Services
             {
                 new Cafe
                 {
-                    Id = 1,
+                    Id = "1",
                     Name = "Tina, we salute you",
                     CoffeeRating = 4,
                     AtmosphereRating = 5,
@@ -35,7 +35,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 2,
+                    Id = "2",
                     Name = "Shoreditch Grind",
                     CoffeeRating = 4.75,
                     AtmosphereRating = 3.5,
@@ -74,7 +74,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 3,
+                    Id = "3",
                     Name = "Prufrock Café",
                     CoffeeRating = 5,
                     AtmosphereRating = 3.5,
@@ -93,7 +93,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 4,
+                    Id = "4",
                     Name = "Railroad",
                     CoffeeRating = 4,
                     AtmosphereRating = 4,
@@ -112,7 +112,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 5,
+                    Id = "5",
                     Name = "Look Mum No Hands",
                     CoffeeRating = 4,
                     AtmosphereRating = 3.5,
@@ -131,7 +131,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 6,
+                    Id = "6",
                     Name = "Monmouth Coffee",
                     CoffeeRating = 4,
                     AtmosphereRating = 3,
@@ -156,7 +156,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 7,
+                    Id = "7",
                     Name = "Flat White",
                     CoffeeRating = 4.5,
                     AtmosphereRating = 4,
@@ -175,7 +175,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 8,
+                    Id = "8",
                     Name = "Haggerston Espresso Room",
                     CoffeeRating = 4.5,
                     AtmosphereRating = 3.5,
@@ -194,7 +194,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 9,
+                    Id = "9",
                     Name = "Department of Coffee and Social Affairs",
                     CoffeeRating = 4.25,
                     AtmosphereRating = 4,
@@ -213,7 +213,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 10,
+                    Id = "10",
                     Name = "Protein by Dunnefrankowski",
                     CoffeeRating = 4.5,
                     AtmosphereRating = 3.75,
@@ -236,7 +236,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 11,
+                    Id = "11",
                     Name = "Wilton Way Cafe",
                     CoffeeRating = 4.25,
                     AtmosphereRating = 4.25,
@@ -255,7 +255,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 12,
+                    Id = "12",
                     Name = "Climpson and Sons",
                     CoffeeRating = 4.75,
                     AtmosphereRating = 4,
@@ -274,7 +274,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 13,
+                    Id = "13",
                     Name = "Talkhouse Coffee",
                     CoffeeRating = 4,
                     AtmosphereRating = 3.75,
@@ -293,7 +293,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 14,
+                    Id = "14",
                     Name = "Nude Espresso",
                     CoffeeRating = 4.45,
                     AtmosphereRating = 3.85,
@@ -312,7 +312,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 15,
+                    Id = "15",
                     Name = "Store Street Espresso",
                     CoffeeRating = 4,
                     AtmosphereRating = 4.25,
@@ -335,7 +335,7 @@ namespace CoffeeClientPrototype.Services
                 },
                 new Cafe
                 {
-                    Id = 16,
+                    Id = "16",
                     Name = "The Liberty of Norton Folgate",
                     CoffeeRating = 4.1,
                     AtmosphereRating = 3.25,
@@ -365,7 +365,7 @@ namespace CoffeeClientPrototype.Services
             return Task.FromResult(AllCafes);
         }
 
-        public async Task<IEnumerable<Review>> GetCafeReviews(int cafeId)
+        public async Task<IEnumerable<Review>> GetCafeReviews(string cafeId)
         {
             if (!CafeReviews.Any())
             {
@@ -384,7 +384,7 @@ namespace CoffeeClientPrototype.Services
                                         }
                                     };
 
-                    if (cafe.Id == 4)
+                    if (cafe.Id == "4")
                     {
                         reviews.Add(
                             new Review
@@ -403,9 +403,9 @@ namespace CoffeeClientPrototype.Services
             return CafeReviews[AllCafes.First(cafe => cafe.Id == cafeId)];
         }
 
-        public async Task SaveCafeReview(int cafeId, Review review)
+        public async Task SaveCafeReview(Review review)
         {
-            var cafe = AllCafes.First(c => c.Id == cafeId);
+            var cafe = AllCafes.First(c => c.Id == review.CafeId);
             var reviews = CafeReviews[cafe].Where(rev => rev.SubmittedBy != review.SubmittedBy).ToList();
             reviews.Insert(0, review);
             CafeReviews[cafe] = reviews;

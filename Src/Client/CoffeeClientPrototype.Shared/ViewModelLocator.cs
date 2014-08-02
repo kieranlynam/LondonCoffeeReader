@@ -79,7 +79,7 @@ namespace CoffeeClientPrototype
             }
         }
 
-        private IDataService CreateDataService()
+        private static IDataService CreateDataService()
         {
             return new AzureDataService(
                 new MobileServiceClient(

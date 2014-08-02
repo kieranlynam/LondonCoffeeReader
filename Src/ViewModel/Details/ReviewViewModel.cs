@@ -12,6 +12,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private readonly IIdentityService identityService;
 
         private bool isDirty;
+        private string reviewId;
         private string comment;
         private Cafe associatedCafe;
         private double? coffeeRating;
@@ -101,6 +102,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.Set(ref this.comment, review != null ? review.Comment : null);
             this.Set(ref this.coffeeRating, review != null ? review.CoffeeRating : null);
             this.Set(ref this.atmosphereRating, review != null ? review.AtmosphereRating : null);
+            this.reviewId = review != null ? review.Id : null;
             this.SubmittedBy = review != null ? review.SubmittedBy : null;
             this.SubmittedDate = review != null ? review.SubmittedDate : (DateTime?) null;
             this.isDirty = false;
@@ -139,6 +141,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
             var review = new Review
                 {
+                    Id = this.reviewId,
+                    CafeId = this.associatedCafe.Id,
                     Comment = this.comment,
                     SubmittedBy = this.identityService.Id
                 };
@@ -158,10 +162,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
             {
                 return;
             }
-            
-            await this.dataService.SaveCafeReview(
-                this.AssociatedCafe.Id,
-                review);
+
+            await this.dataService.SaveCafeReview(review);
 
             this.SubmittedBy = review.SubmittedBy;
             this.SubmittedDate = review.SubmittedDate;

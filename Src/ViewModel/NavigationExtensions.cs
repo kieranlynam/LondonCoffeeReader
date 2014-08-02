@@ -16,7 +16,7 @@ namespace CoffeeClientPrototype.ViewModel
                 });
         }
 
-        public static void NavigateToMap(this INavigationService navigationService, int? cafeId = null)
+        public static void NavigateToMap(this INavigationService navigationService, string cafeId = null)
         {
             if (cafeId == null)
             {

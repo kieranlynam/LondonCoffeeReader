@@ -198,6 +198,10 @@
     <Compile Include="Migrations\201407241832554_AddReview.Designer.cs">
       <DependentUpon>201407241832554_AddReview.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201407301814139_AddCafeIdToReview.cs" />
+    <Compile Include="Migrations\201407301814139_AddCafeIdToReview.Designer.cs">
+      <DependentUpon>201407301814139_AddCafeIdToReview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="ScheduledJobs\SampleJob.cs" />
@@ -225,6 +229,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201407241832554_AddReview.resx">
       <DependentUpon>201407241832554_AddReview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201407301814139_AddCafeIdToReview.resx">
+      <DependentUpon>201407301814139_AddCafeIdToReview.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

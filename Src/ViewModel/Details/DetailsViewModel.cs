@@ -18,7 +18,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private readonly IMapLauncher mapLauncher;
         private readonly IShareSource shareSource;
 
-        private int cafeId;
+        private string cafeId;
         private double coffeeRating;
         private double atmosphereRating;
         private int numberOfVotes;
@@ -78,7 +78,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 #if DEBUG
             if (this.IsInDesignMode)
             {
-                this.cafeId = 2;
+                this.cafeId = "2";
                 this.Populate();
             }
 #endif
@@ -88,7 +88,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
         {
             this.CurrentIdentityReview.ReviewSubmitted += this.OnCurrentIdentityReviewSubmitted;
 
-            this.cafeId = (int) parameters["Id"];
+            this.cafeId = (string) parameters["Id"];
             return this.Populate();
         }
 

@@ -4,6 +4,10 @@ namespace CoffeeClientPrototype.Model
 {
     public class Review
     {
+        public string Id { get; set; }
+
+        public string CafeId { get; set; }
+
         public string Comment { get; set; }
 
         public double? CoffeeRating { get; set; }

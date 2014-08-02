@@ -20,7 +20,7 @@ namespace ViewModel.Tests.Details
                 context.Cafes.Add(
                     new Cafe
                     {
-                        Id = 1,
+                        Id = "1",
                         Name = "Cafe A",
                         Address = "1 Main Street",
                         PostCode = "A1 11A",
@@ -31,7 +31,7 @@ namespace ViewModel.Tests.Details
                         NumberOfVotes = 200
                     });
 
-                context.NavigateTo(cafeId: 1);
+                context.NavigateTo(cafeId: "1");
                 
                 Assert.AreEqual("Cafe A", context.ViewModel.Name, "Name");
                 Assert.AreEqual("1 Main Street, A1 11A", context.ViewModel.Address, "Address");
@@ -50,7 +50,7 @@ namespace ViewModel.Tests.Details
             {
                 var cafe = new Cafe
                     {
-                        Id = 1,
+                        Id = "1",
                         Photos = new[]
                         {
                             new Photo
@@ -88,7 +88,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 1 };
+                var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
                 context.Reviews[cafe] = new List<Review>
                     {
@@ -110,7 +110,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 1 };
+                var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
                 context.Reviews[cafe] = new List<Review>
                     {
@@ -131,7 +131,7 @@ namespace ViewModel.Tests.Details
             {
                 context.IdentityService.Id = "Me";
 
-                var cafe = new Cafe { Id = 1 };
+                var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
                 context.Reviews[cafe] = new List<Review>
                     {
@@ -166,7 +166,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 1 };
+                var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
                 context.Reviews[cafe] = new List<Review>
                     {
@@ -196,7 +196,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 1 };
+                var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
                 context.Reviews[cafe] = new List<Review>
                     {
@@ -232,7 +232,7 @@ namespace ViewModel.Tests.Details
             {
                 context.IdentityService.Id = "Me";
 
-                var cafe = new Cafe { Id = 1 };
+                var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
                 context.NavigateTo(cafe.Id);
 
@@ -259,7 +259,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 1 };
+                var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
 
                 context.NavigateTo(cafe.Id);
@@ -278,7 +278,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                var cafe = new Cafe { Id = 1 };
+                var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
 
                 context.IdentityService.Id = "UserA";
@@ -297,7 +297,7 @@ namespace ViewModel.Tests.Details
             {
                 var cafe = new Cafe
                             {
-                                Id = 1,
+                                Id = "1",
                                 Name = "Coffee Shop",
                                 Longitude = 45.15,
                                 Latitude = 15.45
@@ -321,7 +321,7 @@ namespace ViewModel.Tests.Details
             {
                 var cafe = new Cafe
                 {
-                    Id = 1,
+                    Id = "1",
                     Name = "Coffee Shop",
                     Longitude = 45.15,
                     Latitude = 15.45
@@ -332,7 +332,7 @@ namespace ViewModel.Tests.Details
                 context.ViewModel.NavigateToMap.Execute(null);
 
                 Assert.AreEqual("Map", context.NavigationService.Current.Location);
-                Assert.AreEqual(1, context.NavigationService.Current.Parameters["Id"]);
+                Assert.AreEqual("1", context.NavigationService.Current.Parameters["Id"]);
             }
         }
 
@@ -399,7 +399,7 @@ namespace ViewModel.Tests.Details
                                     this.ShareSource);
             }
 
-            public void NavigateTo(int cafeId)
+            public void NavigateTo(string cafeId)
             {
                 var navigation = this.ViewModel.OnNavigatedTo(
                     new Dictionary<string, object>

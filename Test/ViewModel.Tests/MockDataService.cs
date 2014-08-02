@@ -24,7 +24,7 @@ namespace ViewModel.Tests
             return this.Cafes;
         }
 
-        public async Task<IEnumerable<Review>> GetCafeReviews(int cafeId)
+        public async Task<IEnumerable<Review>> GetCafeReviews(string cafeId)
         {
             var cafe = this.Cafes.SingleOrDefault(c => c.Id == cafeId);
 
@@ -40,9 +40,9 @@ namespace ViewModel.Tests
             return Enumerable.Empty<Review>();
         }
 
-        public async Task SaveCafeReview(int cafeId, Review review)
+        public async Task SaveCafeReview(Review review)
         {
-            var cafe = this.Cafes.Single(c => c.Id == cafeId);
+            var cafe = this.Cafes.Single(c => c.Id == review.CafeId);
 
             if (!this.Reviews.ContainsKey(cafe))
             {

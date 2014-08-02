@@ -7,6 +7,8 @@ namespace londoncoffeeService.DataObjects
     [Table("Reviews")]
     public class ReviewData : EntityData
     {
+        public string CafeId { get; set; }
+
         public string Comment { get; set; }
 
         public double? CoffeeRating { get; set; }
