@@ -22,7 +22,6 @@
         	<TextBlock
                 Margin="0,10,0,0"
         		Text="{Binding}"
-        		Foreground="{StaticResource PrimaryForecolour}"
         		FontSize="27"
         		Style="{StaticResource PrimaryText}" />
         </DataTemplate>
@@ -89,7 +88,10 @@
         </DataTemplate>
     </Page.Resources>
 
-	<Pivot Title="London Coffee" TitleTemplate="{StaticResource PivotTitleTemplate}" HeaderTemplate="{StaticResource PivotHeaderTemplate}">
+	<Pivot
+        Title=" "
+        TitleTemplate="{StaticResource PivotTitleTemplate}"
+        HeaderTemplate="{StaticResource PivotHeaderTemplate}">
 		<PivotItem Header="Best">
 			<ListView
 				SelectionMode="None"

@@ -16,9 +16,11 @@ namespace CoffeeClientPrototype.Services
             this.serviceClient = serviceClient;
         }
 
-        public Task<IEnumerable<Cafe>> GetAllCafes()
+        public async Task<IEnumerable<Cafe>> GetAllCafes()
         {
-            return this.serviceClient.GetTable<Cafe>().ReadAsync();
+            return await this.serviceClient
+                .GetTable<Cafe>()
+                .ReadAsync();
         }
 
         public Task<IEnumerable<Review>> GetCafeReviews(string cafeId)

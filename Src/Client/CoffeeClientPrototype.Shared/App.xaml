@@ -6,17 +6,25 @@
     >
 
     <Application.Resources>
-        <local:ViewModelLocator x:Name="Locator" />
-        <SolidColorBrush x:Key="PageBackground" Color="#FFD6D4D0"/>
-        <SolidColorBrush x:Key="PrimaryForecolour" Color="#FF3E2414"/>
-        <Style x:Key="PrimaryText" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="ms-appx:/Assets/Fonts/TCB_____.TTF#Tw Cen MT"/>
-        	<Setter Property="CharacterSpacing" Value="150"/>
-        	<Setter Property="FontStretch" Value="UltraCondensed"/>
-		</Style>
-        <Style x:Key="PrimaryContentText" BasedOn="{StaticResource PrimaryText}" TargetType="TextBlock">
-            <Setter Property="CharacterSpacing" Value="60"/>
-        </Style>
+        <ResourceDictionary>
+            <local:ViewModelLocator x:Name="Locator" />
+            <SolidColorBrush x:Key="PageBackground" Color="#FFD6D4D0"/>
+            <SolidColorBrush x:Key="PrimaryForecolour" Color="#FF3E2414"/>
+            <Style x:Key="PrimaryText" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="ms-appx:/Assets/Fonts/TCB_____.TTF#Tw Cen MT"/>
+                <Setter Property="CharacterSpacing" Value="150"/>
+                <Setter Property="FontStretch" Value="UltraCondensed"/>
+            </Style>
+            <Style x:Key="PrimaryContentText" BasedOn="{StaticResource PrimaryText}" TargetType="TextBlock">
+                <Setter Property="CharacterSpacing" Value="60"/>
+            </Style>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <SolidColorBrush x:Key="PivotHeaderForegroundSelectedBrush" Color="#FF3E2414" />
+                    <SolidColorBrush x:Key="PivotHeaderForegroundUnselectedBrush" Color="DarkGray" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 
 </Application>
