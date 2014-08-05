@@ -28,20 +28,69 @@ namespace londoncoffeeService.Controllers
             return this.Lookup(id);
         }
 
-        public Task<ReviewData> PatchReviewData(string id, Delta<ReviewData> patch)
+        public async Task<ReviewData> PatchReviewData(string id, Delta<ReviewData> patch)
         {
-            return this.UpdateAsync(id, patch);
+            using (var context = new DataContext())
+            {
+                var review = context.Reviews.First(r => r.Id == id);
+                bool hadVoteBefore = review.CoffeeRating.HasValue || review.AtmosphereRating.HasValue;
+
+                var patchedReview = await this.UpdateAsync(id, patch);
+
+                var hasVoteAfter = patchedReview.CoffeeRating.HasValue || patchedReview.AtmosphereRating.HasValue;
+                if (hadVoteBefore != hasVoteAfter)
+                {
+                    var cafe = context.Cafes.First(c => c.Id == patchedReview.CafeId);
+                    
+                    if (hasVoteAfter)
+                    {
+                        cafe.NumberOfVotes++;
+                    }
+                    else
+                    {
+                        cafe.NumberOfVotes--;
+                    }
+
+                    context.SaveChanges();
+                }
+
+                return patchedReview;
+            }
         }
 
         public async Task<IHttpActionResult> PostReviewData(ReviewData item)
         {
-            ReviewData current = await InsertAsync(item);
-            return this.CreatedAtRoute("Tables", new { id = current.Id }, current);
+            var current = await InsertAsync(item);
+            var result = this.CreatedAtRoute("Tables", new { id = current.Id }, current);
+
+            if (item.CoffeeRating.HasValue || item.AtmosphereRating.HasValue)
+            {
+                using (var context = new DataContext())
+                {
+                    var cafe = context.Cafes.First(c => c.Id == item.CafeId);
+                    cafe.NumberOfVotes++;
+                    context.SaveChanges();
+                }    
+            }
+
+            return result;
         }
 
         public Task DeleteReviewData(string id)
         {
-             return this.DeleteAsync(id);
+            using (var context = new DataContext())
+            {
+                var review = context.Reviews.First(r => r.Id == id);
+
+                if (review.CoffeeRating.HasValue || review.AtmosphereRating.HasValue)
+                {
+                    var cafe = context.Cafes.First(c => c.Id == review.CafeId);
+                    cafe.NumberOfVotes--;
+                    context.SaveChanges();
+                }
+            }
+
+            return this.DeleteAsync(id);
         }
     }
 }

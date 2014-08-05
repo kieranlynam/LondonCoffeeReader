@@ -31,32 +31,17 @@ namespace CoffeeClientPrototype.Services
                 .ToEnumerableAsync();
         }
 
-        public async Task SaveCafeReview(Review review)
+        public Task SaveCafeReview(Review review)
         {
-            var tasks = new List<Task>();
-
-            Task saveReviewTask;
             var reviewTable = this.serviceClient.GetTable<Review>();
+            
             if (review.Id == null)
             {
                 review.Id = Guid.NewGuid().ToString();
-                saveReviewTask = reviewTable.InsertAsync(review);
+                return reviewTable.InsertAsync(review);
             }
-            else
-            {
-                saveReviewTask = reviewTable.UpdateAsync(review);
-            }
-            tasks.Add(saveReviewTask);
 
-            if (review.CoffeeRating.HasValue || review.AtmosphereRating.HasValue)
-            {
-                var cafeTable = this.serviceClient.GetTable<Cafe>();
-                var cafe = await cafeTable.LookupAsync(review.CafeId);
-                cafe.NumberOfVotes++;
-                tasks.Add(cafeTable.UpdateAsync(cafe));
-            }
-            
-            await Task.WhenAll(tasks);
+            return reviewTable.UpdateAsync(review);
         }
     }
 }
