@@ -186,17 +186,18 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.navigationService.NavigateToMap(this.cafeId);
         }
 
-        private void OnCurrentIdentityReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
+        private async void OnCurrentIdentityReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
         {
-            if (string.IsNullOrEmpty(args.Review.Comment))
+            if (!string.IsNullOrEmpty(args.Review.Comment))
             {
-                return;
+                var existingReview = this.Reviews.FirstOrDefault(review => review.SubmittedBy == args.Review.SubmittedBy);
+                this.Reviews.Remove(existingReview);
+
+                this.Reviews.Insert(0, this.CreateReviewViewModel(args.Review));
             }
 
-            var existingReview = this.Reviews.FirstOrDefault(review => review.SubmittedBy == args.Review.SubmittedBy);
-            this.Reviews.Remove(existingReview);
-
-            this.Reviews.Insert(0, this.CreateReviewViewModel(args.Review));
+            var cafe = await this.GetCafe();
+            this.Populate(cafe);
         }
 
         private ReviewViewModel CreateReviewViewModel(Review model)

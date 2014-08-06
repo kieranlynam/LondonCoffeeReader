@@ -226,6 +226,37 @@ namespace ViewModel.Tests.Details
         }
 
         [TestMethod]
+        public void SubmittedIdentityReviewUpdatesVoteSummary()
+        {
+            using (var context = new Context())
+            {
+                context.IdentityService.Id = "Me";
+
+                var cafe = new Cafe { Id = "1" };
+                context.Cafes.Add(cafe);
+                context.Reviews[cafe] = new List<Review>
+                    {
+                        new Review
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                CoffeeRating = 2,
+                                AtmosphereRating = 4,
+                                SubmittedBy = "SomebodyElse"
+                            }
+                    };
+
+                context.NavigateTo(cafe.Id);
+
+                context.ViewModel.CurrentIdentityReview.CoffeeRating = 4;
+                context.ViewModel.CurrentIdentityReview.AtmosphereRating = 2;
+                context.ViewModel.CurrentIdentityReview.Submit.Execute(null);
+                Assert.AreEqual(2, context.ViewModel.NumberOfVotes);
+                Assert.AreEqual(3, context.ViewModel.CoffeeRating);
+                Assert.AreEqual(3, context.ViewModel.AtmosphereRating);
+            }
+        }
+        
+        [TestMethod]
         public void SubmittedIdentityReviewUpdatesReviewCollectionIfCommentSupplied()
         {
             using (var context = new Context())
