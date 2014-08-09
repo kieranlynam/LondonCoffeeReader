@@ -36,6 +36,19 @@ namespace CoffeeClientPrototype
 #endif
         }
 
+#if WINDOWS_PHONE_APP
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            if (args.Kind == ActivationKind.WebAuthenticationBrokerContinuation)
+            {
+                ((ViewModelLocator)this.Resources["Locator"]).AzureMobileService
+                    .LoginComplete((WebAuthenticationBrokerContinuationEventArgs) args);
+            }
+
+            base.OnActivated(args);
+        }
+#endif
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used when the application is launched to open a specific file, to display

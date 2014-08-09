@@ -129,7 +129,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                context.IdentityService.Id = "Me";
+                context.IdentityService.SetCurrentIdentity("Me");
 
                 var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
@@ -179,10 +179,10 @@ namespace ViewModel.Tests.Details
                         }
                     };
 
-                context.IdentityService.Id = "SomebodyElse";
+                context.IdentityService.SetCurrentIdentity("SomebodyElse"); ;
                 context.NavigateTo(cafe.Id);
 
-                context.IdentityService.Id = "Me";
+                context.IdentityService.SetCurrentIdentity("Me"); ;
                 context.NavigateTo(cafe.Id);
 
                 Assert.IsNull(context.ViewModel.CurrentIdentityReview.Comment);
@@ -230,7 +230,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                context.IdentityService.Id = "Me";
+                context.IdentityService.SetCurrentIdentity("Me");
 
                 var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
@@ -261,7 +261,7 @@ namespace ViewModel.Tests.Details
         {
             using (var context = new Context())
             {
-                context.IdentityService.Id = "Me";
+                context.IdentityService.SetCurrentIdentity("Me"); ;
 
                 var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
@@ -296,7 +296,7 @@ namespace ViewModel.Tests.Details
                 context.NavigateTo(cafe.Id);
                 Assert.AreEqual(0, context.ViewModel.Reviews.Count);
 
-                context.IdentityService.Id = "UserA";
+                context.IdentityService.SetCurrentIdentity("UserA");
                 context.ViewModel.CurrentIdentityReview.CoffeeRating = 3;
                 context.ViewModel.CurrentIdentityReview.Submit.Execute(null);
 
@@ -312,7 +312,7 @@ namespace ViewModel.Tests.Details
                 var cafe = new Cafe { Id = "1" };
                 context.Cafes.Add(cafe);
 
-                context.IdentityService.Id = "UserA";
+                context.IdentityService.SetCurrentIdentity("UserA");
                 context.ViewModel.CurrentIdentityReview.Comment = "Something";
                 context.ViewModel.CurrentIdentityReview.CoffeeRating = 3;
                 context.ViewModel.CurrentIdentityReview.AtmosphereRating = 4.5;

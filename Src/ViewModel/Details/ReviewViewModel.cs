@@ -111,11 +111,6 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private bool CanExecuteSubmit()
         {
-            if (this.identityService.Id == null)
-            {
-                return false;
-            }
-
             if (this.submittedBy != null && this.submittedBy != this.identityService.Id)
             {
                 return false;
@@ -131,6 +126,19 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private async void OnSubmitExecuted()
         {
+            if (!this.identityService.IsAuthenticated)
+            {
+                if (!await this.identityService.AuthenticateAsync())
+                {
+                    return;
+                }
+            }
+
+            if (!this.CanExecuteSubmit())
+            {
+                return;
+            }
+
             if (this.comment != null)
             {
                 var formatted = this.comment.Trim();

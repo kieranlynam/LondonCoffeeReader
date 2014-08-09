@@ -6,6 +6,7 @@ using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
 using londoncoffeeService.DataObjects;
 using londoncoffeeService.Models;
+using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace londoncoffeeService.Controllers
 {
@@ -28,6 +29,7 @@ namespace londoncoffeeService.Controllers
             return this.Lookup(id);
         }
 
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public async Task<ReviewData> PatchReviewData(string id, Delta<ReviewData> patch)
         {
             using (var context = new DataContext())
@@ -58,6 +60,7 @@ namespace londoncoffeeService.Controllers
             }
         }
 
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public async Task<IHttpActionResult> PostReviewData(ReviewData item)
         {
             var current = await InsertAsync(item);
@@ -76,6 +79,7 @@ namespace londoncoffeeService.Controllers
             return result;
         }
 
+        [AuthorizeLevel(AuthorizationLevel.User)]
         public Task DeleteReviewData(string id)
         {
             using (var context = new DataContext())

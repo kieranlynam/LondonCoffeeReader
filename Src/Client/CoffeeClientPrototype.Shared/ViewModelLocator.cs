@@ -23,6 +23,11 @@ namespace CoffeeClientPrototype
     /// </summary>
     public class ViewModelLocator
     {
+        private readonly MobileServiceClient mobileService =
+            new MobileServiceClient(
+                "https://londoncoffee.azure-mobile.net/",
+                "lTnoAEeKSVqJevElSfjpysrtTaPTON54");
+
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
@@ -40,8 +45,8 @@ namespace CoffeeClientPrototype
             else
             {
                 // Create run time view services and models
-                SimpleIoc.Default.Register(CreateDataService);
-                SimpleIoc.Default.Register<IIdentityService, DesignIdentityService>();
+                SimpleIoc.Default.Register<IDataService>(() => new AzureDataService(this.AzureMobileService));
+                SimpleIoc.Default.Register<IIdentityService>(() => new AzureIdentityService(this.AzureMobileService));
                 SimpleIoc.Default.Register<IGeolocationProvider, GeolocationProvider>(true);
             }
 
@@ -79,12 +84,9 @@ namespace CoffeeClientPrototype
             }
         }
 
-        private static IDataService CreateDataService()
+        internal MobileServiceClient AzureMobileService
         {
-            return new AzureDataService(
-                new MobileServiceClient(
-                        "https://londoncoffee.azure-mobile.net/",
-                        "lTnoAEeKSVqJevElSfjpysrtTaPTON54"));
+            get { return this.mobileService; }
         }
 
         public static void Cleanup()
