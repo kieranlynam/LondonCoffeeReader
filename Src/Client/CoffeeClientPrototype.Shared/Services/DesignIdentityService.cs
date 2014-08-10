@@ -7,13 +7,13 @@ namespace CoffeeClientPrototype.Services
     {
         public const string CurrentUserIdentity = "Me";
 
-        public string Id { get; private set; }
+        public string CurrentUserId { get; private set; }
 
         public bool IsAuthenticated { get; private set; }
 
         public DesignIdentityService()
         {
-            this.Id = CurrentUserIdentity;
+            this.CurrentUserId = CurrentUserIdentity;
             this.IsAuthenticated = true;
         }
         

@@ -13,7 +13,7 @@ namespace CoffeeClientPrototype.Services
         private readonly MobileServiceClient serviceClient;
         private readonly PasswordVault vault;
 
-        public string Id { get; private set; }
+        public string CurrentUserId { get; private set; }
 
         public bool IsAuthenticated { get; private set; }
 
@@ -25,13 +25,13 @@ namespace CoffeeClientPrototype.Services
             PasswordCredential credential;
             if (TryGetCachedCredential(out credential))
             {
-                this.Id = credential.UserName;
+                this.CurrentUserId = credential.UserName;
             }
         }
 
         public async Task<bool> AuthenticateAsync()
         {
-            this.Id = null;
+            this.CurrentUserId = null;
             this.IsAuthenticated = false;
 
             PasswordCredential credential;
@@ -50,7 +50,7 @@ namespace CoffeeClientPrototype.Services
                 }
                 else
                 {
-                    this.Id = user.UserId;
+                    this.CurrentUserId = user.UserId;
                     this.IsAuthenticated = true;
                 }
             }
@@ -68,7 +68,7 @@ namespace CoffeeClientPrototype.Services
                         user.MobileServiceAuthenticationToken);
                     vault.Add(credential);
 
-                    this.Id = user.UserId;
+                    this.CurrentUserId = user.UserId;
                     this.IsAuthenticated = true;
                 }
                 catch (MobileServiceInvalidOperationException)

@@ -4,7 +4,7 @@ namespace CoffeeClientPrototype.ViewModel.Services
 {
     public interface IIdentityService
     {
-        string Id { get; }
+        string CurrentUserId { get; }
 
         bool IsAuthenticated { get; }
 

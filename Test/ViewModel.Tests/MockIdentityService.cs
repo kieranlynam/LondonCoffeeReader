@@ -7,7 +7,7 @@ namespace ViewModel.Tests
 {
     public class MockIdentityService : IIdentityService
     {
-        public string Id { get; private set; }
+        public string CurrentUserId { get; private set; }
 
         public bool IsAuthenticated { get; private set; }
 
@@ -29,7 +29,7 @@ namespace ViewModel.Tests
             }
 
             this.IsAuthenticated = args.IsSuccessful.Value;
-            this.Id = args.Id;
+            this.CurrentUserId = args.Id;
 
             return Task.FromResult(this.IsAuthenticated);
         }
@@ -54,13 +54,13 @@ namespace ViewModel.Tests
         public void SetCurrentIdentity(string identity)
         {
             this.IsAuthenticated = true;
-            this.Id = identity;
+            this.CurrentUserId = identity;
         }
 
         public void ClearCurrentIdentity()
         {
             this.IsAuthenticated = false;
-            this.Id = null;
+            this.CurrentUserId = null;
         }
     }
 
@@ -73,7 +73,7 @@ namespace ViewModel.Tests
             var service = new MockIdentityService();
 
             Assert.IsFalse(service.IsAuthenticated);
-            Assert.IsNull(service.Id);
+            Assert.IsNull(service.CurrentUserId);
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace ViewModel.Tests
             service.SetCurrentIdentity("Ashley");
 
             Assert.IsTrue(service.IsAuthenticated);
-            Assert.AreEqual("Ashley", service.Id);
+            Assert.AreEqual("Ashley", service.CurrentUserId);
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace ViewModel.Tests
             service.ClearCurrentIdentity();
 
             Assert.IsFalse(service.IsAuthenticated);
-            Assert.IsNull(service.Id);
+            Assert.IsNull(service.CurrentUserId);
         }
 
         [TestMethod]
@@ -111,7 +111,7 @@ namespace ViewModel.Tests
 
             Assert.IsTrue(result);
             Assert.IsTrue(service.IsAuthenticated);
-            Assert.AreEqual("Johnny", service.Id);
+            Assert.AreEqual("Johnny", service.CurrentUserId);
         }
 
         [TestMethod]
@@ -126,7 +126,7 @@ namespace ViewModel.Tests
 
             Assert.IsFalse(result);
             Assert.IsFalse(service.IsAuthenticated);
-            Assert.IsNull(service.Id);
+            Assert.IsNull(service.CurrentUserId);
         }
 
         [TestMethod]

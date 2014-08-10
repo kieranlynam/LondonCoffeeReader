@@ -111,7 +111,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private bool CanExecuteSubmit()
         {
-            if (this.submittedBy != null && this.submittedBy != this.identityService.Id)
+            if (this.submittedBy != null && this.submittedBy != this.identityService.CurrentUserId)
             {
                 return false;
             }
@@ -152,7 +152,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
                     Id = this.reviewId,
                     CafeId = this.associatedCafe.Id,
                     Comment = this.comment,
-                    SubmittedBy = this.identityService.Id
+                    SubmittedBy = this.identityService.CurrentUserId
                 };
             if (this.coffeeRating.HasValue)
             {

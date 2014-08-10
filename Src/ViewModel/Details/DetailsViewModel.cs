@@ -153,8 +153,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 }
 
                 if (reviewByCurrentIdentity != null) continue;
-                if (this.identityService.Id == null) continue;
-                if (review.SubmittedBy == this.identityService.Id)
+                if (this.identityService.CurrentUserId == null) continue;
+                if (review.SubmittedBy == this.identityService.CurrentUserId)
                 {
                     reviewByCurrentIdentity = review;
                 }
