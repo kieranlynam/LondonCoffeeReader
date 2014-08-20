@@ -173,6 +173,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
             await this.dataService.SaveCafeReview(review);
 
+            this.reviewId = review.Id;
             this.SubmittedBy = review.SubmittedBy;
             this.SubmittedDate = review.SubmittedDate;
 
