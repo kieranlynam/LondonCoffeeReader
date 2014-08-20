@@ -22,6 +22,8 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private double coffeeRating;
         private double atmosphereRating;
         private int numberOfVotes;
+        private bool isAuthenticationRequired;
+        private Task<bool> authenticationTask;
 
         public string Name { get; private set; }
 
@@ -49,11 +51,19 @@ namespace CoffeeClientPrototype.ViewModel.Details
             private set { this.Set(ref this.numberOfVotes, value); }
         }
 
+        public bool IsAuthenticationRequired
+        {
+            get { return this.isAuthenticationRequired; }
+            set { this.Set(ref this.isAuthenticationRequired, value); }
+        }
+
         public ObservableCollection<PhotoViewModel> Photos { get; private set; }
         
         public ObservableCollection<ReviewViewModel> Reviews { get; private set; }
         
         public ReviewViewModel CurrentIdentityReview { get; private set; }
+
+        public RelayCommand AuthenticateUsingWindows { get; private set; }
 
         public RelayCommand ShowDirections { get; private set; }
         
@@ -70,6 +80,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.shareSource = shareSource;
             this.Photos = new ObservableCollection<PhotoViewModel>();
             this.Reviews = new ObservableCollection<ReviewViewModel>();
+            this.AuthenticateUsingWindows = new RelayCommand(this.OnAuthenticateUsingWindowsExecuted);
             this.ShowDirections = new RelayCommand(this.OnShowDirectionsExecuted);
             this.NavigateToMap = new RelayCommand(this.OnNavigateToMapExecuted);
             this.Share = new ShareCafeCommand(this.shareSource);
@@ -82,11 +93,13 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 this.Populate();
             }
 #endif
-        }       
+        }
 
         public Task OnNavigatedTo(IDictionary<string, object> parameters)
         {
+            this.identityService.IsAuthenticatedChanged += this.OnCurrentIdentityAuthenticationChanged;
             this.CurrentIdentityReview.ReviewSubmitted += this.OnCurrentIdentityReviewSubmitted;
+            this.OnCurrentIdentityAuthenticationChanged(this, EventArgs.Empty);
 
             this.cafeId = (string) parameters["Id"];
             return this.Populate();
@@ -94,6 +107,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public void OnNavigatedFrom()
         {
+            this.identityService.IsAuthenticatedChanged -= this.OnCurrentIdentityAuthenticationChanged;
             this.CurrentIdentityReview.ReviewSubmitted -= this.OnCurrentIdentityReviewSubmitted;
             this.Reviews.Clear();
             this.Photos.Clear();
@@ -176,6 +190,19 @@ namespace CoffeeClientPrototype.ViewModel.Details
             return cafe;
         }
 
+        private async void OnAuthenticateUsingWindowsExecuted()
+        {
+            if (this.authenticationTask != null)
+            {
+                if (await this.authenticationTask)
+                {
+                    return;
+                }
+            }
+
+            this.authenticationTask = this.identityService.AuthenticateAsync();
+        }
+
         private void OnShowDirectionsExecuted()
         {
             this.mapLauncher.Launch(this.Longitude, this.Latitude, this.Name);
@@ -184,6 +211,11 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private void OnNavigateToMapExecuted()
         {
             this.navigationService.NavigateToMap(this.cafeId);
+        }
+
+        private void OnCurrentIdentityAuthenticationChanged(object sender, EventArgs args)
+        {
+            this.IsAuthenticationRequired = string.IsNullOrEmpty(this.identityService.CurrentUserId);
         }
 
         private async void OnCurrentIdentityReviewSubmitted(object sender, ReviewSubmittedEventArgs args)

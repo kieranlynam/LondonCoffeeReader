@@ -1,6 +1,7 @@
 ﻿// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 using System;
+using System.ComponentModel;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -35,6 +36,8 @@ namespace CoffeeClientPrototype.View
         {
             await this.NotifyNavigatedTo(e);
             this.ViewModel.CurrentIdentityReview.ReviewSubmitted += this.OnReviewSubmitted;
+            this.ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+            this.SetAuthenticationVisibility();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -42,6 +45,14 @@ namespace CoffeeClientPrototype.View
             base.OnNavigatingFrom(e);
             this.ViewModel.CurrentIdentityReview.ReviewSubmitted -= this.OnReviewSubmitted;
             this.NotifyNavigatedFrom();
+        }
+
+        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == "IsAuthenticationRequired")
+            {
+                this.SetAuthenticationVisibility();
+            }
         }
 
         private void OnReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
@@ -68,6 +79,20 @@ namespace CoffeeClientPrototype.View
         private void OnRatingsGridTapped(object sender, TappedRoutedEventArgs e)
         {
             this.Pivot.SelectedItem = this.Rate;
+        }
+
+        private void SetAuthenticationVisibility()
+        {
+            if (this.ViewModel.IsAuthenticationRequired)
+            {
+                this.UserReview.Visibility = Visibility.Collapsed;
+                this.Authentication.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.UserReview.Visibility = Visibility.Visible;
+                this.Authentication.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

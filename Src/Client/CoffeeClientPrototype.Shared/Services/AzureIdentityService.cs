@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Windows.Security.Credentials;
@@ -12,10 +13,25 @@ namespace CoffeeClientPrototype.Services
     {
         private readonly MobileServiceClient serviceClient;
         private readonly PasswordVault vault;
+        private bool isAuthenticated;
 
         public string CurrentUserId { get; private set; }
 
-        public bool IsAuthenticated { get; private set; }
+        public bool IsAuthenticated
+        {
+            get { return this.isAuthenticated; }
+            private set
+            {
+                if (this.isAuthenticated == value) return;
+                this.isAuthenticated = value;
+                if (this.IsAuthenticatedChanged != null)
+                {
+                    this.IsAuthenticatedChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public event EventHandler IsAuthenticatedChanged;
 
         public AzureIdentityService(MobileServiceClient serviceClient)
         {
@@ -32,7 +48,6 @@ namespace CoffeeClientPrototype.Services
         public async Task<bool> AuthenticateAsync()
         {
             this.CurrentUserId = null;
-            this.IsAuthenticated = false;
 
             PasswordCredential credential;
 
@@ -73,6 +88,7 @@ namespace CoffeeClientPrototype.Services
                 }
                 catch (MobileServiceInvalidOperationException)
                 {
+                    this.IsAuthenticated = false;
                 }
             }
 

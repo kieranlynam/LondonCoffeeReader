@@ -321,6 +321,50 @@ namespace ViewModel.Tests.Details
             }
         }
 
+
+        [TestMethod]
+        public async Task IsAuthenticationRequired()
+        {
+            using (var context = new Context())
+            {
+                context.IdentityService.ClearCurrentIdentity();
+
+                var cafe = new Cafe { Id = "1" };
+                context.Cafes.Add(cafe);
+                context.NavigateTo(cafe.Id);
+                Assert.IsTrue(context.ViewModel.IsAuthenticationRequired);
+
+                context.IdentityService.AuthenticationRequested +=
+                    (sender, args) => args.Success("Me");
+                await context.IdentityService.AuthenticateAsync();
+                Assert.IsFalse(context.ViewModel.IsAuthenticationRequired);
+            }
+
+            using (var context = new Context())
+            {
+                context.IdentityService.SetCurrentIdentity("Me");
+
+                var cafe = new Cafe { Id = "1" };
+                context.Cafes.Add(cafe);
+                context.NavigateTo(cafe.Id);
+                Assert.IsFalse(context.ViewModel.IsAuthenticationRequired);
+            }
+        }
+
+        [TestMethod]
+        public void WindowsAuthenticationAction()
+        {
+            using (var context = new Context())
+            {
+                context.IdentityService.AuthenticationRequested +=
+                    (sender, args) => args.Success("Mary");
+
+                context.ViewModel.AuthenticateUsingWindows.Execute(null);
+            
+                Assert.IsFalse(context.ViewModel.IsAuthenticationRequired);
+            }
+        }
+
         [TestMethod]
         public void ShowDirections()
         {

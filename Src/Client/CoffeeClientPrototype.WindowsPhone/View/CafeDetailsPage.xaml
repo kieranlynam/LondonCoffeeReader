@@ -5,16 +5,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:CoffeeClientPrototype.Converters"
     xmlns:controls="using:Callisto.Controls"
-    xmlns:appBar="using:CoffeeClientPrototype.AppBar"
+    xmlns:appBar="using:CoffeeClientPrototype.AppBar" xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core" x:Name="page"
     x:Class="CoffeeClientPrototype.View.CafeDetailsPage"
-    Background="{StaticResource PageBackground}"
     FontSize="20"
     CharacterSpacing="50" 
     mc:Ignorable="d">
-
-    <Page.DataContext>
-        <Binding Mode="OneWay" Path="Details" Source="{StaticResource Locator}"/>
-    </Page.DataContext>
 
     <Page.Resources>
         <converters:StringFormatConverter x:Key="StringFormatConverter"/>
@@ -22,23 +17,23 @@
     	<converters:TextToUpperConverter x:Key="TextToUpperConverter"/>
         <DataTemplate x:Key="PivotTitleTemplate">
         	<Grid>
-                <TextBlock
-                    Text="{Binding Converter={StaticResource TextToUpperConverter}}"
-                    Foreground="{StaticResource PrimaryForecolour}"
-                    Style="{StaticResource PrimaryText}"
-                    TextWrapping="Wrap"
-                    Padding="0 0 4 0"
-                    FontSize="30"
-                    CharacterSpacing="70" 
+        		<TextBlock
+        			Text="{Binding Converter={StaticResource TextToUpperConverter}}"
+        			Foreground="{StaticResource PrimaryForecolour}"
+        			Style="{StaticResource PrimaryText}"
+        			TextWrapping="Wrap"
+        			Padding="0 0 4 0"
+        			FontSize="30"
+        			CharacterSpacing="70" 
                     />
         	</Grid>
         </DataTemplate>
         <DataTemplate x:Key="PivotHeaderTemplate">
         	<Grid Margin="2,10,0,0">
         		<TextBlock
-                    Text="{Binding}"
-                    Style="{StaticResource PrimaryText}"
-                    FontSize="27" />
+        			Text="{Binding}"
+        			Style="{StaticResource PrimaryText}"
+        			FontSize="27" />
         	</Grid>
         </DataTemplate>
         <DataTemplate x:Key="ReviewDataTemplate">
@@ -47,27 +42,27 @@
         			<ColumnDefinition Width="55"/>
         			<ColumnDefinition/>
         		</Grid.ColumnDefinitions>
-                <Rectangle
-                    HorizontalAlignment="Left"
-                    Width="45"
-                    Height="45"
-                    Fill="Navy"
-                    Grid.Column="0" />
-	            <TextBlock
-                    Style="{StaticResource PrimaryContentText}"
-                    FontSize="16"
-                    TextWrapping="Wrap"
-                    Text="{Binding Comment}"
-                    VerticalAlignment="Top"
-                    Grid.Column="1"/>
+        		<Rectangle
+        			HorizontalAlignment="Left"
+        			Width="45"
+        			Height="45"
+        			Fill="Navy"
+        			Grid.Column="0" />
+        		<TextBlock
+        			Style="{StaticResource PrimaryContentText}"
+        			FontSize="16"
+        			TextWrapping="Wrap"
+        			Text="{Binding Comment}"
+        			VerticalAlignment="Top"
+        			Grid.Column="1"/>
         	</Grid>
         </DataTemplate>
         <DataTemplate x:Key="ReviewListHeaderTemplate">
-            <Grid Margin="0,0,0,8">
-                <TextBlock
-                    Text="{Binding}"
-                    Style="{StaticResource PrimaryContentText}" />
-            </Grid>
+        	<Grid Margin="0,0,0,8">
+        		<TextBlock
+        			Text="{Binding}"
+        			Style="{StaticResource PrimaryContentText}" />
+        	</Grid>
         </DataTemplate>
         <DataTemplate x:Key="PhotosItemTemplate">
         	<StackPanel>
@@ -76,183 +71,22 @@
         </DataTemplate>
     </Page.Resources>
     
-	<Grid>
-		<Pivot
-            x:Name="Pivot"
-			Title="{Binding Name}"
-			Foreground="{StaticResource PrimaryForecolour}"
-			TitleTemplate="{StaticResource PivotTitleTemplate}"
-			HeaderTemplate="{StaticResource PivotHeaderTemplate}"
-            PivotItemLoading="OnPivotItemLoading">
-            
-			<PivotItem
-                x:Name="Details"
-                Header="details"
-                Background="White"
-                Margin="21,23,17,-0.333">
+	<Page.Background>
+		<StaticResource ResourceKey="PageBackground"/>
+	</Page.Background>
 
-                <Grid Margin="12,12,12,0">
-                	<Grid.RowDefinitions>
-                		<RowDefinition Height="Auto"/>
-                		<RowDefinition/>
-                	</Grid.RowDefinitions>
-                 
-                    <StackPanel Orientation="Vertical">
-						
-                        <!-- Address -->
-                        <TextBlock
-                            Text="{Binding Address, Mode=OneWay}"
-                            Style="{StaticResource PrimaryContentText}"
-                            Margin="0,0,0,12" />
-
-                        <!-- Number Of Votes -->
-                        <TextBlock
-                            Text="{Binding NumberOfVotes, Converter={StaticResource VotesCountToTextConverter}, Mode=OneWay}"
-                            Style="{StaticResource PrimaryText}"
-                            Margin="0,0,0,12" />
-
-                        <!-- Ratings -->
-                        <Grid
-                            Height="80"
-                            Tapped="OnRatingsGridTapped">
-							<Grid.RowDefinitions>
-								<RowDefinition/>
-								<RowDefinition/>
-							</Grid.RowDefinitions>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto"/>
-								<ColumnDefinition/>
-							</Grid.ColumnDefinitions>
-							
-                            <TextBlock
-                                Text="Coffee"
-                                Style="{StaticResource PrimaryContentText}"
-                                Margin="0,0,12,0" />
-                            <controls:Rating
-                                Grid.Column="1"
-                                Grid.Row="0"
-                                Margin="0,-5,0,0"
-                                Tag="💧"
-                                ReadOnlyFill="{StaticResource PrimaryForecolour}"
-                                ItemCount="5"
-                                IsEnabled="False"
-                                Value="{Binding CoffeeRating}"
-                                SelectionMode="Continuous" />
-							
-                            <TextBlock 
-                                Text="Atmosphere"
-                                Style="{StaticResource PrimaryContentText}"
-                                Margin="0,0,12,0"
-                                Grid.Column="0"
-                                Grid.Row="1" />
-                            <controls:Rating
-                                Grid.Column="1"
-                                Grid.Row="1"
-                                Margin="0,-5,0,0"
-                                Tag="💧"
-                                ReadOnlyFill="{StaticResource PrimaryForecolour}"
-                                ItemCount="5"
-                                IsEnabled="False"
-                                Value="{Binding AtmosphereRating}"
-                                SelectionMode="Continuous" />
-                        </Grid>
-                    </StackPanel>
-                 
-                    <!-- Reviews -->
-                    <ListView
-                		ItemsSource="{Binding Reviews}"
-						ItemTemplate="{StaticResource ReviewDataTemplate}"
-						Grid.Row="1"
-                        Header="{Binding Reviews.Count, ConverterParameter=\{0\} reviews, Converter={StaticResource StringFormatConverter}, Mode=OneWay}"
-                        HeaderTemplate="{StaticResource ReviewListHeaderTemplate}"/>
-                </Grid>
-			</PivotItem>
-			<PivotItem
-                x:Name="Pictures"
-                Header="pictures">
-				<Grid>
-					<ListView
-                        ItemsSource="{Binding Photos}"
-                        ItemTemplate="{StaticResource PhotosItemTemplate}"/>
-				</Grid>
-			</PivotItem>
-            <PivotItem
-                x:Name="Rate"
-                Header="rate">
-                <Grid Background="White" >
-                	<StackPanel
-						Orientation="Vertical"
-                        Margin="12,12,12,12"
-                        DataContext="{Binding CurrentIdentityReview, Mode=OneWay}">
-
-                        <!-- Ratings -->
-                        <Grid Height="100">
-                			<Grid.RowDefinitions>
-                				<RowDefinition/>
-                				<RowDefinition/>
-                			</Grid.RowDefinitions>
-                			<Grid.ColumnDefinitions>
-                				<ColumnDefinition Width="Auto"/>
-                				<ColumnDefinition/>
-                			</Grid.ColumnDefinitions>
-                			
-                            <TextBlock 
-								Text="Coffee"
-                                Style="{StaticResource PrimaryContentText}"
-								VerticalAlignment="Top"/>
-                            <controls:Rating
-                                Grid.Column="1"
-                                Grid.Row="0"
-                                Margin="0,-5,0,0"
-                                Tag="💧"
-                                Foreground="{StaticResource PrimaryForecolour}"
-                                PointerPressedFill="{StaticResource PhoneAccentBrush}"
-                                PointerOverFill="{StaticResource PhoneAccentBrush}"
-                                ItemCount="5"
-                                Value="{Binding CoffeeRating, Mode=TwoWay}"
-                                SelectionMode="Continuous" />
-                            
-                            <TextBlock
-								Text="Atmosphere"
-                                Style="{StaticResource PrimaryContentText}"
-                                Grid.Column="0"
-								Grid.Row="1"/>
-                            <controls:Rating
-                                Grid.Column="1"
-                                Grid.Row="1"
-                                Margin="0,-5,0,0"
-                                Tag="💧"
-                                Foreground="{StaticResource PrimaryForecolour}"
-                                PointerPressedFill="{StaticResource PhoneAccentBrush}"
-                                PointerOverFill="{StaticResource PhoneAccentBrush}"
-                                ItemCount="5"
-                                Value="{Binding AtmosphereRating, Mode=TwoWay}"
-                                SelectionMode="Continuous" />
-                        </Grid>
-
-                        <!-- Review -->
-                		<TextBlock
-                            TextWrapping="Wrap"
-                            Style="{StaticResource PrimaryContentText}"
-                            Text="Review"/>
-                		<Border
-                			VerticalAlignment="Top"
-                			Height="100"
-                			Background="{StaticResource PageBackground}" >
-                			<TextBox
-                				TextWrapping="Wrap"
-                				Text="{Binding Comment, Mode=TwoWay}"
-                				PlaceholderText="How did you like this cafe?"
-							Height="100" Margin="0,0,-0.5,0" />
-                		</Border>
-	                </StackPanel>
-                </Grid>
-            </PivotItem>
-		</Pivot>
-	</Grid>
+    <Page.DataContext>
+        <Binding Mode="OneWay" Path="Details" Source="{StaticResource Locator}"/>
+    </Page.DataContext>
 
     <Page.BottomAppBar>
         <CommandBar>
+        	<CommandBar.SecondaryCommands>
+        		<appBar:PivotItemAppBarButton
+					Label="share details"
+					PivotItem="Details"
+					Command="{Binding Share}" />
+        	</CommandBar.SecondaryCommands>
             <appBar:PivotItemAppBarButton
                 Icon="Directions"
                 Label="directions"
@@ -264,22 +98,246 @@
                 PivotItem="Details"
                 Command="{Binding NavigateToMap}" />
             <appBar:PivotItemAppBarButton
-                Icon="add"
+                Icon="Add"
                 Label="add"
                 Visibility="Collapsed"
                 PivotItem="Pictures" />
             <appBar:PivotItemAppBarButton
-                Icon="accept"
+                Icon="Accept"
                 Label="submit"
                 Visibility="Collapsed"
                 PivotItem="Rate"
                 Command="{Binding CurrentIdentityReview.Submit, Mode=OneWay}"/>
-        	<CommandBar.SecondaryCommands>
-        		<appBar:PivotItemAppBarButton
-					Label="share details"
-					PivotItem="Details"
-					Command="{Binding Share}" />
-        	</CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
+    
+	<Grid>
+
+        <Pivot
+			x:Name="Pivot"
+			Title="{Binding Name}"
+			Foreground="{StaticResource PrimaryForecolour}"
+			TitleTemplate="{StaticResource PivotTitleTemplate}"
+			HeaderTemplate="{StaticResource PivotHeaderTemplate}"
+			PivotItemLoading="OnPivotItemLoading">
+            
+			<PivotItem
+				x:Name="Details"
+				Header="details"
+				Background="White"
+				Margin="21,23,17,-0.333">
+
+				<Grid Margin="12,12,12,0">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+                 
+					<StackPanel Orientation="Vertical">
+						
+						<!-- Address -->
+						<TextBlock
+							Text="{Binding Address, Mode=OneWay}"
+							Style="{StaticResource PrimaryContentText}"
+							Margin="0,0,0,12" />
+
+						<!-- Number Of Votes -->
+						<TextBlock
+							Text="{Binding NumberOfVotes, Converter={StaticResource VotesCountToTextConverter}, Mode=OneWay}"
+							Style="{StaticResource PrimaryText}"
+							Margin="0,0,0,12" />
+
+						<!-- Ratings -->
+						<Grid
+							Height="80"
+							Tapped="OnRatingsGridTapped">
+							<Grid.RowDefinitions>
+								<RowDefinition/>
+								<RowDefinition/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition/>
+							</Grid.ColumnDefinitions>
+							
+							<TextBlock
+								Text="Coffee"
+								Style="{StaticResource PrimaryContentText}"
+								Margin="0,0,12,0" />
+							<controls:Rating
+								Grid.Column="1"
+								Grid.Row="0"
+								Margin="0,-5,0,0"
+								Tag="💧"
+								ReadOnlyFill="{StaticResource PrimaryForecolour}"
+								ItemCount="5"
+								IsEnabled="False"
+								Value="{Binding CoffeeRating}"
+								SelectionMode="Continuous" />
+							
+							<TextBlock 
+								Text="Atmosphere"
+								Style="{StaticResource PrimaryContentText}"
+								Margin="0,0,12,0"
+								Grid.Column="0"
+								Grid.Row="1" />
+							<controls:Rating
+								Grid.Column="1"
+								Grid.Row="1"
+								Margin="0,-5,0,0"
+								Tag="💧"
+								ReadOnlyFill="{StaticResource PrimaryForecolour}"
+								ItemCount="5"
+								IsEnabled="False"
+								Value="{Binding AtmosphereRating}"
+								SelectionMode="Continuous" />
+						</Grid>
+					</StackPanel>
+                 
+					<!-- Reviews -->
+					<ListView
+						ItemsSource="{Binding Reviews}"
+						ItemTemplate="{StaticResource ReviewDataTemplate}"
+						Grid.Row="1"
+						Header="{Binding Reviews.Count, ConverterParameter=\{0\} reviews, Converter={StaticResource StringFormatConverter}, Mode=OneWay}"
+						HeaderTemplate="{StaticResource ReviewListHeaderTemplate}"/>
+				</Grid>
+			</PivotItem>
+			<PivotItem
+				x:Name="Pictures"
+				Header="pictures">
+				<Grid>
+					<ListView
+						ItemsSource="{Binding Photos}"
+						ItemTemplate="{StaticResource PhotosItemTemplate}"/>
+				</Grid>
+			</PivotItem>
+			<PivotItem
+				x:Name="Rate"
+				Header="rate">
+
+                <Grid x:Name="RatingGrid" 
+                      Background="White">
+
+                    <Interactivity:Interaction.Behaviors>
+                        <Core:DataTriggerBehavior Binding="{Binding IsAuthenticationRequired, Mode=OneWay}" Value="True">
+                            <Core:GoToStateAction StateName="AuthenticationRequired"/>
+                        </Core:DataTriggerBehavior>
+                    </Interactivity:Interaction.Behaviors>          
+
+                    <StackPanel
+                        x:Name="UserReview"
+						Orientation="Vertical"
+						Margin="12,12,12,12"
+						DataContext="{Binding CurrentIdentityReview, Mode=OneWay}">
+
+						<!-- Ratings -->
+						<Grid Height="100">
+							<Grid.RowDefinitions>
+								<RowDefinition/>
+								<RowDefinition/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition/>
+							</Grid.ColumnDefinitions>
+                			
+							<TextBlock 
+								Text="Coffee"
+								Style="{StaticResource PrimaryContentText}"
+								VerticalAlignment="Top"/>
+							<controls:Rating x:Name="rating"
+								Grid.Column="1"
+								Grid.Row="0"
+								Margin="0,-5,0,0"
+								Tag="💧"
+								Foreground="{StaticResource PrimaryForecolour}"
+								PointerPressedFill="{StaticResource PhoneAccentBrush}"
+								PointerOverFill="{StaticResource PhoneAccentBrush}"
+								ItemCount="5"
+								Value="{Binding CoffeeRating, Mode=TwoWay}"
+								SelectionMode="Continuous" />
+                            
+							<TextBlock x:Name="textBlock"
+								Text="Atmosphere"
+								Style="{StaticResource PrimaryContentText}"
+								Grid.Column="0"
+								Grid.Row="1"/>
+							<controls:Rating x:Name="rating1"
+								Grid.Column="1"
+								Grid.Row="1"
+								Margin="0,-5,0,0"
+								Tag="💧"
+								Foreground="{StaticResource PrimaryForecolour}"
+								PointerPressedFill="{StaticResource PhoneAccentBrush}"
+								PointerOverFill="{StaticResource PhoneAccentBrush}"
+								ItemCount="5"
+								Value="{Binding AtmosphereRating, Mode=TwoWay}"
+								SelectionMode="Continuous" />
+						</Grid>
+
+						<!-- Review -->
+						<TextBlock
+							TextWrapping="Wrap"
+							Style="{StaticResource PrimaryContentText}"
+							Text="Review"/>
+						<Border
+							VerticalAlignment="Top"
+							Height="100"
+							Background="{StaticResource PageBackground}" >
+							<TextBox
+								TextWrapping="Wrap"
+								Text="{Binding Comment, Mode=TwoWay}"
+								PlaceholderText="How did you like this cafe?"
+								Height="100" Margin="0,0,-0.5,0" />
+						</Border>
+                    </StackPanel>
+
+                    <StackPanel
+                        x:Name="Authentication"
+                        Visibility="Collapsed">
+                        
+                        <TextBlock
+                            Padding="12"
+                            Margin="0 0 0 24"
+                            Style="{StaticResource PrimaryContentText}"
+                            Text="To rate, please sign in:" />
+
+                        <Button
+                            HorizontalAlignment="Center"
+                            BorderThickness="0"
+                            Command="{Binding AuthenticateUsingWindows, Mode=OneWay}"
+                            Background="Transparent">
+                            
+                            <StackPanel
+                                Width="250"
+                                Orientation="Horizontal"
+                                Background="Transparent">
+                                
+                                <Image
+                                    Height="50"
+                                    Source="../Assets/Auth_LiveId.png" />
+                                
+                                <TextBlock
+                                    Margin="12 0 0 0"
+                                    VerticalAlignment="Center"
+                                    Foreground="Black"
+                                    Text="Windows Live ID" />
+                                
+                            </StackPanel>
+                        </Button>
+                       
+                        <TextBlock
+                            Margin="0 48 0 0"
+                            Padding="12"
+                            Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}"
+                            TextWrapping="Wrap"
+                            Text="Note: London Coffee cannot access your credentials and your identity is never shared with any third-party. In addition, London Coffee will never post on your behalf." />
+
+                    </StackPanel>
+                </Grid>
+			</PivotItem>
+		</Pivot>
+	</Grid>
+
 </Page>

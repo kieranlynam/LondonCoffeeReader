@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CoffeeClientPrototype.ViewModel.Services;
 
 namespace CoffeeClientPrototype.Services
@@ -10,6 +11,7 @@ namespace CoffeeClientPrototype.Services
         public string CurrentUserId { get; private set; }
 
         public bool IsAuthenticated { get; private set; }
+        public event EventHandler IsAuthenticatedChanged;
 
         public DesignIdentityService()
         {

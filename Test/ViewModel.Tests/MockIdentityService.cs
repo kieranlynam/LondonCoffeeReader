@@ -10,6 +10,7 @@ namespace ViewModel.Tests
         public string CurrentUserId { get; private set; }
 
         public bool IsAuthenticated { get; private set; }
+        public event EventHandler IsAuthenticatedChanged;
 
         public event EventHandler<AuthenticateEventArgs> AuthenticationRequested; 
 
@@ -30,6 +31,11 @@ namespace ViewModel.Tests
 
             this.IsAuthenticated = args.IsSuccessful.Value;
             this.CurrentUserId = args.Id;
+
+            if (this.IsAuthenticatedChanged != null)
+            {
+                this.IsAuthenticatedChanged(this, EventArgs.Empty);
+            }
 
             return Task.FromResult(this.IsAuthenticated);
         }
@@ -112,6 +118,21 @@ namespace ViewModel.Tests
             Assert.IsTrue(result);
             Assert.IsTrue(service.IsAuthenticated);
             Assert.AreEqual("Johnny", service.CurrentUserId);
+        }
+
+        [TestMethod]
+        public async Task SuccessfulAuthenticationRaisesIsAuthenticationRequired()
+        {
+            var service = new MockIdentityService();
+            service.AuthenticationRequested +=
+                (sender, args) => args.Success("Jenny");
+
+            bool wasEventRaised = false;
+            service.IsAuthenticatedChanged +=
+                (sender, args) => wasEventRaised = true;
+            await service.AuthenticateAsync();
+
+            Assert.IsTrue(wasEventRaised);
         }
 
         [TestMethod]
