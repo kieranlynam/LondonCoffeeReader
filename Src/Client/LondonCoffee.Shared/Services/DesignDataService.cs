@@ -392,7 +392,7 @@ namespace CoffeeClientPrototype.Services
                                 Comment = "My favourite coffeeshop in town!",
                                 SubmittedDate = DateTime.Today.AddDays(-5),
                                 CoffeeRating = 4.5,
-                                SubmittedBy = DesignIdentityService.CurrentUserIdentity
+                                SubmittedBy = "Me"
                             });
                     }
 

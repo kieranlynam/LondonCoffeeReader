@@ -15,15 +15,12 @@ namespace ViewModel.Tests
         
         internal MockBookmarkService BookmarkService { get; private set; }
 
-        internal MockIdentityService IdentityService { get; private set; }
-
         internal MockNavigationService NavigationService { get; private set; }
 
         public BaseTestContext()
         {
             this.DataService = new MockDataService();
             this.BookmarkService = new MockBookmarkService();
-            this.IdentityService = new MockIdentityService();
             this.NavigationService = new MockNavigationService();
             this.savedSynchronizationContext = SynchronizationContext.Current;
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());

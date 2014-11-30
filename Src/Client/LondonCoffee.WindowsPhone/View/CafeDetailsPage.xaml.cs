@@ -1,11 +1,8 @@
 ﻿// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
-using System;
-using System.ComponentModel;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using CoffeeClientPrototype.AppBar;
 using CoffeeClientPrototype.ViewModel.Details;
@@ -35,32 +32,12 @@ namespace CoffeeClientPrototype.View
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             await this.NotifyNavigatedTo(e);
-            this.ViewModel.CurrentIdentityReview.ReviewSubmitted += this.OnReviewSubmitted;
-            this.ViewModel.PropertyChanged += OnViewModelPropertyChanged;
-            this.SetAuthenticationVisibility();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            this.ViewModel.CurrentIdentityReview.ReviewSubmitted -= this.OnReviewSubmitted;
             this.NotifyNavigatedFrom();
-        }
-
-        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            if (args.PropertyName == "IsAuthenticationRequired")
-            {
-                this.SetAuthenticationVisibility();
-            }
-        }
-
-        private void OnReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
-        {
-            if (this.Pivot.SelectedItem == this.Rate)
-            {
-                this.Pivot.SelectedItem = this.Details;
-            }
         }
 
         private void OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
@@ -73,25 +50,6 @@ namespace CoffeeClientPrototype.View
             foreach (var button in buttons)
             {
                 button.Visibility = button.PivotItem == args.Item.Name ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
-
-        private void OnRatingsGridTapped(object sender, TappedRoutedEventArgs e)
-        {
-            this.Pivot.SelectedItem = this.Rate;
-        }
-
-        private void SetAuthenticationVisibility()
-        {
-            if (this.ViewModel.IsAuthenticationRequired)
-            {
-                this.UserReview.Visibility = Visibility.Collapsed;
-                this.Authentication.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                this.UserReview.Visibility = Visibility.Visible;
-                this.Authentication.Visibility = Visibility.Collapsed;
             }
         }
     }

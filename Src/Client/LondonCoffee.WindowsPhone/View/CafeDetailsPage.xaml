@@ -102,12 +102,6 @@
                 Label="add"
                 Visibility="Collapsed"
                 PivotItem="Pictures" />
-            <appBar:PivotItemAppBarButton
-                Icon="Accept"
-                Label="submit"
-                Visibility="Collapsed"
-                PivotItem="Rate"
-                Command="{Binding CurrentIdentityReview.Submit, Mode=OneWay}"/>
         </CommandBar>
     </Page.BottomAppBar>
     
@@ -149,8 +143,7 @@
 
 						<!-- Ratings -->
 						<Grid
-							Height="80"
-							Tapped="OnRatingsGridTapped">
+							Height="80">
 							<Grid.RowDefinitions>
 								<RowDefinition/>
 								<RowDefinition/>
@@ -211,131 +204,6 @@
 						ItemsSource="{Binding Photos}"
 						ItemTemplate="{StaticResource PhotosItemTemplate}"/>
 				</Grid>
-			</PivotItem>
-			<PivotItem
-				x:Name="Rate"
-				Header="rate">
-
-                <Grid x:Name="RatingGrid" 
-                      Background="White">
-
-                    <Interactivity:Interaction.Behaviors>
-                        <Core:DataTriggerBehavior Binding="{Binding IsAuthenticationRequired, Mode=OneWay}" Value="True">
-                            <Core:GoToStateAction StateName="AuthenticationRequired"/>
-                        </Core:DataTriggerBehavior>
-                    </Interactivity:Interaction.Behaviors>          
-
-                    <StackPanel
-                        x:Name="UserReview"
-						Orientation="Vertical"
-						Margin="12,12,12,12"
-						DataContext="{Binding CurrentIdentityReview, Mode=OneWay}">
-
-						<!-- Ratings -->
-						<Grid Height="100">
-							<Grid.RowDefinitions>
-								<RowDefinition/>
-								<RowDefinition/>
-							</Grid.RowDefinitions>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto"/>
-								<ColumnDefinition/>
-							</Grid.ColumnDefinitions>
-                			
-							<TextBlock 
-								Text="Coffee"
-								Style="{StaticResource PrimaryContentText}"
-								VerticalAlignment="Top"/>
-							<controls:Rating x:Name="rating"
-								Grid.Column="1"
-								Grid.Row="0"
-								Margin="0,-5,0,0"
-								Tag="💧"
-								Foreground="{StaticResource PrimaryForecolour}"
-								PointerPressedFill="{StaticResource PhoneAccentBrush}"
-								PointerOverFill="{StaticResource PhoneAccentBrush}"
-								ItemCount="5"
-								Value="{Binding CoffeeRating, Mode=TwoWay}"
-								SelectionMode="Continuous" />
-                            
-							<TextBlock x:Name="textBlock"
-								Text="Atmosphere"
-								Style="{StaticResource PrimaryContentText}"
-								Grid.Column="0"
-								Grid.Row="1"/>
-							<controls:Rating x:Name="rating1"
-								Grid.Column="1"
-								Grid.Row="1"
-								Margin="0,-5,0,0"
-								Tag="💧"
-								Foreground="{StaticResource PrimaryForecolour}"
-								PointerPressedFill="{StaticResource PhoneAccentBrush}"
-								PointerOverFill="{StaticResource PhoneAccentBrush}"
-								ItemCount="5"
-								Value="{Binding AtmosphereRating, Mode=TwoWay}"
-								SelectionMode="Continuous" />
-						</Grid>
-
-						<!-- Review -->
-						<TextBlock
-							TextWrapping="Wrap"
-							Style="{StaticResource PrimaryContentText}"
-							Text="Review"/>
-						<Border
-							VerticalAlignment="Top"
-							Height="100"
-							Background="{StaticResource PageBackground}" >
-							<TextBox
-								TextWrapping="Wrap"
-								Text="{Binding Comment, Mode=TwoWay}"
-								PlaceholderText="How did you like this cafe?"
-								Height="100" Margin="0,0,-0.5,0" />
-						</Border>
-                    </StackPanel>
-
-                    <StackPanel
-                        x:Name="Authentication"
-                        Visibility="Collapsed">
-                        
-                        <TextBlock
-                            Padding="12"
-                            Margin="0 0 0 24"
-                            Style="{StaticResource PrimaryContentText}"
-                            Text="To rate, please sign in:" />
-
-                        <Button
-                            HorizontalAlignment="Center"
-                            BorderThickness="0"
-                            Command="{Binding AuthenticateUsingWindows, Mode=OneWay}"
-                            Background="Transparent">
-                            
-                            <StackPanel
-                                Width="250"
-                                Orientation="Horizontal"
-                                Background="Transparent">
-                                
-                                <Image
-                                    Height="50"
-                                    Source="../Assets/Auth_LiveId.png" />
-                                
-                                <TextBlock
-                                    Margin="12 0 0 0"
-                                    VerticalAlignment="Center"
-                                    Foreground="Black"
-                                    Text="Windows Live ID" />
-                                
-                            </StackPanel>
-                        </Button>
-                       
-                        <TextBlock
-                            Margin="0 48 0 0"
-                            Padding="12"
-                            Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}"
-                            TextWrapping="Wrap"
-                            Text="Note: London Coffee cannot access your credentials and your identity is never shared with any third-party. In addition, London Coffee will never post on your behalf." />
-
-                    </StackPanel>
-                </Grid>
 			</PivotItem>
 		</Pivot>
 	</Grid>

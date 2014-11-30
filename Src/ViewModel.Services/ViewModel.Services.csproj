@@ -44,7 +44,6 @@
     <Compile Include="IBookmarkService.cs" />
     <Compile Include="IDataService.cs" />
     <Compile Include="IGeolocationProvider.cs" />
-    <Compile Include="IIdentityService.cs" />
     <Compile Include="IMapLauncher.cs" />
     <Compile Include="INavigationService.cs" />
     <Compile Include="IShareSource.cs" />

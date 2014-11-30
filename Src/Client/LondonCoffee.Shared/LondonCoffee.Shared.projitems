@@ -21,11 +21,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\TextToUpperConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\VotesCountToTextConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureDataService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\AzureIdentityService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ShareSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DesignDataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DesignGeolocationProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\DesignIdentityService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GeolocationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MapLauncher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\NavigationService.cs" />

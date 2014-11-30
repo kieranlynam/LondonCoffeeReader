@@ -14,7 +14,6 @@ namespace CoffeeClientPrototype.ViewModel.Details
     {
         private readonly IDataService dataService;
         private readonly INavigationService navigationService;
-        private readonly IIdentityService identityService;
         private readonly IMapLauncher mapLauncher;
         private readonly IShareSource shareSource;
 
@@ -22,8 +21,6 @@ namespace CoffeeClientPrototype.ViewModel.Details
         private double coffeeRating;
         private double atmosphereRating;
         private int numberOfVotes;
-        private bool isAuthenticationRequired;
-        private Task<bool> authenticationTask;
 
         public string Name { get; private set; }
 
@@ -51,19 +48,9 @@ namespace CoffeeClientPrototype.ViewModel.Details
             private set { this.Set(ref this.numberOfVotes, value); }
         }
 
-        public bool IsAuthenticationRequired
-        {
-            get { return this.isAuthenticationRequired; }
-            set { this.Set(ref this.isAuthenticationRequired, value); }
-        }
-
         public ObservableCollection<PhotoViewModel> Photos { get; private set; }
         
         public ObservableCollection<ReviewViewModel> Reviews { get; private set; }
-        
-        public ReviewViewModel CurrentIdentityReview { get; private set; }
-
-        public RelayCommand AuthenticateUsingWindows { get; private set; }
 
         public RelayCommand ShowDirections { get; private set; }
         
@@ -71,20 +58,18 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public ShareCafeCommand Share { get; private set; }
 
-        public DetailsViewModel(IDataService dataService, INavigationService navigationService, IIdentityService identityService, IMapLauncher mapLauncher, IShareSource shareSource)
+        public DetailsViewModel(IDataService dataService, INavigationService navigationService, IMapLauncher mapLauncher, IShareSource shareSource)
         {
             this.dataService = dataService;
             this.navigationService = navigationService;
-            this.identityService = identityService;
             this.mapLauncher = mapLauncher;
             this.shareSource = shareSource;
             this.Photos = new ObservableCollection<PhotoViewModel>();
             this.Reviews = new ObservableCollection<ReviewViewModel>();
-            this.AuthenticateUsingWindows = new RelayCommand(this.OnAuthenticateUsingWindowsExecuted);
             this.ShowDirections = new RelayCommand(this.OnShowDirectionsExecuted);
             this.NavigateToMap = new RelayCommand(this.OnNavigateToMapExecuted);
             this.Share = new ShareCafeCommand(this.shareSource);
-            this.CurrentIdentityReview = new ReviewViewModel(this.dataService, this.identityService);
+            new ReviewViewModel(this.dataService);
 
 #if DEBUG
             if (this.IsInDesignMode)
@@ -97,18 +82,12 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         public Task OnNavigatedTo(IDictionary<string, object> parameters)
         {
-            this.identityService.IsAuthenticatedChanged += this.OnCurrentIdentityAuthenticationChanged;
-            this.CurrentIdentityReview.ReviewSubmitted += this.OnCurrentIdentityReviewSubmitted;
-            this.OnCurrentIdentityAuthenticationChanged(this, EventArgs.Empty);
-
             this.cafeId = (string) parameters["Id"];
             return this.Populate();
         }
 
         public void OnNavigatedFrom()
         {
-            this.identityService.IsAuthenticatedChanged -= this.OnCurrentIdentityAuthenticationChanged;
-            this.CurrentIdentityReview.ReviewSubmitted -= this.OnCurrentIdentityReviewSubmitted;
             this.Reviews.Clear();
             this.Photos.Clear();
             this.shareSource.IsEnabled = false;
@@ -126,8 +105,6 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private void Populate(Cafe cafe)
         {
-            this.CurrentIdentityReview.AssociatedCafe = cafe; 
-
             this.Name = cafe.Name;
             this.RaisePropertyChanged(() => this.Name);
 
@@ -155,8 +132,6 @@ namespace CoffeeClientPrototype.ViewModel.Details
 
         private void Populate(IEnumerable<Review> reviews)
         {
-            Review reviewByCurrentIdentity = null;
-
             var sorted = reviews
                 .OrderByDescending(review => review.SubmittedDate);
             foreach (var review in sorted)
@@ -165,17 +140,7 @@ namespace CoffeeClientPrototype.ViewModel.Details
                 {
                     this.Reviews.Add(this.CreateReviewViewModel(review));
                 }
-
-                if (reviewByCurrentIdentity != null) continue;
-                if (this.identityService.CurrentUserId == null) continue;
-                if (review.SubmittedBy == this.identityService.CurrentUserId)
-                {
-                    reviewByCurrentIdentity = review;
-                }
             }
-
-            this.CurrentIdentityReview.Initialize(reviewByCurrentIdentity);
-            this.RaisePropertyChanged(() => this.CurrentIdentityReview);
         }
 
         private async Task<Cafe> GetCafe()
@@ -189,20 +154,6 @@ namespace CoffeeClientPrototype.ViewModel.Details
             }
             return cafe;
         }
-
-        private async void OnAuthenticateUsingWindowsExecuted()
-        {
-            if (this.authenticationTask != null)
-            {
-                if (await this.authenticationTask)
-                {
-                    return;
-                }
-            }
-
-            this.authenticationTask = this.identityService.AuthenticateAsync();
-        }
-
         private void OnShowDirectionsExecuted()
         {
             this.mapLauncher.Launch(this.Longitude, this.Latitude, this.Name);
@@ -213,28 +164,9 @@ namespace CoffeeClientPrototype.ViewModel.Details
             this.navigationService.NavigateToMap(this.cafeId);
         }
 
-        private void OnCurrentIdentityAuthenticationChanged(object sender, EventArgs args)
-        {
-            this.IsAuthenticationRequired = string.IsNullOrEmpty(this.identityService.CurrentUserId);
-        }
-
-        private async void OnCurrentIdentityReviewSubmitted(object sender, ReviewSubmittedEventArgs args)
-        {
-            if (!string.IsNullOrEmpty(args.Review.Comment))
-            {
-                var existingReview = this.Reviews.FirstOrDefault(review => review.SubmittedBy == args.Review.SubmittedBy);
-                this.Reviews.Remove(existingReview);
-
-                this.Reviews.Insert(0, this.CreateReviewViewModel(args.Review));
-            }
-
-            var cafe = await this.GetCafe();
-            this.Populate(cafe);
-        }
-
         private ReviewViewModel CreateReviewViewModel(Review model)
         {
-            var viewModel = new ReviewViewModel(this.dataService, this.identityService);
+            var viewModel = new ReviewViewModel(this.dataService);
             viewModel.Initialize(model);
             return viewModel;
         }
