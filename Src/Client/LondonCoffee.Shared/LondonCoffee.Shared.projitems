@@ -6,7 +6,7 @@
     <SharedGUID>502bf478-55ef-45b9-9a1a-4eb8e43984a1</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>CoffeeClientPrototype</Import_RootNamespace>
+    <Import_RootNamespace>LondonCoffee</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
