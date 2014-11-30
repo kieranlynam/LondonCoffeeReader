@@ -73,6 +73,7 @@
     <Compile Include="Details\ReviewViewModelTests.cs" />
     <Compile Include="List\CafeSummaryViewModelTests.cs" />
     <Compile Include="List\MapViewModelTests.cs" />
+    <Compile Include="MockBookmarkService.cs" />
     <Compile Include="MockGeolocationProvider.cs" />
     <Compile Include="MockIdentityService.cs" />
     <Compile Include="MockNavigationService.cs" />

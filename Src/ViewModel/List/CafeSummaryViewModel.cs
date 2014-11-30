@@ -18,6 +18,8 @@ namespace CoffeeClientPrototype.ViewModel.List
         private double? distanceToCurrentLocation;
         private Photo photo;
 
+        public string Id { get; private set; }
+
         public string Name
         {
             get { return this.name; }
@@ -77,6 +79,7 @@ namespace CoffeeClientPrototype.ViewModel.List
 
         private void Populate(Cafe model)
         {
+            this.Id = model.Id;
             this.Name = model.Name;
             this.Address = model.Address;
             this.Longitude = model.Longitude;

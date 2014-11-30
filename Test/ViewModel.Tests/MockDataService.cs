@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoffeeClientPrototype.Model;
@@ -10,7 +9,7 @@ namespace ViewModel.Tests
     public class MockDataService : IDataService
     {
         public List<Cafe> Cafes { get; private set; }
-
+        
         public Dictionary<Cafe, List<Review>> Reviews { get; private set; }
 
         public MockDataService()
@@ -19,9 +18,9 @@ namespace ViewModel.Tests
             this.Reviews = new Dictionary<Cafe, List<Review>>();
         }
 
-        public async Task<IEnumerable<Cafe>> GetAllCafes()
+        public Task<IEnumerable<Cafe>> GetAllCafes()
         {
-            return this.Cafes;
+            return Task.FromResult(this.Cafes.AsEnumerable());
         }
 
         public async Task<IEnumerable<Review>> GetCafeReviews(string cafeId)

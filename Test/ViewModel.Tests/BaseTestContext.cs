@@ -12,6 +12,8 @@ namespace ViewModel.Tests
         public List<Cafe> Cafes { get { return this.DataService.Cafes; } }
 
         internal MockDataService DataService { get; private set; }
+        
+        internal MockBookmarkService BookmarkService { get; private set; }
 
         internal MockIdentityService IdentityService { get; private set; }
 
@@ -20,6 +22,7 @@ namespace ViewModel.Tests
         public BaseTestContext()
         {
             this.DataService = new MockDataService();
+            this.BookmarkService = new MockBookmarkService();
             this.IdentityService = new MockIdentityService();
             this.NavigationService = new MockNavigationService();
             this.savedSynchronizationContext = SynchronizationContext.Current;

@@ -81,6 +81,26 @@ namespace ViewModel.Tests.List
         }
 
         [TestMethod]
+        public async Task BookmarkedCafesSortedByName()
+        {
+            using (var context = new Context())
+            {
+                context.Cafes.Add(new Cafe { Id = "1", Name = "C" });
+                context.Cafes.Add(new Cafe { Id = "2", Name = "A" });
+                context.Cafes.Add(new Cafe { Id = "3", Name = "B" });
+                context.Cafes.Add(new Cafe { Id = "4", Name = "D" });
+                context.BookmarkService.Bookmarks.AddRange(
+                    new[] { "1", "2", "3", "4" });
+
+                await context.ViewModel.OnNavigatedTo();
+
+                var expected = new[] { "A", "B", "C", "D" };
+                var actual = context.ViewModel.BookmarkedCafes.Select(cafe => cafe.Name).ToArray();
+                CollectionAssert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
         public void ShowMap()
         {
             using (var context = new Context())
@@ -102,6 +122,7 @@ namespace ViewModel.Tests.List
                 
                 this.ViewModel = new ListViewModel(
                     this.DataService,
+                    this.BookmarkService,
                     this.NavigationService,
                     this.GeolocationProvider);
             }
